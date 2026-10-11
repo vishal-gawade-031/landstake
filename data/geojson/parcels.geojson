@@ -1,0 +1,5065 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              74.49734881009566,
+              15.849607207207207
+            ],
+            [
+              74.49810118990433,
+              15.849632207207208
+            ],
+            [
+              74.49803363040911,
+              15.850192792792793
+            ],
+            [
+              74.49733381009565,
+              15.850163513513513
+            ],
+            [
+              74.49734881009566,
+              15.849607207207207
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-BLG-001-000101",
+        "surveyNo": "101/A",
+        "district": "Belagavi",
+        "taluk": "Belagavi",
+        "village": "Demo Village",
+        "area": 2.5,
+        "gisArea": 2.48,
+        "landUse": "Residential",
+        "status": "VERIFIED",
+        "riskScore": 17,
+        "riskLevel": "LOW",
+        "owner": "Sri Basavaraj Bommai",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              74.49935442625186,
+              15.849479231632344
+            ],
+            [
+              74.50020045633903,
+              15.849504231632345
+            ],
+            [
+              74.50013055558685,
+              15.850136889290003
+            ],
+            [
+              74.49933942625185,
+              15.850104006407118
+            ],
+            [
+              74.49935442625186,
+              15.849479231632344
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-BLG-001-000102",
+        "surveyNo": "102/B",
+        "district": "Belagavi",
+        "taluk": "Gokak",
+        "village": "Konnur",
+        "area": 1.37,
+        "gisArea": 1.38,
+        "landUse": "Agricultural",
+        "status": "VERIFIED",
+        "riskScore": 22,
+        "riskLevel": "LOW",
+        "owner": "Sri Anand Kulkarni",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              74.50112794930688,
+              15.849251905767826
+            ],
+            [
+              74.50206762914922,
+              15.849276905767827
+            ],
+            [
+              74.50199538715317,
+              15.849981635497556
+            ],
+            [
+              74.50111294930687,
+              15.84994514901107
+            ],
+            [
+              74.50112794930688,
+              15.849251905767826
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-BLG-001-000103",
+        "surveyNo": "103/C",
+        "district": "Belagavi",
+        "taluk": "Chikkodi",
+        "village": "Examba",
+        "area": 1.54,
+        "gisArea": 1.55,
+        "landUse": "Commercial",
+        "status": "VERIFIED",
+        "riskScore": 12,
+        "riskLevel": "LOW",
+        "owner": "Sri Suresh Patil",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              74.50265067110598,
+              15.849101100599778
+            ],
+            [
+              74.50368400089884,
+              15.84912610059978
+            ],
+            [
+              74.50360941765402,
+              15.849902902401581
+            ],
+            [
+              74.50263567110598,
+              15.84986281231149
+            ],
+            [
+              74.50265067110598,
+              15.849101100599778
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-BLG-001-000104",
+        "surveyNo": "104/D",
+        "district": "Belagavi",
+        "taluk": "Bailhongal",
+        "village": "Sampgaon",
+        "area": 1.71,
+        "gisArea": 1.67,
+        "landUse": "Industrial",
+        "status": "VERIFIED",
+        "riskScore": 12,
+        "riskLevel": "LOW",
+        "owner": "Sri Mallikarjun Hiremath",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              74.50413446894724,
+              15.849276478483034
+            ],
+            [
+              74.50526144955555,
+              15.849301478483035
+            ],
+            [
+              74.50518452504035,
+              15.84986206406862
+            ],
+            [
+              74.50411946894724,
+              15.84983278478934
+            ],
+            [
+              74.50413446894724,
+              15.849276478483034
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-BLG-001-000105",
+        "surveyNo": "105/E",
+        "district": "Belagavi",
+        "taluk": "Belagavi",
+        "village": "Demo Village",
+        "area": 1.88,
+        "gisArea": 2.16,
+        "landUse": "Institutional",
+        "status": "RESTRICTED",
+        "riskScore": 52,
+        "riskLevel": "HIGH",
+        "owner": "Sri Lakshmi Hebbalkar",
+        "overlap": true,
+        "areaMismatch": true
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              74.50477176983559,
+              15.849290442446998
+            ],
+            [
+              74.5055241486672,
+              15.849315442446999
+            ],
+            [
+              74.50545658919641,
+              15.849948100104656
+            ],
+            [
+              74.50475676983558,
+              15.849915217221772
+            ],
+            [
+              74.50477176983559,
+              15.849290442446998
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-BLG-001-000106",
+        "surveyNo": "106/F",
+        "district": "Belagavi",
+        "taluk": "Gokak",
+        "village": "Konnur",
+        "area": 2.05,
+        "gisArea": 2.06,
+        "landUse": "Mixed Use",
+        "status": "VERIFIED",
+        "riskScore": 47,
+        "riskLevel": "MEDIUM",
+        "owner": "Sri Ramesh Jarkiholi",
+        "overlap": true,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              74.50801816014133,
+              15.849527169192465
+            ],
+            [
+              74.50886419055973,
+              15.849552169192465
+            ],
+            [
+              74.50879428979927,
+              15.850256898922195
+            ],
+            [
+              74.50800316014133,
+              15.850220412435709
+            ],
+            [
+              74.50801816014133,
+              15.849527169192465
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-BLG-001-000107",
+        "surveyNo": "107/A",
+        "district": "Belagavi",
+        "taluk": "Chikkodi",
+        "village": "Examba",
+        "area": 2.22,
+        "gisArea": 2.18,
+        "landUse": "Residential",
+        "status": "VERIFIED",
+        "riskScore": 12,
+        "riskLevel": "LOW",
+        "owner": "Sri Priyanka Patil",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              74.49745225201559,
+              15.851049879549967
+            ],
+            [
+              74.49839193994363,
+              15.851074879549968
+            ],
+            [
+              74.49831969774543,
+              15.85185168135177
+            ],
+            [
+              74.49743725201559,
+              15.85181159126168
+            ],
+            [
+              74.49745225201559,
+              15.851049879549967
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-BLG-001-000108",
+        "surveyNo": "108/B",
+        "district": "Belagavi",
+        "taluk": "Bailhongal",
+        "village": "Sampgaon",
+        "area": 2.39,
+        "gisArea": 2.4,
+        "landUse": "Agricultural",
+        "status": "VERIFIED",
+        "riskScore": 12,
+        "riskLevel": "LOW",
+        "owner": "Sri Santosh Lad",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              74.49930513826783,
+              15.850978107200445
+            ],
+            [
+              74.50033847668014,
+              15.851003107200446
+            ],
+            [
+              74.50026389321984,
+              15.851563692786032
+            ],
+            [
+              74.49929013826782,
+              15.851534413506752
+            ],
+            [
+              74.49930513826783,
+              15.850978107200445
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-BLG-001-000109",
+        "surveyNo": "109/C",
+        "district": "Belagavi",
+        "taluk": "Belagavi",
+        "village": "Demo Village",
+        "area": 2.56,
+        "gisArea": 2.84,
+        "landUse": "Commercial",
+        "status": "VERIFIED",
+        "riskScore": 32,
+        "riskLevel": "MEDIUM",
+        "owner": "Sri Basavaraj Bommai",
+        "overlap": false,
+        "areaMismatch": true
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              74.50088514110936,
+              15.850788945118794
+            ],
+            [
+              74.5020121299818,
+              15.850813945118794
+            ],
+            [
+              74.50193520525998,
+              15.851446602776452
+            ],
+            [
+              74.50087014110936,
+              15.851413719893568
+            ],
+            [
+              74.50088514110936,
+              15.850788945118794
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-BLG-001-000110",
+        "surveyNo": "110/D",
+        "district": "Belagavi",
+        "taluk": "Gokak",
+        "village": "Konnur",
+        "area": 2.73,
+        "gisArea": 2.69,
+        "landUse": "Industrial",
+        "status": "VERIFIED",
+        "riskScore": 22,
+        "riskLevel": "LOW",
+        "owner": "Sri Anand Kulkarni",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              74.50258560161802,
+              15.85076732082932
+            ],
+            [
+              74.50333798571542,
+              15.85079232082932
+            ],
+            [
+              74.50327042611298,
+              15.85149705055905
+            ],
+            [
+              74.50257060161802,
+              15.851460564072564
+            ],
+            [
+              74.50258560161802,
+              15.85076732082932
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-BLG-001-000111",
+        "surveyNo": "111/E",
+        "district": "Belagavi",
+        "taluk": "Chikkodi",
+        "village": "Examba",
+        "area": 2.9,
+        "gisArea": 2.91,
+        "landUse": "Institutional",
+        "status": "VERIFIED",
+        "riskScore": 17,
+        "riskLevel": "LOW",
+        "owner": "Sri Suresh Patil",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              74.5042019849501,
+              15.850899984238696
+            ],
+            [
+              74.50504802092597,
+              15.850924984238697
+            ],
+            [
+              74.50497812002658,
+              15.851701786040499
+            ],
+            [
+              74.5041869849501,
+              15.851661695950408
+            ],
+            [
+              74.5042019849501,
+              15.850899984238696
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-BLG-001-000112",
+        "surveyNo": "112/F",
+        "district": "Belagavi",
+        "taluk": "Bailhongal",
+        "village": "Sampgaon",
+        "area": 3.07,
+        "gisArea": 3.08,
+        "landUse": "Mixed Use",
+        "status": "DISPUTED",
+        "riskScore": 37,
+        "riskLevel": "MEDIUM",
+        "owner": "Sri Mallikarjun Hiremath",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              74.50609418412091,
+              15.851175977998954
+            ],
+            [
+              74.50703387212828,
+              15.851200977998955
+            ],
+            [
+              74.5069616299281,
+              15.85176156358454
+            ],
+            [
+              74.5060791841209,
+              15.85173228430526
+            ],
+            [
+              74.50609418412091,
+              15.851175977998954
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-BLG-001-000113",
+        "surveyNo": "113/A",
+        "district": "Belagavi",
+        "taluk": "Belagavi",
+        "village": "Demo Village",
+        "area": 3.24,
+        "gisArea": 3.52,
+        "landUse": "Residential",
+        "status": "VERIFIED",
+        "riskScore": 32,
+        "riskLevel": "MEDIUM",
+        "owner": "Sri Lakshmi Hebbalkar",
+        "overlap": false,
+        "areaMismatch": true
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              74.50813438039178,
+              15.851152660527461
+            ],
+            [
+              74.50916771983032,
+              15.851177660527462
+            ],
+            [
+              74.50909313634436,
+              15.85181031818512
+            ],
+            [
+              74.50811938039178,
+              15.851777435302235
+            ],
+            [
+              74.50813438039178,
+              15.851152660527461
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-BLG-001-000114",
+        "surveyNo": "114/B",
+        "district": "Belagavi",
+        "taluk": "Gokak",
+        "village": "Konnur",
+        "area": 3.41,
+        "gisArea": 3.42,
+        "landUse": "Agricultural",
+        "status": "VERIFIED",
+        "riskScore": 22,
+        "riskLevel": "LOW",
+        "owner": "Sri Ramesh Jarkiholi",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              74.49745868294121,
+              15.852562482578776
+            ],
+            [
+              74.49858568147219,
+              15.852587482578777
+            ],
+            [
+              74.49850875650891,
+              15.853292212308506
+            ],
+            [
+              74.49744368294121,
+              15.85325572582202
+            ],
+            [
+              74.49745868294121,
+              15.852562482578776
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-BLG-001-000115",
+        "surveyNo": "115/C",
+        "district": "Belagavi",
+        "taluk": "Chikkodi",
+        "village": "Examba",
+        "area": 3.58,
+        "gisArea": 3.59,
+        "landUse": "Commercial",
+        "status": "VERIFIED",
+        "riskScore": 12,
+        "riskLevel": "LOW",
+        "owner": "Sri Priyanka Patil",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              74.49934389149097,
+              15.852347161516526
+            ],
+            [
+              74.50009628121313,
+              15.852372161516527
+            ],
+            [
+              74.50002872147007,
+              15.85314896331833
+            ],
+            [
+              74.49932889149096,
+              15.853108873228239
+            ],
+            [
+              74.49934389149097,
+              15.852347161516526
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-BLG-001-000116",
+        "surveyNo": "116/D",
+        "district": "Belagavi",
+        "taluk": "Bailhongal",
+        "village": "Sampgaon",
+        "area": 3.75,
+        "gisArea": 3.71,
+        "landUse": "Industrial",
+        "status": "VERIFIED",
+        "riskScore": 17,
+        "riskLevel": "LOW",
+        "owner": "Sri Santosh Lad",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              74.50081560824054,
+              15.852415675311143
+            ],
+            [
+              74.50166164976947,
+              15.852440675311144
+            ],
+            [
+              74.50159174873124,
+              15.853001260896729
+            ],
+            [
+              74.50080060824054,
+              15.852971981617449
+            ],
+            [
+              74.50081560824054,
+              15.852415675311143
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-BLG-001-000117",
+        "surveyNo": "117/E",
+        "district": "Belagavi",
+        "taluk": "Belagavi",
+        "village": "Demo Village",
+        "area": 3.92,
+        "gisArea": 4.2,
+        "landUse": "Institutional",
+        "status": "VERIFIED",
+        "riskScore": 32,
+        "riskLevel": "MEDIUM",
+        "owner": "Sri Basavaraj Bommai",
+        "overlap": false,
+        "areaMismatch": true
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              74.50236673371474,
+              15.85251613850356
+            ],
+            [
+              74.50330642779011,
+              15.852541138503561
+            ],
+            [
+              74.50323418543823,
+              15.853173796161219
+            ],
+            [
+              74.50235173371473,
+              15.853140913278335
+            ],
+            [
+              74.50236673371474,
+              15.85251613850356
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-BLG-001-000118",
+        "surveyNo": "118/F",
+        "district": "Belagavi",
+        "taluk": "Gokak",
+        "village": "Konnur",
+        "area": 4.09,
+        "gisArea": 4.1,
+        "landUse": "Mixed Use",
+        "status": "VERIFIED",
+        "riskScore": 42,
+        "riskLevel": "MEDIUM",
+        "owner": "Sri Anand Kulkarni",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              74.50418303032838,
+              15.852667198476784
+            ],
+            [
+              74.50521637732353,
+              15.852692198476785
+            ],
+            [
+              74.50514179364866,
+              15.853396928206514
+            ],
+            [
+              74.50416803032837,
+              15.853360441720028
+            ],
+            [
+              74.50418303032838,
+              15.852667198476784
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-BLG-001-000119",
+        "surveyNo": "119/A",
+        "district": "Belagavi",
+        "taluk": "Chikkodi",
+        "village": "Examba",
+        "area": 4.26,
+        "gisArea": 4.22,
+        "landUse": "Residential",
+        "status": "PENDING_VERIFICATION",
+        "riskScore": 12,
+        "riskLevel": "LOW",
+        "owner": "Sri Suresh Patil",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              74.50620646344262,
+              15.852696840022736
+            ],
+            [
+              74.50733346288315,
+              15.852721840022737
+            ],
+            [
+              74.50725653789713,
+              15.853498641824538
+            ],
+            [
+              74.50619146344262,
+              15.853458551734448
+            ],
+            [
+              74.50620646344262,
+              15.852696840022736
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-BLG-001-000120",
+        "surveyNo": "120/B",
+        "district": "Belagavi",
+        "taluk": "Bailhongal",
+        "village": "Sampgaon",
+        "area": 4.43,
+        "gisArea": 4.44,
+        "landUse": "Agricultural",
+        "status": "VERIFIED",
+        "riskScore": 12,
+        "riskLevel": "LOW",
+        "owner": "Sri Mallikarjun Hiremath",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              74.5084226883076,
+              15.85268882361957
+            ],
+            [
+              74.50917507884283,
+              15.85271382361957
+            ],
+            [
+              74.50910751907944,
+              15.853274409205156
+            ],
+            [
+              74.5084076883076,
+              15.853245129925876
+            ],
+            [
+              74.5084226883076,
+              15.85268882361957
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-BLG-001-000121",
+        "surveyNo": "121/C",
+        "district": "Belagavi",
+        "taluk": "Belagavi",
+        "village": "Demo Village",
+        "area": 4.6,
+        "gisArea": 4.88,
+        "landUse": "Commercial",
+        "status": "VERIFIED",
+        "riskScore": 37,
+        "riskLevel": "MEDIUM",
+        "owner": "Sri Lakshmi Hebbalkar",
+        "overlap": false,
+        "areaMismatch": true
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              74.49755297260894,
+              15.854061625319126
+            ],
+            [
+              74.49839902077417,
+              15.854086625319127
+            ],
+            [
+              74.49832911957004,
+              15.854719282976784
+            ],
+            [
+              74.49753797260894,
+              15.8546864000939
+            ],
+            [
+              74.49755297260894,
+              15.854061625319126
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-BLG-001-000122",
+        "surveyNo": "122/D",
+        "district": "Belagavi",
+        "taluk": "Gokak",
+        "village": "Konnur",
+        "area": 4.77,
+        "gisArea": 4.73,
+        "landUse": "Industrial",
+        "status": "VERIFIED",
+        "riskScore": 22,
+        "riskLevel": "LOW",
+        "owner": "Sri Ramesh Jarkiholi",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              74.49905249436137,
+              15.853935142969856
+            ],
+            [
+              74.49999219485305,
+              15.853960142969857
+            ],
+            [
+              74.49991995234076,
+              15.854664872699587
+            ],
+            [
+              74.49903749436136,
+              15.8546283862131
+            ],
+            [
+              74.49905249436137,
+              15.853935142969856
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-BLG-001-000123",
+        "surveyNo": "123/E",
+        "district": "Belagavi",
+        "taluk": "Chikkodi",
+        "village": "Examba",
+        "area": 4.94,
+        "gisArea": 4.95,
+        "landUse": "Institutional",
+        "status": "VERIFIED",
+        "riskScore": 12,
+        "riskLevel": "LOW",
+        "owner": "Sri Priyanka Patil",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              74.50055445706354,
+              15.853992532495031
+            ],
+            [
+              74.50158781069395,
+              15.854017532495032
+            ],
+            [
+              74.50151322685318,
+              15.854794334296834
+            ],
+            [
+              74.50053945706354,
+              15.854754244206744
+            ],
+            [
+              74.50055445706354,
+              15.853992532495031
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-BLG-001-000124",
+        "surveyNo": "124/F",
+        "district": "Belagavi",
+        "taluk": "Bailhongal",
+        "village": "Sampgaon",
+        "area": 5.11,
+        "gisArea": 5.12,
+        "landUse": "Mixed Use",
+        "status": "VERIFIED",
+        "riskScore": 12,
+        "riskLevel": "LOW",
+        "owner": "Sri Santosh Lad",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              74.50228982280194,
+              15.854292043008675
+            ],
+            [
+              74.50341683018083,
+              15.854317043008676
+            ],
+            [
+              74.50333990499635,
+              15.854877628594261
+            ],
+            [
+              74.50227482280194,
+              15.854848349314981
+            ],
+            [
+              74.50228982280194,
+              15.854292043008675
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-BLG-001-000125",
+        "surveyNo": "125/A",
+        "district": "Belagavi",
+        "taluk": "Belagavi",
+        "village": "Demo Village",
+        "area": 5.28,
+        "gisArea": 5.56,
+        "landUse": "Residential",
+        "status": "VERIFIED",
+        "riskScore": 32,
+        "riskLevel": "MEDIUM",
+        "owner": "Sri Basavaraj Bommai",
+        "overlap": false,
+        "areaMismatch": true
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              74.50450909621922,
+              15.854369411733543
+            ],
+            [
+              74.50526149273071,
+              15.854394411733544
+            ],
+            [
+              74.50519393281793,
+              15.855027069391202
+            ],
+            [
+              74.50449409621922,
+              15.854994186508318
+            ],
+            [
+              74.50450909621922,
+              15.854369411733543
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-BLG-001-000126",
+        "surveyNo": "126/B",
+        "district": "Belagavi",
+        "taluk": "Gokak",
+        "village": "Konnur",
+        "area": 5.45,
+        "gisArea": 5.46,
+        "landUse": "Agricultural",
+        "status": "PENDING_VERIFICATION",
+        "riskScore": 27,
+        "riskLevel": "MEDIUM",
+        "owner": "Sri Anand Kulkarni",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              74.50653074298114,
+              15.8542645189996
+            ],
+            [
+              74.50737679208915,
+              15.8542895189996
+            ],
+            [
+              74.50730689086144,
+              15.85499424872933
+            ],
+            [
+              74.50651574298114,
+              15.854957762242844
+            ],
+            [
+              74.50653074298114,
+              15.8542645189996
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-BLG-001-000127",
+        "surveyNo": "127/C",
+        "district": "Belagavi",
+        "taluk": "Chikkodi",
+        "village": "Examba",
+        "area": 5.62,
+        "gisArea": 5.63,
+        "landUse": "Commercial",
+        "status": "VERIFIED",
+        "riskScore": 12,
+        "riskLevel": "LOW",
+        "owner": "Sri Suresh Patil",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              74.50834206222054,
+              15.854040671337351
+            ],
+            [
+              74.5092817633365,
+              15.854065671337352
+            ],
+            [
+              74.50920952080861,
+              15.854842473139154
+            ],
+            [
+              74.50832706222053,
+              15.854802383049064
+            ],
+            [
+              74.50834206222054,
+              15.854040671337351
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-BLG-001-000128",
+        "surveyNo": "128/D",
+        "district": "Belagavi",
+        "taluk": "Bailhongal",
+        "village": "Sampgaon",
+        "area": 1.29,
+        "gisArea": 1.25,
+        "landUse": "Industrial",
+        "status": "DISPUTED",
+        "riskScore": 37,
+        "riskLevel": "MEDIUM",
+        "owner": "Sri Mallikarjun Hiremath",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              74.49728959123124,
+              15.855614686033944
+            ],
+            [
+              74.49832295224174,
+              15.855639686033944
+            ],
+            [
+              74.49824836821648,
+              15.85620027161953
+            ],
+            [
+              74.49727459123123,
+              15.85617099234025
+            ],
+            [
+              74.49728959123124,
+              15.855614686033944
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-BLG-001-000129",
+        "surveyNo": "129/E",
+        "district": "Belagavi",
+        "taluk": "Belagavi",
+        "village": "Demo Village",
+        "area": 1.46,
+        "gisArea": 1.74,
+        "landUse": "Institutional",
+        "status": "VERIFIED",
+        "riskScore": 32,
+        "riskLevel": "MEDIUM",
+        "owner": "Sri Lakshmi Hebbalkar",
+        "overlap": false,
+        "areaMismatch": true
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              74.49876240250015,
+              15.855621559665233
+            ],
+            [
+              74.49988941716931,
+              15.855646559665233
+            ],
+            [
+              74.49981249180259,
+              15.856279217322891
+            ],
+            [
+              74.49874740250014,
+              15.856246334440007
+            ],
+            [
+              74.49876240250015,
+              15.855621559665233
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-BLG-001-000130",
+        "surveyNo": "130/F",
+        "district": "Belagavi",
+        "taluk": "Gokak",
+        "village": "Konnur",
+        "area": 1.63,
+        "gisArea": 1.64,
+        "landUse": "Mixed Use",
+        "status": "VERIFIED",
+        "riskScore": 22,
+        "riskLevel": "LOW",
+        "owner": "Sri Ramesh Jarkiholi",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              74.50065238976299,
+              15.855765985425112
+            ],
+            [
+              74.50140479126254,
+              15.855790985425113
+            ],
+            [
+              74.50133723122507,
+              15.856495715154843
+            ],
+            [
+              74.50063738976299,
+              15.856459228668356
+            ],
+            [
+              74.50065238976299,
+              15.855765985425112
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-BLG-001-000131",
+        "surveyNo": "131/A",
+        "district": "Belagavi",
+        "taluk": "Chikkodi",
+        "village": "Examba",
+        "area": 1.8,
+        "gisArea": 1.76,
+        "landUse": "Residential",
+        "status": "VERIFIED",
+        "riskScore": 17,
+        "riskLevel": "LOW",
+        "owner": "Sri Priyanka Patil",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              74.50258076088986,
+              15.85588204757066
+            ],
+            [
+              74.50342681652292,
+              15.85590704757066
+            ],
+            [
+              74.50335691513209,
+              15.856683849372462
+            ],
+            [
+              74.50256576088985,
+              15.856643759282372
+            ],
+            [
+              74.50258076088986,
+              15.85588204757066
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-BLG-001-000132",
+        "surveyNo": "132/B",
+        "district": "Belagavi",
+        "taluk": "Bailhongal",
+        "village": "Sampgaon",
+        "area": 1.97,
+        "gisArea": 1.98,
+        "landUse": "Agricultural",
+        "status": "VERIFIED",
+        "riskScore": 12,
+        "riskLevel": "LOW",
+        "owner": "Sri Santosh Lad",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              74.5046205734214,
+              15.855974051879308
+            ],
+            [
+              74.50556028258734,
+              15.855999051879309
+            ],
+            [
+              74.50548803985818,
+              15.856559637464894
+            ],
+            [
+              74.5046055734214,
+              15.856530358185614
+            ],
+            [
+              74.5046205734214,
+              15.855974051879308
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-BLG-001-000133",
+        "surveyNo": "133/C",
+        "district": "Belagavi",
+        "taluk": "Belagavi",
+        "village": "Demo Village",
+        "area": 2.14,
+        "gisArea": 2.42,
+        "landUse": "Commercial",
+        "status": "PENDING_VERIFICATION",
+        "riskScore": 32,
+        "riskLevel": "MEDIUM",
+        "owner": "Sri Basavaraj Bommai",
+        "overlap": false,
+        "areaMismatch": true
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              74.50650829259,
+              15.855768515821726
+            ],
+            [
+              74.50754165452605,
+              15.855793515821727
+            ],
+            [
+              74.50746707047765,
+              15.856426173479385
+            ],
+            [
+              74.50649329259,
+              15.8563932905965
+            ],
+            [
+              74.50650829259,
+              15.855768515821726
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-BLG-001-000134",
+        "surveyNo": "134/D",
+        "district": "Belagavi",
+        "taluk": "Gokak",
+        "village": "Konnur",
+        "area": 2.31,
+        "gisArea": 2.27,
+        "landUse": "Industrial",
+        "status": "VERIFIED",
+        "riskScore": 22,
+        "riskLevel": "LOW",
+        "owner": "Sri Anand Kulkarni",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              74.50812021752492,
+              15.855565421080177
+            ],
+            [
+              74.50924723208676,
+              15.855590421080178
+            ],
+            [
+              74.50917030672272,
+              15.856295150809908
+            ],
+            [
+              74.50810521752491,
+              15.856258664323422
+            ],
+            [
+              74.50812021752492,
+              15.855565421080177
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-BLG-001-000135",
+        "surveyNo": "135/E",
+        "district": "Belagavi",
+        "taluk": "Chikkodi",
+        "village": "Examba",
+        "area": 2.48,
+        "gisArea": 2.49,
+        "landUse": "Institutional",
+        "status": "VERIFIED",
+        "riskScore": 32,
+        "riskLevel": "MEDIUM",
+        "owner": "Sri Suresh Patil",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              74.49722034203204,
+              15.85711836065808
+            ],
+            [
+              74.49797274836627,
+              15.85714336065808
+            ],
+            [
+              74.49790518820791,
+              15.857920162459882
+            ],
+            [
+              74.49720534203203,
+              15.857880072369792
+            ],
+            [
+              74.49722034203204,
+              15.85711836065808
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-BLG-001-000136",
+        "surveyNo": "136/F",
+        "district": "Belagavi",
+        "taluk": "Bailhongal",
+        "village": "Sampgaon",
+        "area": 2.65,
+        "gisArea": 2.66,
+        "landUse": "Mixed Use",
+        "status": "VERIFIED",
+        "riskScore": 17,
+        "riskLevel": "LOW",
+        "owner": "Sri Mallikarjun Hiremath",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              74.49880443578174,
+              15.857381614469281
+            ],
+            [
+              74.49965049690618,
+              15.857406614469282
+            ],
+            [
+              74.49958059537806,
+              15.857967200054867
+            ],
+            [
+              74.49878943578173,
+              15.857937920775587
+            ],
+            [
+              74.49880443578174,
+              15.857381614469281
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-BLG-001-000137",
+        "surveyNo": "137/A",
+        "district": "Belagavi",
+        "taluk": "Belagavi",
+        "village": "Demo Village",
+        "area": 2.82,
+        "gisArea": 3.1,
+        "landUse": "Residential",
+        "status": "VERIFIED",
+        "riskScore": 32,
+        "riskLevel": "MEDIUM",
+        "owner": "Sri Lakshmi Hebbalkar",
+        "overlap": false,
+        "areaMismatch": true
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              74.50066208047875,
+              15.857524253981559
+            ],
+            [
+              74.50160179664125,
+              15.85754925398156
+            ],
+            [
+              74.50152955373719,
+              15.858181911639218
+            ],
+            [
+              74.50064708047874,
+              15.858149028756333
+            ],
+            [
+              74.50066208047875,
+              15.857524253981559
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-BLG-001-000138",
+        "surveyNo": "138/B",
+        "district": "Belagavi",
+        "taluk": "Gokak",
+        "village": "Konnur",
+        "area": 2.99,
+        "gisArea": 3,
+        "landUse": "Agricultural",
+        "status": "VERIFIED",
+        "riskScore": 22,
+        "riskLevel": "LOW",
+        "owner": "Sri Ramesh Jarkiholi",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              74.50269722523343,
+              15.857526149863943
+            ],
+            [
+              74.50373059591377,
+              15.857551149863944
+            ],
+            [
+              74.50365601164675,
+              15.858255879593674
+            ],
+            [
+              74.50268222523343,
+              15.858219393107188
+            ],
+            [
+              74.50269722523343,
+              15.857526149863943
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-BLG-001-000139",
+        "surveyNo": "139/C",
+        "district": "Belagavi",
+        "taluk": "Chikkodi",
+        "village": "Examba",
+        "area": 3.16,
+        "gisArea": 3.17,
+        "landUse": "Commercial",
+        "status": "VERIFIED",
+        "riskScore": 12,
+        "riskLevel": "LOW",
+        "owner": "Sri Priyanka Patil",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              74.50465062646805,
+              15.85735242768557
+            ],
+            [
+              74.5057776507637,
+              15.85737742768557
+            ],
+            [
+              74.5057007251563,
+              15.858154229487372
+            ],
+            [
+              74.50463562646804,
+              15.858114139397282
+            ],
+            [
+              74.50465062646805,
+              15.85735242768557
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-BLG-001-000140",
+        "surveyNo": "140/D",
+        "district": "Belagavi",
+        "taluk": "Bailhongal",
+        "village": "Sampgaon",
+        "area": 3.33,
+        "gisArea": 3.29,
+        "landUse": "Industrial",
+        "status": "PENDING_VERIFICATION",
+        "riskScore": 12,
+        "riskLevel": "LOW",
+        "owner": "Sri Santosh Lad",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              74.50657233069857,
+              15.857273819594877
+            ],
+            [
+              74.5073247371977,
+              15.857298819594877
+            ],
+            [
+              74.50725717703523,
+              15.857859405180463
+            ],
+            [
+              74.50655733069857,
+              15.857830125901183
+            ],
+            [
+              74.50657233069857,
+              15.857273819594877
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-BLG-001-000141",
+        "surveyNo": "141/E",
+        "district": "Belagavi",
+        "taluk": "Belagavi",
+        "village": "Demo Village",
+        "area": 3.5,
+        "gisArea": 3.78,
+        "landUse": "Institutional",
+        "status": "VERIFIED",
+        "riskScore": 37,
+        "riskLevel": "MEDIUM",
+        "owner": "Sri Basavaraj Bommai",
+        "overlap": false,
+        "areaMismatch": true
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              74.5080543829763,
+              15.857173703315665
+            ],
+            [
+              74.5089004434224,
+              15.857198703315666
+            ],
+            [
+              74.50883054191125,
+              15.857831360973323
+            ],
+            [
+              74.50803938297629,
+              15.857798478090439
+            ],
+            [
+              74.5080543829763,
+              15.857173703315665
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-BLG-001-000142",
+        "surveyNo": "142/F",
+        "district": "Belagavi",
+        "taluk": "Gokak",
+        "village": "Konnur",
+        "area": 3.67,
+        "gisArea": 3.68,
+        "landUse": "Mixed Use",
+        "status": "VERIFIED",
+        "riskScore": 22,
+        "riskLevel": "LOW",
+        "owner": "Sri Anand Kulkarni",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              74.49698018243943,
+              15.858855138072139
+            ],
+            [
+              74.4979199046318,
+              15.85888013807214
+            ],
+            [
+              74.49784766157698,
+              15.85958486780187
+            ],
+            [
+              74.49696518243942,
+              15.859548381315383
+            ],
+            [
+              74.49698018243943,
+              15.858855138072139
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-BLG-001-000143",
+        "surveyNo": "143/A",
+        "district": "Belagavi",
+        "taluk": "Chikkodi",
+        "village": "Examba",
+        "area": 3.84,
+        "gisArea": 3.8,
+        "landUse": "Residential",
+        "status": "VERIFIED",
+        "riskScore": 12,
+        "riskLevel": "LOW",
+        "owner": "Sri Suresh Patil",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              74.49875877853152,
+              15.859010121759404
+            ],
+            [
+              74.4997921566229,
+              15.859035121759405
+            ],
+            [
+              74.49971757217061,
+              15.859811923561207
+            ],
+            [
+              74.49874377853152,
+              15.859771833471116
+            ],
+            [
+              74.49875877853152,
+              15.859010121759404
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-BLG-001-000144",
+        "surveyNo": "144/B",
+        "district": "Belagavi",
+        "taluk": "Bailhongal",
+        "village": "Sampgaon",
+        "area": 4.01,
+        "gisArea": 4.02,
+        "landUse": "Agricultural",
+        "status": "VERIFIED",
+        "riskScore": 12,
+        "riskLevel": "LOW",
+        "owner": "Sri Mallikarjun Hiremath",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              74.50076679376619,
+              15.859207175868937
+            ],
+            [
+              74.50189382738888,
+              15.859232175868938
+            ],
+            [
+              74.50181690154831,
+              15.859792761454523
+            ],
+            [
+              74.50075179376618,
+              15.859763482175243
+            ],
+            [
+              74.50076679376619,
+              15.859207175868937
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-BLG-001-000145",
+        "surveyNo": "145/C",
+        "district": "Belagavi",
+        "taluk": "Belagavi",
+        "village": "Demo Village",
+        "area": 4.18,
+        "gisArea": 4.46,
+        "landUse": "Commercial",
+        "status": "VERIFIED",
+        "riskScore": 32,
+        "riskLevel": "MEDIUM",
+        "owner": "Sri Lakshmi Hebbalkar",
+        "overlap": false,
+        "areaMismatch": true
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              76.63903117905096,
+              12.295684684684684
+            ],
+            [
+              76.63981882094903,
+              12.295709684684685
+            ],
+            [
+              76.63975037990157,
+              12.296315315315315
+            ],
+            [
+              76.63901617905096,
+              12.296283783783784
+            ],
+            [
+              76.63903117905096,
+              12.295684684684684
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-MYS-002-000201",
+        "surveyNo": "201/A",
+        "district": "Mysuru",
+        "taluk": "Mysuru",
+        "village": "Chamundi Foothills",
+        "area": 1.5,
+        "gisArea": 1.88,
+        "landUse": "Commercial",
+        "status": "VERIFIED",
+        "riskScore": 45,
+        "riskLevel": "MEDIUM",
+        "owner": "Sri Siddaramaiah Urs",
+        "overlap": false,
+        "areaMismatch": true
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              76.64119354573887,
+              12.295471805097991
+            ],
+            [
+              76.64205495125309,
+              12.295496805097992
+            ],
+            [
+              76.64198466611522,
+              12.296156489782677
+            ],
+            [
+              76.64117854573887,
+              12.296122255548442
+            ],
+            [
+              76.64119354573887,
+              12.295471805097991
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-MYS-002-000202",
+        "surveyNo": "202/B",
+        "district": "Mysuru",
+        "taluk": "Nanjangud",
+        "village": "Varuna East",
+        "area": 1.72,
+        "gisArea": 1.7,
+        "landUse": "Industrial",
+        "status": "VERIFIED",
+        "riskScore": 15,
+        "riskLevel": "LOW",
+        "owner": "Sri Krishnaraja Wodeyar",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              76.64279975153366,
+              12.29523263213131
+            ],
+            [
+              76.64373492047118,
+              12.29525763213131
+            ],
+            [
+              76.64366279124773,
+              12.295971370870049
+            ],
+            [
+              76.64278475153365,
+              12.295934433933112
+            ],
+            [
+              76.64279975153366,
+              12.29523263213131
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-MYS-002-000203",
+        "surveyNo": "203/C",
+        "district": "Mysuru",
+        "taluk": "Hunsur",
+        "village": "Bilikere Agro",
+        "area": 1.94,
+        "gisArea": 1.92,
+        "landUse": "Institutional",
+        "status": "VERIFIED",
+        "riskScore": 20,
+        "riskLevel": "LOW",
+        "owner": "Sri Chandrashekhar Murthy",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              76.64432727417264,
+              12.295442525524798
+            ],
+            [
+              76.64533620775676,
+              12.2954675255248
+            ],
+            [
+              76.64526223441715,
+              12.29607315615543
+            ],
+            [
+              76.64431227417263,
+              12.296041624623898
+            ],
+            [
+              76.64432727417264,
+              12.295442525524798
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-MYS-002-000204",
+        "surveyNo": "204/D",
+        "district": "Mysuru",
+        "taluk": "Mysuru",
+        "village": "Chamundi Foothills",
+        "area": 2.16,
+        "gisArea": 2.14,
+        "landUse": "Mixed Use",
+        "status": "VERIFIED",
+        "riskScore": 25,
+        "riskLevel": "LOW",
+        "owner": "Sri Devanur Mahadeva",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              76.64654735441268,
+              12.295649691714987
+            ],
+            [
+              76.64733499628838,
+              12.295674691714988
+            ],
+            [
+              76.64726655524149,
+              12.296334376399672
+            ],
+            [
+              76.64653235441267,
+              12.296300142165437
+            ],
+            [
+              76.64654735441268,
+              12.295649691714987
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-MYS-002-000205",
+        "surveyNo": "205/E",
+        "district": "Mysuru",
+        "taluk": "Nanjangud",
+        "village": "Bannur Rural",
+        "area": 2.38,
+        "gisArea": 2.36,
+        "landUse": "Residential",
+        "status": "VERIFIED",
+        "riskScore": 15,
+        "riskLevel": "LOW",
+        "owner": "Sri Girija Prasad",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              76.64877569715077,
+              12.295499957694197
+            ],
+            [
+              76.64963710283529,
+              12.295524957694198
+            ],
+            [
+              76.64956681769317,
+              12.296238696432937
+            ],
+            [
+              76.64876069715076,
+              12.296201759496
+            ],
+            [
+              76.64877569715077,
+              12.295499957694197
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-MYS-002-000206",
+        "surveyNo": "206/A",
+        "district": "Mysuru",
+        "taluk": "Hunsur",
+        "village": "Rathnapuri",
+        "area": 2.6,
+        "gisArea": 2.58,
+        "landUse": "Agricultural",
+        "status": "VERIFIED",
+        "riskScore": 15,
+        "riskLevel": "LOW",
+        "owner": "Sri Sowmya Reddy",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              76.63908104818792,
+              12.297002458632306
+            ],
+            [
+              76.64001622290323,
+              12.297027458632307
+            ],
+            [
+              76.63994409353535,
+              12.297633089262938
+            ],
+            [
+              76.63906604818791,
+              12.297601557731406
+            ],
+            [
+              76.63908104818792,
+              12.297002458632306
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-MYS-002-000207",
+        "surveyNo": "207/B",
+        "district": "Mysuru",
+        "taluk": "Mysuru",
+        "village": "Chamundi Foothills",
+        "area": 2.82,
+        "gisArea": 2.8,
+        "landUse": "Commercial",
+        "status": "VERIFIED",
+        "riskScore": 25,
+        "riskLevel": "LOW",
+        "owner": "Sri Raghavendra Rao",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              76.64055662147562,
+              12.297062550272058
+            ],
+            [
+              76.6415655610684,
+              12.297087550272058
+            ],
+            [
+              76.64149158757857,
+              12.297747234956743
+            ],
+            [
+              76.64054162147562,
+              12.297713000722508
+            ],
+            [
+              76.64055662147562,
+              12.297062550272058
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-MYS-002-000208",
+        "surveyNo": "208/C",
+        "district": "Mysuru",
+        "taluk": "Nanjangud",
+        "village": "Varuna East",
+        "area": 3.04,
+        "gisArea": 3.42,
+        "landUse": "Industrial",
+        "status": "RESTRICTED",
+        "riskScore": 60,
+        "riskLevel": "HIGH",
+        "owner": "Sri Siddaramaiah Urs",
+        "overlap": false,
+        "areaMismatch": true
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              76.642670204834,
+              12.297299401422377
+            ],
+            [
+              76.64345785141518,
+              12.297324401422378
+            ],
+            [
+              76.64338941025063,
+              12.298038140161117
+            ],
+            [
+              76.642655204834,
+              12.29800120322418
+            ],
+            [
+              76.642670204834,
+              12.297299401422377
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-MYS-002-000209",
+        "surveyNo": "209/D",
+        "district": "Mysuru",
+        "taluk": "Hunsur",
+        "village": "Bilikere Agro",
+        "area": 3.26,
+        "gisArea": 3.24,
+        "landUse": "Institutional",
+        "status": "VERIFIED",
+        "riskScore": 20,
+        "riskLevel": "LOW",
+        "owner": "Sri Krishnaraja Wodeyar",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              76.64493542978518,
+              12.297303668817346
+            ],
+            [
+              76.64579684087076,
+              12.297328668817347
+            ],
+            [
+              76.64572655559361,
+              12.297934299447977
+            ],
+            [
+              76.64492042978517,
+              12.297902767916446
+            ],
+            [
+              76.64493542978518,
+              12.297303668817346
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-MYS-002-000210",
+        "surveyNo": "210/E",
+        "district": "Mysuru",
+        "taluk": "Mysuru",
+        "village": "Chamundi Foothills",
+        "area": 3.48,
+        "gisArea": 3.46,
+        "landUse": "Mixed Use",
+        "status": "VERIFIED",
+        "riskScore": 25,
+        "riskLevel": "LOW",
+        "owner": "Sri Chandrashekhar Murthy",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              76.64675249894339,
+              12.297005720075084
+            ],
+            [
+              76.6476876737607,
+              12.297030720075085
+            ],
+            [
+              76.64761554439026,
+              12.29769040475977
+            ],
+            [
+              76.64673749894338,
+              12.297656170525535
+            ],
+            [
+              76.64675249894339,
+              12.297005720075084
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-MYS-002-000211",
+        "surveyNo": "211/A",
+        "district": "Mysuru",
+        "taluk": "Nanjangud",
+        "village": "Bannur Rural",
+        "area": 3.7,
+        "gisArea": 3.68,
+        "landUse": "Residential",
+        "status": "VERIFIED",
+        "riskScore": 15,
+        "riskLevel": "LOW",
+        "owner": "Sri Devanur Mahadeva",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              76.64820699468368,
+              12.296990151219129
+            ],
+            [
+              76.6492159341109,
+              12.29701515121913
+            ],
+            [
+              76.64914196062522,
+              12.297728889957869
+            ],
+            [
+              76.64819199468367,
+              12.297691953020932
+            ],
+            [
+              76.64820699468368,
+              12.296990151219129
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-MYS-002-000212",
+        "surveyNo": "212/B",
+        "district": "Mysuru",
+        "taluk": "Hunsur",
+        "village": "Rathnapuri",
+        "area": 3.92,
+        "gisArea": 3.9,
+        "landUse": "Agricultural",
+        "status": "VERIFIED",
+        "riskScore": 15,
+        "riskLevel": "LOW",
+        "owner": "Sri Girija Prasad",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              76.63880587820118,
+              12.299016748026332
+            ],
+            [
+              76.63959352945074,
+              12.299041748026333
+            ],
+            [
+              76.63952508816949,
+              12.299647378656964
+            ],
+            [
+              76.63879087820118,
+              12.299615847125432
+            ],
+            [
+              76.63880587820118,
+              12.299016748026332
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-MYS-002-000213",
+        "surveyNo": "213/C",
+        "district": "Mysuru",
+        "taluk": "Mysuru",
+        "village": "Chamundi Foothills",
+        "area": 4.14,
+        "gisArea": 4.12,
+        "landUse": "Commercial",
+        "status": "VERIFIED",
+        "riskScore": 25,
+        "riskLevel": "LOW",
+        "owner": "Sri Sowmya Reddy",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              76.64107595373183,
+              12.29901682065162
+            ],
+            [
+              76.64193737019002,
+              12.29904182065162
+            ],
+            [
+              76.64186708477857,
+              12.299701505336305
+            ],
+            [
+              76.64106095373182,
+              12.29966727110207
+            ],
+            [
+              76.64107595373183,
+              12.29901682065162
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-MYS-002-000214",
+        "surveyNo": "214/D",
+        "district": "Mysuru",
+        "taluk": "Nanjangud",
+        "village": "Varuna East",
+        "area": 4.36,
+        "gisArea": 4.34,
+        "landUse": "Industrial",
+        "status": "VERIFIED",
+        "riskScore": 15,
+        "riskLevel": "LOW",
+        "owner": "Sri Raghavendra Rao",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              76.64300840634873,
+              12.298721084778585
+            ],
+            [
+              76.64394358703439,
+              12.298746084778585
+            ],
+            [
+              76.64387145751725,
+              12.299459823517324
+            ],
+            [
+              76.64299340634872,
+              12.299422886580388
+            ],
+            [
+              76.64300840634873,
+              12.298721084778585
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-MYS-002-000215",
+        "surveyNo": "215/E",
+        "district": "Mysuru",
+        "taluk": "Hunsur",
+        "village": "Bilikere Agro",
+        "area": 4.58,
+        "gisArea": 4.96,
+        "landUse": "Institutional",
+        "status": "RESTRICTED",
+        "riskScore": 60,
+        "riskLevel": "HIGH",
+        "owner": "Sri Siddaramaiah Urs",
+        "overlap": false,
+        "areaMismatch": true
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              76.64447437489366,
+              12.298710023756664
+            ],
+            [
+              76.64548332039887,
+              12.298735023756665
+            ],
+            [
+              76.64540934676123,
+              12.299340654387295
+            ],
+            [
+              76.64445937489366,
+              12.299309122855764
+            ],
+            [
+              76.64447437489366,
+              12.298710023756664
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-MYS-002-000216",
+        "surveyNo": "216/A",
+        "district": "Mysuru",
+        "taluk": "Mysuru",
+        "village": "Chamundi Foothills",
+        "area": 4.8,
+        "gisArea": 4.78,
+        "landUse": "Mixed Use",
+        "status": "PENDING_VERIFICATION",
+        "riskScore": 25,
+        "riskLevel": "LOW",
+        "owner": "Sri Krishnaraja Wodeyar",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              76.64635950093289,
+              12.298942493459124
+            ],
+            [
+              76.64714715204988,
+              12.298967493459125
+            ],
+            [
+              76.64707871077195,
+              12.29962717814381
+            ],
+            [
+              76.64634450093288,
+              12.299592943909575
+            ],
+            [
+              76.64635950093289,
+              12.298942493459124
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-MYS-002-000217",
+        "surveyNo": "217/B",
+        "district": "Mysuru",
+        "taluk": "Nanjangud",
+        "village": "Bannur Rural",
+        "area": 5.02,
+        "gisArea": 5,
+        "landUse": "Residential",
+        "status": "VERIFIED",
+        "riskScore": 15,
+        "riskLevel": "LOW",
+        "owner": "Sri Chandrashekhar Murthy",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              76.64860200923466,
+              12.299017293653042
+            ],
+            [
+              76.64946342577775,
+              12.299042293653043
+            ],
+            [
+              76.64939314036418,
+              12.299756032391782
+            ],
+            [
+              76.64858700923466,
+              12.299719095454845
+            ],
+            [
+              76.64860200923466,
+              12.299017293653042
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-MYS-002-000218",
+        "surveyNo": "218/C",
+        "district": "Mysuru",
+        "taluk": "Hunsur",
+        "village": "Rathnapuri",
+        "area": 5.24,
+        "gisArea": 5.22,
+        "landUse": "Agricultural",
+        "status": "VERIFIED",
+        "riskScore": 15,
+        "riskLevel": "LOW",
+        "owner": "Sri Devanur Mahadeva",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              76.63924431948637,
+              12.300526256922938
+            ],
+            [
+              76.64017950607067,
+              12.300551256922938
+            ],
+            [
+              76.64010737640605,
+              12.301156887553569
+            ],
+            [
+              76.63922931948636,
+              12.301125356022037
+            ],
+            [
+              76.63924431948637,
+              12.300526256922938
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-MYS-002-000219",
+        "surveyNo": "219/D",
+        "district": "Mysuru",
+        "taluk": "Mysuru",
+        "village": "Chamundi Foothills",
+        "area": 5.46,
+        "gisArea": 5.44,
+        "landUse": "Commercial",
+        "status": "VERIFIED",
+        "riskScore": 25,
+        "riskLevel": "LOW",
+        "owner": "Sri Girija Prasad",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              76.64075339749053,
+              12.300362728602513
+            ],
+            [
+              76.64176234912536,
+              12.300387728602514
+            ],
+            [
+              76.64168837533448,
+              12.301047413287199
+            ],
+            [
+              76.64073839749052,
+              12.301013179052964
+            ],
+            [
+              76.64075339749053,
+              12.300362728602513
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-MYS-002-000220",
+        "surveyNo": "220/E",
+        "district": "Mysuru",
+        "taluk": "Nanjangud",
+        "village": "Varuna East",
+        "area": 5.68,
+        "gisArea": 5.66,
+        "landUse": "Industrial",
+        "status": "VERIFIED",
+        "riskScore": 15,
+        "riskLevel": "LOW",
+        "owner": "Sri Sowmya Reddy",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              76.64253476264399,
+              12.300561480920608
+            ],
+            [
+              76.64332241838153,
+              12.30058648092061
+            ],
+            [
+              76.64325397698809,
+              12.301300219659348
+            ],
+            [
+              76.64251976264399,
+              12.301263282722411
+            ],
+            [
+              76.64253476264399,
+              12.300561480920608
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-MYS-002-000221",
+        "surveyNo": "221/A",
+        "district": "Mysuru",
+        "taluk": "Hunsur",
+        "village": "Bilikere Agro",
+        "area": 5.9,
+        "gisArea": 5.88,
+        "landUse": "Institutional",
+        "status": "VERIFIED",
+        "riskScore": 20,
+        "riskLevel": "LOW",
+        "owner": "Sri Raghavendra Rao",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              76.64471948142098,
+              12.300783978266196
+            ],
+            [
+              76.64558090325244,
+              12.300808978266197
+            ],
+            [
+              76.64551061770665,
+              12.301414608896827
+            ],
+            [
+              76.64470448142097,
+              12.301383077365296
+            ],
+            [
+              76.64471948142098,
+              12.300783978266196
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-MYS-002-000222",
+        "surveyNo": "222/B",
+        "district": "Mysuru",
+        "taluk": "Mysuru",
+        "village": "Chamundi Foothills",
+        "area": 6.12,
+        "gisArea": 6.5,
+        "landUse": "Mixed Use",
+        "status": "VERIFIED",
+        "riskScore": 45,
+        "riskLevel": "MEDIUM",
+        "owner": "Sri Siddaramaiah Urs",
+        "overlap": false,
+        "areaMismatch": true
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              76.64685738017192,
+              12.300555002308213
+            ],
+            [
+              76.64779256694412,
+              12.300580002308214
+            ],
+            [
+              76.64772043727481,
+              12.301239686992899
+            ],
+            [
+              76.64684238017192,
+              12.301205452758664
+            ],
+            [
+              76.64685738017192,
+              12.300555002308213
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-MYS-002-000223",
+        "surveyNo": "223/C",
+        "district": "Mysuru",
+        "taluk": "Nanjangud",
+        "village": "Bannur Rural",
+        "area": 6.34,
+        "gisArea": 6.32,
+        "landUse": "Residential",
+        "status": "VERIFIED",
+        "riskScore": 15,
+        "riskLevel": "LOW",
+        "owner": "Sri Krishnaraja Wodeyar",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              76.64843777043467,
+              12.300330961385141
+            ],
+            [
+              76.64944672205219,
+              12.300355961385142
+            ],
+            [
+              76.64937274826175,
+              12.30106970012388
+            ],
+            [
+              76.64842277043466,
+              12.301032763186944
+            ],
+            [
+              76.64843777043467,
+              12.300330961385141
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-MYS-002-000224",
+        "surveyNo": "224/D",
+        "district": "Mysuru",
+        "taluk": "Hunsur",
+        "village": "Rathnapuri",
+        "area": 1.56,
+        "gisArea": 1.54,
+        "landUse": "Agricultural",
+        "status": "PENDING_VERIFICATION",
+        "riskScore": 15,
+        "riskLevel": "LOW",
+        "owner": "Sri Chandrashekhar Murthy",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              76.63873363616803,
+              12.302259091946759
+            ],
+            [
+              76.63952129651989,
+              12.30228409194676
+            ],
+            [
+              76.63945285501109,
+              12.30288972257739
+            ],
+            [
+              76.63871863616802,
+              12.302858191045859
+            ],
+            [
+              76.63873363616803,
+              12.302259091946759
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-MYS-002-000225",
+        "surveyNo": "225/E",
+        "district": "Mysuru",
+        "taluk": "Mysuru",
+        "village": "Chamundi Foothills",
+        "area": 1.78,
+        "gisArea": 1.76,
+        "landUse": "Commercial",
+        "status": "DISPUTED",
+        "riskScore": 50,
+        "riskLevel": "MEDIUM",
+        "owner": "Sri Devanur Mahadeva",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              76.64083494682431,
+              12.302453706185819
+            ],
+            [
+              76.64169637389591,
+              12.30247870618582
+            ],
+            [
+              76.64162608821913,
+              12.303138390870505
+            ],
+            [
+              76.64081994682431,
+              12.30310415663627
+            ],
+            [
+              76.64083494682431,
+              12.302453706185819
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-MYS-002-000226",
+        "surveyNo": "226/A",
+        "district": "Mysuru",
+        "taluk": "Nanjangud",
+        "village": "Varuna East",
+        "area": 2,
+        "gisArea": 1.98,
+        "landUse": "Industrial",
+        "status": "VERIFIED",
+        "riskScore": 15,
+        "riskLevel": "LOW",
+        "owner": "Sri Girija Prasad",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              76.6430465422718,
+              12.302283959217101
+            ],
+            [
+              76.64398173495995,
+              12.302308959217102
+            ],
+            [
+              76.64390960514275,
+              12.303022697955841
+            ],
+            [
+              76.6430315422718,
+              12.302985761018904
+            ],
+            [
+              76.6430465422718,
+              12.302283959217101
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-MYS-002-000227",
+        "surveyNo": "227/B",
+        "district": "Mysuru",
+        "taluk": "Hunsur",
+        "village": "Bilikere Agro",
+        "area": 2.22,
+        "gisArea": 2.2,
+        "landUse": "Institutional",
+        "status": "VERIFIED",
+        "riskScore": 20,
+        "riskLevel": "LOW",
+        "owner": "Sri Sowmya Reddy",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              76.64472076642166,
+              12.302096180786474
+            ],
+            [
+              76.64572972428445,
+              12.302121180786475
+            ],
+            [
+              76.64565575033788,
+              12.302726811417106
+            ],
+            [
+              76.64470576642165,
+              12.302695279885574
+            ],
+            [
+              76.64472076642166,
+              12.302096180786474
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-MYS-002-000228",
+        "surveyNo": "228/C",
+        "district": "Mysuru",
+        "taluk": "Mysuru",
+        "village": "Chamundi Foothills",
+        "area": 2.44,
+        "gisArea": 2.42,
+        "landUse": "Mixed Use",
+        "status": "VERIFIED",
+        "riskScore": 25,
+        "riskLevel": "LOW",
+        "owner": "Sri Raghavendra Rao",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              76.64635621343605,
+              12.30217766059466
+            ],
+            [
+              76.64714387363517,
+              12.302202660594661
+            ],
+            [
+              76.6470754321302,
+              12.302862345279346
+            ],
+            [
+              76.64634121343605,
+              12.30282811104511
+            ],
+            [
+              76.64635621343605,
+              12.30217766059466
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-MYS-002-000229",
+        "surveyNo": "229/D",
+        "district": "Mysuru",
+        "taluk": "Nanjangud",
+        "village": "Bannur Rural",
+        "area": 2.66,
+        "gisArea": 3.04,
+        "landUse": "Residential",
+        "status": "VERIFIED",
+        "riskScore": 35,
+        "riskLevel": "MEDIUM",
+        "owner": "Sri Siddaramaiah Urs",
+        "overlap": false,
+        "areaMismatch": true
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              76.64835514183854,
+              12.302407816992083
+            ],
+            [
+              76.64921656885187,
+              12.302432816992084
+            ],
+            [
+              76.64914628317653,
+              12.303146555730823
+            ],
+            [
+              76.64834014183853,
+              12.303109618793886
+            ],
+            [
+              76.64835514183854,
+              12.302407816992083
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-MYS-002-000230",
+        "surveyNo": "230/E",
+        "district": "Mysuru",
+        "taluk": "Hunsur",
+        "village": "Rathnapuri",
+        "area": 2.88,
+        "gisArea": 2.86,
+        "landUse": "Agricultural",
+        "status": "VERIFIED",
+        "riskScore": 15,
+        "riskLevel": "LOW",
+        "owner": "Sri Krishnaraja Wodeyar",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              76.639212671762,
+              12.304089749082447
+            ],
+            [
+              76.6401478703527,
+              12.304114749082448
+            ],
+            [
+              76.64007574038794,
+              12.304720379713078
+            ],
+            [
+              76.63919767176199,
+              12.304688848181547
+            ],
+            [
+              76.639212671762,
+              12.304089749082447
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-MYS-002-000231",
+        "surveyNo": "231/A",
+        "district": "Mysuru",
+        "taluk": "Mysuru",
+        "village": "Chamundi Foothills",
+        "area": 3.1,
+        "gisArea": 3.08,
+        "landUse": "Commercial",
+        "status": "VERIFIED",
+        "riskScore": 25,
+        "riskLevel": "LOW",
+        "owner": "Sri Chandrashekhar Murthy",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              76.6409957768934,
+              12.303795335219188
+            ],
+            [
+              76.64200474105724,
+              12.30382033521919
+            ],
+            [
+              76.64193076695314,
+              12.304480019903874
+            ],
+            [
+              76.6409807768934,
+              12.304445785669639
+            ],
+            [
+              76.6409957768934,
+              12.303795335219188
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-MYS-002-000232",
+        "surveyNo": "232/B",
+        "district": "Mysuru",
+        "taluk": "Nanjangud",
+        "village": "Varuna East",
+        "area": 3.32,
+        "gisArea": 3.3,
+        "landUse": "Industrial",
+        "status": "PENDING_VERIFICATION",
+        "riskScore": 15,
+        "riskLevel": "LOW",
+        "owner": "Sri Devanur Mahadeva",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              76.64260069118275,
+              12.303802601762737
+            ],
+            [
+              76.64338835602044,
+              12.303827601762737
+            ],
+            [
+              76.6433199143995,
+              12.304541340501476
+            ],
+            [
+              76.64258569118275,
+              12.30450440356454
+            ],
+            [
+              76.64260069118275,
+              12.303802601762737
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-MYS-002-000233",
+        "surveyNo": "233/C",
+        "district": "Mysuru",
+        "taluk": "Hunsur",
+        "village": "Bilikere Agro",
+        "area": 3.54,
+        "gisArea": 3.52,
+        "landUse": "Institutional",
+        "status": "VERIFIED",
+        "riskScore": 20,
+        "riskLevel": "LOW",
+        "owner": "Sri Girija Prasad",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              76.64448641843252,
+              12.304128894315458
+            ],
+            [
+              76.64534785059493,
+              12.304153894315458
+            ],
+            [
+              76.64527756479086,
+              12.304759524946089
+            ],
+            [
+              76.64447141843252,
+              12.304727993414557
+            ],
+            [
+              76.64448641843252,
+              12.304128894315458
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-MYS-002-000234",
+        "surveyNo": "234/D",
+        "district": "Mysuru",
+        "taluk": "Mysuru",
+        "village": "Chamundi Foothills",
+        "area": 3.76,
+        "gisArea": 3.74,
+        "landUse": "Mixed Use",
+        "status": "VERIFIED",
+        "riskScore": 25,
+        "riskLevel": "LOW",
+        "owner": "Sri Sowmya Reddy",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              76.64675846938432,
+              12.30410608849702
+            ],
+            [
+              76.64769366812118,
+              12.304131088497021
+            ],
+            [
+              76.64762153815275,
+              12.304790773181706
+            ],
+            [
+              76.64674346938432,
+              12.304756538947471
+            ],
+            [
+              76.64675846938432,
+              12.30410608849702
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-MYS-002-000235",
+        "surveyNo": "235/E",
+        "district": "Mysuru",
+        "taluk": "Nanjangud",
+        "village": "Bannur Rural",
+        "area": 3.98,
+        "gisArea": 3.96,
+        "landUse": "Residential",
+        "status": "VERIFIED",
+        "riskScore": 15,
+        "riskLevel": "LOW",
+        "owner": "Sri Raghavendra Rao",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              75.00774948105389,
+              15.458607207207207
+            ],
+            [
+              75.00850051894611,
+              15.458632207207208
+            ],
+            [
+              75.0084329929988,
+              15.459192792792793
+            ],
+            [
+              75.00773448105389,
+              15.459163513513513
+            ],
+            [
+              75.00774948105389,
+              15.458607207207207
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-DWD-003-000301",
+        "surveyNo": "301/A",
+        "district": "Dharwad",
+        "taluk": "Hubballi Urban",
+        "village": "Rayapur",
+        "area": 0.8,
+        "gisArea": 1.11,
+        "landUse": "Institutional",
+        "status": "PENDING_VERIFICATION",
+        "riskScore": 38,
+        "riskLevel": "MEDIUM",
+        "owner": "Sri Jagadish Shettar",
+        "overlap": false,
+        "areaMismatch": true
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              75.00956483556347,
+              15.458730456359124
+            ],
+            [
+              75.01040934582005,
+              15.458755456359125
+            ],
+            [
+              75.01033948306363,
+              15.4594061320348
+            ],
+            [
+              75.00954983556346,
+              15.459372348251016
+            ],
+            [
+              75.00956483556347,
+              15.458730456359124
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-DWD-003-000302",
+        "surveyNo": "302/B",
+        "district": "Dharwad",
+        "taluk": "Dharwad",
+        "village": "Kelageri Gram",
+        "area": 1.1,
+        "gisArea": 1.11,
+        "landUse": "Mixed Use",
+        "status": "VERIFIED",
+        "riskScore": 23,
+        "riskLevel": "LOW",
+        "owner": "Sri Vinay Kulkarni",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              75.01123116489424,
+              15.458698976602482
+            ],
+            [
+              75.01216914700386,
+              15.458723976602483
+            ],
+            [
+              75.01209694745111,
+              15.45946474236825
+            ],
+            [
+              75.01121616489424,
+              15.45942645407996
+            ],
+            [
+              75.01123116489424,
+              15.458698976602482
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-DWD-003-000303",
+        "surveyNo": "303/C",
+        "district": "Dharwad",
+        "taluk": "Hubballi Urban",
+        "village": "Amargol Techzone",
+        "area": 1.4,
+        "gisArea": 1.41,
+        "landUse": "Residential",
+        "status": "VERIFIED",
+        "riskScore": 28,
+        "riskLevel": "MEDIUM",
+        "owner": "Sri Pralhad Joshi",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              75.01301227565962,
+              15.458635431208819
+            ],
+            [
+              75.01404372884244,
+              15.45866043120882
+            ],
+            [
+              75.01396919251286,
+              15.459221016794405
+            ],
+            [
+              75.01299727565961,
+              15.459191737515125
+            ],
+            [
+              75.01301227565962,
+              15.458635431208819
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-DWD-003-000304",
+        "surveyNo": "304/D",
+        "district": "Dharwad",
+        "taluk": "Dharwad",
+        "village": "Sattur Industrial",
+        "area": 1.7,
+        "gisArea": 1.71,
+        "landUse": "Agricultural",
+        "status": "VERIFIED",
+        "riskScore": 18,
+        "riskLevel": "LOW",
+        "owner": "Sri Shankar Patil",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              75.01525338822371,
+              15.4584108016631
+            ],
+            [
+              75.01600442560377,
+              15.4584358016631
+            ],
+            [
+              75.01593689966927,
+              15.459086477338776
+            ],
+            [
+              75.01523838822371,
+              15.459052693554991
+            ],
+            [
+              75.01525338822371,
+              15.4584108016631
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-DWD-003-000305",
+        "surveyNo": "305/A",
+        "district": "Dharwad",
+        "taluk": "Hubballi Urban",
+        "village": "Unkal Lake Ward",
+        "area": 2,
+        "gisArea": 2.01,
+        "landUse": "Commercial",
+        "status": "DISPUTED",
+        "riskScore": 43,
+        "riskLevel": "MEDIUM",
+        "owner": "Sri Basavaraj Horatti",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              75.0074878407662,
+              15.460125332262184
+            ],
+            [
+              75.0083323565451,
+              15.460150332262184
+            ],
+            [
+              75.00826249365062,
+              15.46089109802795
+            ],
+            [
+              75.0074728407662,
+              15.460852809739661
+            ],
+            [
+              75.0074878407662,
+              15.460125332262184
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-DWD-003-000306",
+        "surveyNo": "306/B",
+        "district": "Dharwad",
+        "taluk": "Dharwad",
+        "village": "Navalgund Agro",
+        "area": 2.3,
+        "gisArea": 2.31,
+        "landUse": "Industrial",
+        "status": "VERIFIED",
+        "riskScore": 18,
+        "riskLevel": "LOW",
+        "owner": "Sri Sudha Murty Foundation",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              75.00964405668299,
+              15.460351324107567
+            ],
+            [
+              75.01058204548899,
+              15.460376324107568
+            ],
+            [
+              75.01050984576884,
+              15.460936909693153
+            ],
+            [
+              75.00962905668298,
+              15.460907630413873
+            ],
+            [
+              75.00964405668299,
+              15.460351324107567
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-DWD-003-000307",
+        "surveyNo": "307/C",
+        "district": "Dharwad",
+        "taluk": "Hubballi Urban",
+        "village": "Rayapur",
+        "area": 2.6,
+        "gisArea": 2.91,
+        "landUse": "Institutional",
+        "status": "RESTRICTED",
+        "riskScore": 53,
+        "riskLevel": "HIGH",
+        "owner": "Sri Jagadish Shettar",
+        "overlap": false,
+        "areaMismatch": true
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              75.0115354395767,
+              15.460493559481904
+            ],
+            [
+              75.01256690177591,
+              15.460518559481905
+            ],
+            [
+              75.01249236522094,
+              15.46116923515758
+            ],
+            [
+              75.0115204395767,
+              15.461135451373796
+            ],
+            [
+              75.0115354395767,
+              15.460493559481904
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-DWD-003-000308",
+        "surveyNo": "308/D",
+        "district": "Dharwad",
+        "taluk": "Dharwad",
+        "village": "Kelageri Gram",
+        "area": 2.9,
+        "gisArea": 2.91,
+        "landUse": "Mixed Use",
+        "status": "PENDING_VERIFICATION",
+        "riskScore": 18,
+        "riskLevel": "LOW",
+        "owner": "Sri Vinay Kulkarni",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              75.01340582766338,
+              15.460514988766441
+            ],
+            [
+              75.01415687231635,
+              15.460539988766442
+            ],
+            [
+              75.01408934620002,
+              15.461280754532208
+            ],
+            [
+              75.01339082766337,
+              15.461242466243919
+            ],
+            [
+              75.01340582766338,
+              15.460514988766441
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-DWD-003-000309",
+        "surveyNo": "309/A",
+        "district": "Dharwad",
+        "taluk": "Hubballi Urban",
+        "village": "Amargol Techzone",
+        "area": 3.2,
+        "gisArea": 3.21,
+        "landUse": "Residential",
+        "status": "VERIFIED",
+        "riskScore": 18,
+        "riskLevel": "LOW",
+        "owner": "Sri Pralhad Joshi",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              75.01512940250615,
+              15.460489630904254
+            ],
+            [
+              75.01597391933673,
+              15.460514630904255
+            ],
+            [
+              75.01590405641596,
+              15.46107521648984
+            ],
+            [
+              75.01511440250614,
+              15.46104593721056
+            ],
+            [
+              75.01512940250615,
+              15.460489630904254
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-DWD-003-000310",
+        "surveyNo": "310/B",
+        "district": "Dharwad",
+        "taluk": "Dharwad",
+        "village": "Sattur Industrial",
+        "area": 3.5,
+        "gisArea": 3.51,
+        "landUse": "Agricultural",
+        "status": "VERIFIED",
+        "riskScore": 18,
+        "riskLevel": "LOW",
+        "owner": "Sri Shankar Patil",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              75.00710428039352,
+              15.462053357939984
+            ],
+            [
+              75.00804227668904,
+              15.462078357939985
+            ],
+            [
+              75.00797007678165,
+              15.46272903361566
+            ],
+            [
+              75.00708928039352,
+              15.462695249831876
+            ],
+            [
+              75.00710428039352,
+              15.462053357939984
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-DWD-003-000311",
+        "surveyNo": "311/C",
+        "district": "Dharwad",
+        "taluk": "Hubballi Urban",
+        "village": "Unkal Lake Ward",
+        "area": 3.8,
+        "gisArea": 3.81,
+        "landUse": "Commercial",
+        "status": "VERIFIED",
+        "riskScore": 28,
+        "riskLevel": "MEDIUM",
+        "owner": "Sri Basavaraj Horatti",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              75.00931059313056,
+              15.461917119075807
+            ],
+            [
+              75.01034206228823,
+              15.461942119075808
+            ],
+            [
+              75.01026752555929,
+              15.462682884841573
+            ],
+            [
+              75.00929559313056,
+              15.462644596553284
+            ],
+            [
+              75.00931059313056,
+              15.461917119075807
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-DWD-003-000312",
+        "surveyNo": "312/D",
+        "district": "Dharwad",
+        "taluk": "Dharwad",
+        "village": "Navalgund Agro",
+        "area": 4.1,
+        "gisArea": 4.11,
+        "landUse": "Industrial",
+        "status": "VERIFIED",
+        "riskScore": 23,
+        "riskLevel": "LOW",
+        "owner": "Sri Sudha Murty Foundation",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              75.01170263133162,
+              15.462099892623607
+            ],
+            [
+              75.01245368104365,
+              15.462124892623608
+            ],
+            [
+              75.01238615480085,
+              15.462685478209194
+            ],
+            [
+              75.01168763133161,
+              15.462656198929913
+            ],
+            [
+              75.01170263133162,
+              15.462099892623607
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-DWD-003-000313",
+        "surveyNo": "313/A",
+        "district": "Dharwad",
+        "taluk": "Hubballi Urban",
+        "village": "Rayapur",
+        "area": 4.4,
+        "gisArea": 4.71,
+        "landUse": "Institutional",
+        "status": "VERIFIED",
+        "riskScore": 38,
+        "riskLevel": "MEDIUM",
+        "owner": "Sri Jagadish Shettar",
+        "overlap": false,
+        "areaMismatch": true
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              75.01367497216397,
+              15.462246195569527
+            ],
+            [
+              75.01451949590492,
+              15.462271195569528
+            ],
+            [
+              75.0144496328114,
+              15.462921871245204
+            ],
+            [
+              75.01365997216396,
+              15.462888087461419
+            ],
+            [
+              75.01367497216397,
+              15.462246195569527
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-DWD-003-000314",
+        "surveyNo": "314/B",
+        "district": "Dharwad",
+        "taluk": "Dharwad",
+        "village": "Kelageri Gram",
+        "area": 4.7,
+        "gisArea": 4.71,
+        "landUse": "Mixed Use",
+        "status": "VERIFIED",
+        "riskScore": 18,
+        "riskLevel": "LOW",
+        "owner": "Sri Vinay Kulkarni",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              75.01539702235976,
+              15.462315238588255
+            ],
+            [
+              75.01633501997115,
+              15.462340238588256
+            ],
+            [
+              75.01626282003086,
+              15.463081004354022
+            ],
+            [
+              75.01538202235976,
+              15.463042716065733
+            ],
+            [
+              75.01539702235976,
+              15.462315238588255
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-DWD-003-000315",
+        "surveyNo": "315/C",
+        "district": "Dharwad",
+        "taluk": "Hubballi Urban",
+        "village": "Amargol Techzone",
+        "area": 0.8,
+        "gisArea": 0.81,
+        "landUse": "Residential",
+        "status": "PENDING_VERIFICATION",
+        "riskScore": 28,
+        "riskLevel": "MEDIUM",
+        "owner": "Sri Pralhad Joshi",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              75.0070813540004,
+              15.464137264775237
+            ],
+            [
+              75.0081128332519,
+              15.464162264775238
+            ],
+            [
+              75.00803829627061,
+              15.464722850360824
+            ],
+            [
+              75.0070663540004,
+              15.464693571081543
+            ],
+            [
+              75.0070813540004,
+              15.464137264775237
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-DWD-003-000316",
+        "surveyNo": "316/D",
+        "district": "Dharwad",
+        "taluk": "Dharwad",
+        "village": "Sattur Industrial",
+        "area": 1.1,
+        "gisArea": 1.11,
+        "landUse": "Agricultural",
+        "status": "VERIFIED",
+        "riskScore": 18,
+        "riskLevel": "LOW",
+        "owner": "Sri Shankar Patil",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              75.00916217416938,
+              15.463904581498829
+            ],
+            [
+              75.00991323014243,
+              15.46392958149883
+            ],
+            [
+              75.0098457037431,
+              15.464580257174505
+            ],
+            [
+              75.00914717416937,
+              15.46454647339072
+            ],
+            [
+              75.00916217416938,
+              15.463904581498829
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-DWD-003-000317",
+        "surveyNo": "317/A",
+        "district": "Dharwad",
+        "taluk": "Hubballi Urban",
+        "village": "Unkal Lake Ward",
+        "area": 1.4,
+        "gisArea": 1.41,
+        "landUse": "Commercial",
+        "status": "VERIFIED",
+        "riskScore": 23,
+        "riskLevel": "LOW",
+        "owner": "Sri Basavaraj Horatti",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              75.01132018620557,
+              15.46372483761874
+            ],
+            [
+              75.01216471579161,
+              15.46374983761874
+            ],
+            [
+              75.01209485255195,
+              15.464490603384506
+            ],
+            [
+              75.01130518620556,
+              15.464452315096217
+            ],
+            [
+              75.01132018620557,
+              15.46372483761874
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-DWD-003-000318",
+        "surveyNo": "318/B",
+        "district": "Dharwad",
+        "taluk": "Dharwad",
+        "village": "Navalgund Agro",
+        "area": 1.7,
+        "gisArea": 1.71,
+        "landUse": "Industrial",
+        "status": "VERIFIED",
+        "riskScore": 18,
+        "riskLevel": "LOW",
+        "owner": "Sri Sudha Murty Foundation",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              75.01355409309477,
+              15.463857009757852
+            ],
+            [
+              75.0144920969302,
+              15.463882009757853
+            ],
+            [
+              75.0144198968343,
+              15.464442595343439
+            ],
+            [
+              75.01353909309476,
+              15.464413316064158
+            ],
+            [
+              75.01355409309477,
+              15.463857009757852
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-DWD-003-000319",
+        "surveyNo": "319/C",
+        "district": "Dharwad",
+        "taluk": "Hubballi Urban",
+        "village": "Rayapur",
+        "area": 2,
+        "gisArea": 2.31,
+        "landUse": "Institutional",
+        "status": "RESTRICTED",
+        "riskScore": 68,
+        "riskLevel": "HIGH",
+        "owner": "Sri Jagadish Shettar",
+        "overlap": false,
+        "areaMismatch": true
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              75.01560587199685,
+              15.463992137604095
+            ],
+            [
+              75.01663735077405,
+              15.464017137604095
+            ],
+            [
+              75.01656281380463,
+              15.464667813279771
+            ],
+            [
+              75.01559087199685,
+              15.464634029495986
+            ],
+            [
+              75.01560587199685,
+              15.463992137604095
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-DWD-003-000320",
+        "surveyNo": "320/D",
+        "district": "Dharwad",
+        "taluk": "Dharwad",
+        "village": "Kelageri Gram",
+        "area": 2.3,
+        "gisArea": 2.31,
+        "landUse": "Mixed Use",
+        "status": "VERIFIED",
+        "riskScore": 18,
+        "riskLevel": "LOW",
+        "owner": "Sri Vinay Kulkarni",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              75.00757189317872,
+              15.465899706167262
+            ],
+            [
+              75.00832295605836,
+              15.465924706167263
+            ],
+            [
+              75.00825542948637,
+              15.466665471933029
+            ],
+            [
+              75.00755689317872,
+              15.46662718364474
+            ],
+            [
+              75.00757189317872,
+              15.465899706167262
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-DWD-003-000321",
+        "surveyNo": "321/A",
+        "district": "Dharwad",
+        "taluk": "Hubballi Urban",
+        "village": "Amargol Techzone",
+        "area": 2.6,
+        "gisArea": 2.61,
+        "landUse": "Residential",
+        "status": "VERIFIED",
+        "riskScore": 18,
+        "riskLevel": "LOW",
+        "owner": "Sri Pralhad Joshi",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              75.00923841228608,
+              15.465974538334914
+            ],
+            [
+              75.0100829501578,
+              15.465999538334914
+            ],
+            [
+              75.010013086711,
+              15.4665601239205
+            ],
+            [
+              75.00922341228608,
+              15.46653084464122
+            ],
+            [
+              75.00923841228608,
+              15.465974538334914
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-DWD-003-000322",
+        "surveyNo": "322/B",
+        "district": "Dharwad",
+        "taluk": "Dharwad",
+        "village": "Sattur Industrial",
+        "area": 2.9,
+        "gisArea": 2.91,
+        "landUse": "Agricultural",
+        "status": "PENDING_VERIFICATION",
+        "riskScore": 23,
+        "riskLevel": "LOW",
+        "owner": "Sri Shankar Patil",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              75.01105600565695,
+              15.465760391900302
+            ],
+            [
+              75.01199401784723,
+              15.465785391900303
+            ],
+            [
+              75.01192181754247,
+              15.466436067575978
+            ],
+            [
+              75.01104100565695,
+              15.466402283792194
+            ],
+            [
+              75.01105600565695,
+              15.465760391900302
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-DWD-003-000323",
+        "surveyNo": "323/C",
+        "district": "Dharwad",
+        "taluk": "Hubballi Urban",
+        "village": "Unkal Lake Ward",
+        "area": 3.2,
+        "gisArea": 3.21,
+        "landUse": "Commercial",
+        "status": "VERIFIED",
+        "riskScore": 28,
+        "riskLevel": "MEDIUM",
+        "owner": "Sri Basavaraj Horatti",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              75.01314940691195,
+              15.46554787303628
+            ],
+            [
+              75.01418089327586,
+              15.465572873036281
+            ],
+            [
+              75.01410635611676,
+              15.466313638802047
+            ],
+            [
+              75.01313440691195,
+              15.466275350513758
+            ],
+            [
+              75.01314940691195,
+              15.46554787303628
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-DWD-003-000324",
+        "surveyNo": "324/D",
+        "district": "Dharwad",
+        "taluk": "Dharwad",
+        "village": "Navalgund Agro",
+        "area": 3.5,
+        "gisArea": 3.51,
+        "landUse": "Industrial",
+        "status": "VERIFIED",
+        "riskScore": 18,
+        "riskLevel": "LOW",
+        "owner": "Sri Sudha Murty Foundation",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              75.01557672287805,
+              15.465626091534805
+            ],
+            [
+              75.01632778452635,
+              15.465651091534806
+            ],
+            [
+              75.01626025798515,
+              15.466211677120391
+            ],
+            [
+              75.01556172287805,
+              15.466182397841111
+            ],
+            [
+              75.01557672287805,
+              15.465626091534805
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-DWD-003-000325",
+        "surveyNo": "325/A",
+        "district": "Dharwad",
+        "taluk": "Hubballi Urban",
+        "village": "Rayapur",
+        "area": 3.8,
+        "gisArea": 4.11,
+        "landUse": "Institutional",
+        "status": "VERIFIED",
+        "riskScore": 38,
+        "riskLevel": "MEDIUM",
+        "owner": "Sri Jagadish Shettar",
+        "overlap": false,
+        "areaMismatch": true
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              75.00770008882607,
+              15.467535691812142
+            ],
+            [
+              75.00854463286106,
+              15.467560691812142
+            ],
+            [
+              75.00847476926018,
+              15.468211367487818
+            ],
+            [
+              75.00768508882607,
+              15.468177583704033
+            ],
+            [
+              75.00770008882607,
+              15.467535691812142
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-DWD-003-000326",
+        "surveyNo": "326/B",
+        "district": "Dharwad",
+        "taluk": "Dharwad",
+        "village": "Kelageri Gram",
+        "area": 4.1,
+        "gisArea": 4.11,
+        "landUse": "Mixed Use",
+        "status": "VERIFIED",
+        "riskScore": 18,
+        "riskLevel": "LOW",
+        "owner": "Sri Vinay Kulkarni",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              75.00955006551098,
+              15.467669628807213
+            ],
+            [
+              75.01048808608242,
+              15.467694628807214
+            ],
+            [
+              75.01041588556812,
+              15.46843539457298
+            ],
+            [
+              75.00953506551097,
+              15.46839710628469
+            ],
+            [
+              75.00955006551098,
+              15.467669628807213
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-DWD-003-000327",
+        "surveyNo": "327/C",
+        "district": "Dharwad",
+        "taluk": "Hubballi Urban",
+        "village": "Amargol Techzone",
+        "area": 4.4,
+        "gisArea": 4.41,
+        "landUse": "Residential",
+        "status": "VERIFIED",
+        "riskScore": 33,
+        "riskLevel": "MEDIUM",
+        "owner": "Sri Pralhad Joshi",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              75.01122161005499,
+              15.467798482392888
+            ],
+            [
+              75.01225310665978,
+              15.46782348239289
+            ],
+            [
+              75.01217856924467,
+              15.468384067978475
+            ],
+            [
+              75.01120661005498,
+              15.468354788699195
+            ],
+            [
+              75.01122161005499,
+              15.467798482392888
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-DWD-003-000328",
+        "surveyNo": "328/D",
+        "district": "Dharwad",
+        "taluk": "Dharwad",
+        "village": "Sattur Industrial",
+        "area": 4.7,
+        "gisArea": 4.71,
+        "landUse": "Agricultural",
+        "status": "VERIFIED",
+        "riskScore": 18,
+        "riskLevel": "LOW",
+        "owner": "Sri Shankar Patil",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              75.0131606839705,
+              15.467616343319824
+            ],
+            [
+              75.01391175250973,
+              15.467641343319825
+            ],
+            [
+              75.01384422579625,
+              15.4682920189955
+            ],
+            [
+              75.01314568397049,
+              15.468258235211716
+            ],
+            [
+              75.0131606839705,
+              15.467616343319824
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-DWD-003-000329",
+        "surveyNo": "329/A",
+        "district": "Dharwad",
+        "taluk": "Hubballi Urban",
+        "village": "Unkal Lake Ward",
+        "area": 0.8,
+        "gisArea": 0.81,
+        "landUse": "Commercial",
+        "status": "PENDING_VERIFICATION",
+        "riskScore": 18,
+        "riskLevel": "LOW",
+        "owner": "Sri Basavaraj Horatti",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              75.01517831092748,
+              15.467384390340275
+            ],
+            [
+              75.0160228545547,
+              15.467409390340276
+            ],
+            [
+              75.01595299096402,
+              15.468150156106041
+            ],
+            [
+              75.01516331092748,
+              15.468111867817752
+            ],
+            [
+              75.01517831092748,
+              15.467384390340275
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "ulpin": "KA-DWD-003-000330",
+        "surveyNo": "330/B",
+        "district": "Dharwad",
+        "taluk": "Dharwad",
+        "village": "Navalgund Agro",
+        "area": 1.1,
+        "gisArea": 1.11,
+        "landUse": "Industrial",
+        "status": "VERIFIED",
+        "riskScore": 18,
+        "riskLevel": "LOW",
+        "owner": "Sri Sudha Murty Foundation",
+        "overlap": false,
+        "areaMismatch": false
+      }
+    }
+  ]
+}

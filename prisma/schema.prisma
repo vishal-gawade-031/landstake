@@ -1,0 +1,309 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         String   @id @default(uuid())
+  email      String   @unique
+  password   String
+  name       String
+  phone      String?
+  role       String   @default("CITIZEN") // CITIZEN, OFFICER, ADMIN
+  department String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Role {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  description String?
+}
+
+model Parcel {
+  id                      String   @id @default(uuid())
+  ulpin                   String   @unique
+  surveyNo                String
+  subDivision             String?  @default("1")
+  district                String   // Belagavi, Mysuru, Dharwad
+  taluk                   String
+  village                 String
+  hobli                   String?
+  area                    Float    // Recorded Area in Acres
+  gisArea                 Float    // Calculated GIS Area in Acres
+  areaDifference          Float    // abs(area - gisArea)
+  landUse                 String   // Residential, Agricultural, Commercial, Industrial, Institutional, Mixed Use
+  status                  String   @default("VERIFIED") // VERIFIED, PENDING_VERIFICATION, DISPUTED, RESTRICTED
+  centroidLat             Float
+  centroidLng             Float
+  boundsJson              String?  // JSON stringified bounding box [[lat, lng], [lat, lng]]
+  geojsonGeometry         String?  // JSON stringified GeoJSON Polygon geometry
+  riskScore               Int      @default(15) // 0 - 100
+  riskLevel               String   @default("LOW") // LOW, MEDIUM, HIGH, CRITICAL
+  riskReasons             String?  // JSON string array of reasons
+  hasBoundaryOverlap      Boolean  @default(false)
+  hasAreaMismatch         Boolean  @default(false)
+  hasOwnershipConflict    Boolean  @default(false)
+  hasRegistrationConflict Boolean  @default(false)
+  hasEncumbrance          Boolean  @default(false)
+  hasTaxIssue             Boolean  @default(false)
+  createdAt               DateTime @default(now())
+  updatedAt               DateTime @updatedAt
+
+  ownershipRecords        OwnershipRecord[]
+  rorRecords              RorRecord[]
+  registrations           Registration[]
+  encumbrances            Encumbrance[]
+  mortgages               Mortgage[]
+  landUseRecords          LandUse[]
+  buildingPermissions     BuildingPermission[]
+  propertyTaxes           PropertyTax[]
+  restrictions            Restriction[]
+  utilities               Utility[]
+  serviceRequests         ServiceRequest[]
+  disputes                Dispute[]
+  documents               Document[]
+  fraudAlerts             FraudAlert[]
+  auditLogs               AuditLog[]
+}
+
+model OwnershipRecord {
+  id              String   @id @default(uuid())
+  parcelUlpin     String
+  parcel          Parcel   @relation(fields: [parcelUlpin], references: [ulpin], onDelete: Cascade)
+  ownerName       String
+  ownershipType   String   // Individual, Joint, Ancestral, State Government, Trust
+  ownershipStatus String   @default("Verified") // Verified, Disputed, Pending Mutation
+  rorReference    String
+  mutationDate    String
+  mutationNumber  String
+  sharePercentage Float    @default(100.0)
+  aadharMasked    String?  @default("XXXX-XXXX-9821")
+  contactNumber   String?  @default("+91 98450 12345")
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model RorRecord {
+  id                String   @id @default(uuid())
+  parcelUlpin       String
+  parcel            Parcel   @relation(fields: [parcelUlpin], references: [ulpin], onDelete: Cascade)
+  khataNumber       String
+  ownerName         String
+  fatherHusbandName String?
+  cultivatorName    String?
+  tenancyType       String   @default("Self Cultivated")
+  soilClassification String  @default("Red Loamy Soil - Grade 1")
+  waterSource       String   @default("Borewell / Canal")
+  dryWetGarden      String   @default("Wet Land (Tari)")
+  treeDetails       String?  @default("Mango: 12, Coconut: 20")
+  liabilities       String?  @default("None")
+  createdAt         DateTime @default(now())
+}
+
+model Registration {
+  id                  String   @id @default(uuid())
+  parcelUlpin         String
+  parcel              Parcel   @relation(fields: [parcelUlpin], references: [ulpin], onDelete: Cascade)
+  registrationNumber  String
+  documentType        String   // Sale Deed, Gift Deed, Partition Deed, Release Deed, Lease
+  registrationDate    String
+  transactionStatus   String   @default("COMPLETED") // COMPLETED, PENDING, UNDER_SCRUTINY
+  subRegistrarOffice  String
+  marketValue         Float    @default(3500000)
+  considerationAmount Float    @default(4200000)
+  stampDutyPaid       Float    @default(252000)
+  previousOwner       String
+  currentOwner        String
+  createdAt           DateTime @default(now())
+}
+
+model Encumbrance {
+  id                String    @id @default(uuid())
+  parcelUlpin       String
+  parcel            Parcel    @relation(fields: [parcelUlpin], references: [ulpin], onDelete: Cascade)
+  status            String    @default("NONE") // NONE, ACTIVE, DISCHARGED
+  encumbranceType   String    @default("None") // Mortgage, Court Attachment, Charge, Government Lien
+  institution       String?
+  amount            Float?    @default(0)
+  startDate         String?
+  endDate           String?
+  documentReference String?
+  remarks           String?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+}
+
+model Mortgage {
+  id                  String   @id @default(uuid())
+  parcelUlpin         String
+  parcel              Parcel   @relation(fields: [parcelUlpin], references: [ulpin], onDelete: Cascade)
+  bankName            String
+  loanAccountNumber   String
+  sanctionedAmount    Float
+  outstandingAmount   Float
+  mortgageType        String   @default("Equitable Mortgage")
+  status              String   @default("ACTIVE")
+  createdAt           DateTime @default(now())
+}
+
+model LandUse {
+  id                    String   @id @default(uuid())
+  parcelUlpin           String
+  parcel                Parcel   @relation(fields: [parcelUlpin], references: [ulpin], onDelete: Cascade)
+  currentLandUse        String   // Residential, Agricultural, Commercial, Industrial, Institutional, Mixed Use
+  masterPlanZone        String   // CDP 2031 Commercial, Residential High Density, Green Belt, Industrial Corridor
+  conversionRequirement String   @default("Not Applicable") // Required, Approved, Not Applicable
+  conversionOrderNumber String?
+  permittedUses         String   // e.g. Single-family dwelling, retail shop, multi-storied residential
+  violationDetected     Boolean  @default(false)
+  createdAt             DateTime @default(now())
+}
+
+model BuildingPermission {
+  id                          String   @id @default(uuid())
+  parcelUlpin                 String
+  parcel                      Parcel   @relation(fields: [parcelUlpin], references: [ulpin], onDelete: Cascade)
+  applicationId               String
+  buildingType                String   // Residential Villa, Commercial Complex, Warehouse, Apartment
+  floors                      String   // G+1, G+2, G+4
+  approvedBuiltupArea         Float    // in Sq. Meters
+  applicationDate             String
+  approvalDate                String?
+  status                      String   @default("APPROVED") // SUBMITTED, UNDER_REVIEW, APPROVED, REJECTED
+  issuingAuthority            String   // BUDA, MUDA, City Corporation
+  completionCertificateNumber String?
+  createdAt                   DateTime @default(now())
+}
+
+model PropertyTax {
+  id                String   @id @default(uuid())
+  parcelUlpin       String
+  parcel            Parcel   @relation(fields: [parcelUlpin], references: [ulpin], onDelete: Cascade)
+  assessmentYear    String   @default("2025-2026")
+  annualTax         Float
+  paidAmount        Float
+  outstandingAmount Float
+  paymentStatus     String   @default("PAID") // PAID, PARTIAL, OVERDUE, UNPAID
+  lastPaymentDate   String?
+  receiptNumber     String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
+model Restriction {
+  id                  String   @id @default(uuid())
+  parcelUlpin         String
+  parcel              Parcel   @relation(fields: [parcelUlpin], references: [ulpin], onDelete: Cascade)
+  zoneType            String   // Flood Zone, Environmental Zone, Road Reservation, Heritage Zone, Water Buffer
+  severity            String   @default("LOW") // HIGH, MEDIUM, LOW
+  description         String
+  bufferDistanceMeters Float   @default(0)
+  status              String   @default("CLEARED") // REVIEW_REQUIRED, CLEARED, RESTRICTED
+  legalActReference   String?  @default("Karnataka Town and Country Planning Act, 1961")
+  createdAt           DateTime @default(now())
+}
+
+model Utility {
+  id                  String   @id @default(uuid())
+  parcelUlpin         String
+  parcel              Parcel   @relation(fields: [parcelUlpin], references: [ulpin], onDelete: Cascade)
+  electricityStatus   String   @default("Connected") // Connected, Available, Not Connected
+  electricityRrNumber String?  @default("HES-882910-A")
+  waterStatus         String   @default("Connected") // Connected, Borewell, Available
+  sewerageStatus      String   @default("Connected") // Connected, Septic Tank, Not Available
+  roadAccessStatus    String   @default("Paved 40ft Road") // Paved 40ft, Bitumen 30ft, Mud Road, Landlocked
+  internetFiberStatus String   @default("Fiber Ready") // Fiber Ready, Available, Underway
+  createdAt           DateTime @default(now())
+}
+
+model ServiceRequest {
+  id              String   @id @default(uuid())
+  requestNumber   String   @unique
+  parcelUlpin     String
+  parcel          Parcel   @relation(fields: [parcelUlpin], references: [ulpin], onDelete: Cascade)
+  citizenId       String?
+  citizenName     String
+  citizenEmail    String
+  citizenPhone    String
+  serviceType     String   // Ownership Verification, Land Record Information, Mutation Request, Encumbrance Information, Land Use Information, Building Permission Information, Property Tax Information, Dispute Submission
+  status          String   @default("SUBMITTED") // SUBMITTED, UNDER_REVIEW, DOCUMENT_VERIFICATION, OFFICER_REVIEW, APPROVED, REJECTED, COMPLETED
+  remarks         String?
+  assignedOfficer String?  @default("Shri R. K. Patil (Tahasildar)")
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model Dispute {
+  id              String   @id @default(uuid())
+  disputeNumber   String   @unique
+  parcelUlpin     String
+  parcel          Parcel   @relation(fields: [parcelUlpin], references: [ulpin], onDelete: Cascade)
+  surveyNumber    String
+  citizenName     String
+  disputeType     String   // Boundary Dispute, Ownership Dispute, Registration Dispute, Land Use Dispute, Tax Dispute
+  description     String
+  documents       String?  // JSON string
+  assignedOfficer String?  @default("Assistant Commissioner (Land Reforms)")
+  status          String   @default("OPEN") // OPEN, UNDER_INVESTIGATION, HEARING_SCHEDULED, RESOLVED, DISMISSED
+  remarks         String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model Document {
+  id               String   @id @default(uuid())
+  parcelUlpin      String
+  parcel           Parcel   @relation(fields: [parcelUlpin], references: [ulpin], onDelete: Cascade)
+  title            String
+  documentType     String   // Title Deed, RoR Extract, Mutation Register Extract, Cadastral Map, Property Tax Receipt, Encumbrance Certificate, Building Plan
+  fileUrl          String?  @default("/documents/sample-land-record.pdf")
+  verificationHash String   @default("e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855")
+  uploadedAt       DateTime @default(now())
+}
+
+model FraudAlert {
+  id              String    @id @default(uuid())
+  alertNumber     String    @unique
+  parcelUlpin     String
+  parcel          Parcel    @relation(fields: [parcelUlpin], references: [ulpin], onDelete: Cascade)
+  conflictType    String    // Duplicate Survey Number, Duplicate ULPIN, Boundary Overlap, Area Mismatch, Ownership Conflict, Registration Conflict, Encumbrance Conflict, Tax Issue, Multiple Recent Transactions
+  severity        String    // LOW, MEDIUM, HIGH, CRITICAL
+  reason          String
+  detectedDate    String
+  status          String    @default("OPEN") // OPEN, UNDER_REVIEW, RESOLVED, DISMISSED
+  assignedOfficer String?   @default("District Vigilance Officer")
+  remarks         String?
+  resolvedAt      DateTime?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+}
+
+model AuditLog {
+  id          String   @id @default(uuid())
+  action      String   // LOGIN, LOGOUT, PARCEL_CREATED, PARCEL_UPDATED, OWNERSHIP_UPDATED, REGISTRATION_UPDATED, SERVICE_CREATED, SERVICE_STATUS_CHANGED, DISPUTE_CREATED, FRAUD_REVIEWED, FRAUD_RESOLVED, DOCUMENT_GENERATED
+  entityType  String
+  entityId    String
+  parcelUlpin String?
+  parcel      Parcel?  @relation(fields: [parcelUlpin], references: [ulpin], onDelete: SetNull)
+  performedBy String
+  userRole    String
+  ipAddress   String?  @default("127.0.0.1")
+  details     String?
+  timestamp   DateTime @default(now())
+}
+
+model Notification {
+  id        String   @id @default(uuid())
+  userId    String?
+  title     String
+  message   String
+  type      String   @default("INFO") // INFO, WARNING, SUCCESS, ALERT
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+}

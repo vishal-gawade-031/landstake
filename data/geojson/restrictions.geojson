@@ -1,0 +1,161 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              74.496,
+              15.848
+            ],
+            [
+              74.505,
+              15.848
+            ],
+            [
+              74.504,
+              15.852
+            ],
+            [
+              74.495,
+              15.852
+            ],
+            [
+              74.496,
+              15.848
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "REST-BLG-001",
+        "name": "Markandeya River 100m Flood Risk Buffer",
+        "type": "Flood Zone",
+        "district": "Belagavi",
+        "severity": "HIGH",
+        "regulation": "Buffer zone under National Disaster Management Authority Guidelines",
+        "status": "Review Required"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              76.637,
+              12.294
+            ],
+            [
+              76.645,
+              12.294
+            ],
+            [
+              76.644,
+              12.299
+            ],
+            [
+              76.636,
+              12.299
+            ],
+            [
+              76.637,
+              12.294
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "REST-MYS-002",
+        "name": "Chamundi Hills Eco-Sensitive Heritage Zone",
+        "type": "Heritage Zone",
+        "district": "Mysuru",
+        "severity": "MEDIUM",
+        "regulation": "ASI Heritage buffer zone - Max height 10m",
+        "status": "Review Required"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              75.006,
+              15.457
+            ],
+            [
+              75.015,
+              15.457
+            ],
+            [
+              75.014,
+              15.461
+            ],
+            [
+              75.005,
+              15.461
+            ],
+            [
+              75.006,
+              15.457
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "REST-DWD-003",
+        "name": "Unkal Lake Catchment Conservation Zone",
+        "type": "Water Buffer",
+        "district": "Dharwad",
+        "severity": "HIGH",
+        "regulation": "Karnataka Wetland Authority Buffer 30m",
+        "status": "Review Required"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              74.499,
+              15.853
+            ],
+            [
+              74.509,
+              15.853
+            ],
+            [
+              74.508,
+              15.855
+            ],
+            [
+              74.498,
+              15.855
+            ],
+            [
+              74.499,
+              15.853
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "REST-BLG-004",
+        "name": "National Highway 48 Arterial Road Reservation",
+        "type": "Road Reservation",
+        "district": "Belagavi",
+        "severity": "MEDIUM",
+        "regulation": "NHAI Corridor reservation 45 meters from centerline",
+        "status": "Review Required"
+      }
+    }
+  ]
+}
