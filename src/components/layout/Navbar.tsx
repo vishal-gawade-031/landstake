@@ -11,7 +11,6 @@ import {
   AlertTriangle,
   BarChart3,
   UserCheck,
-  Satellite,
   Settings,
   Search,
   Menu,
@@ -20,26 +19,54 @@ import {
   LogIn,
   LogOut,
   User as UserIcon,
+  Building2,
+  FileCheck,
 } from 'lucide-react';
 
 export default function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
-  const { user, switchRole, logout } = useAuth();
+  const { user, logout } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [roleDropdownOpen, setRoleDropdownOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
 
-  const navLinks = [
-    { href: '/', label: 'GIS Map', icon: Map },
-    { href: '/citizen', label: 'Citizen Portal', icon: UserCheck },
-    { href: '/services', label: 'Services', icon: FileText },
-    { href: '/disputes', label: 'Disputes', icon: ShieldCheck },
-    { href: '/dashboard', label: 'Dashboard', icon: BarChart3 },
-    { href: '/admin/fraud-alerts', label: 'Potential Conflicts', icon: AlertTriangle, badge: '10' },
-    { href: '/satellite-ai', label: 'Satellite AI', icon: Satellite },
-    { href: '/admin', label: 'Admin', icon: Settings, adminOnly: true },
-  ];
+  // Role-Segregated Navigation Links
+  const getNavLinks = () => {
+    if (!user) {
+      return [
+        { href: '/', label: 'GIS Map', icon: Map },
+        { href: '/services', label: 'Services', icon: FileText },
+      ];
+    }
+
+    if (user.role === 'CITIZEN') {
+      return [
+        { href: '/', label: 'GIS Map', icon: Map },
+        { href: '/citizen', label: 'Citizen Portal', icon: UserCheck },
+        { href: '/services', label: 'Apply for Services', icon: FileText },
+        { href: '/disputes', label: 'My Disputes', icon: ShieldCheck },
+      ];
+    }
+
+    if (user.role === 'OFFICER') {
+      return [
+        { href: '/', label: 'GIS Map', icon: Map },
+        { href: '/officer', label: 'Officer Workspace', icon: Building2 },
+        { href: '/admin/fraud-alerts', label: 'Potential Conflicts', icon: AlertTriangle, badge: '10' },
+      ];
+    }
+
+    // ADMIN
+    return [
+      { href: '/', label: 'GIS Map', icon: Map },
+      { href: '/admin', label: 'Admin Console', icon: Settings },
+      { href: '/dashboard', label: 'Executive Analytics', icon: BarChart3 },
+      { href: '/admin/fraud-alerts', label: 'Conflict Surveillance', icon: AlertTriangle, badge: '10' },
+    ];
+  };
+
+  const navLinks = getNavLinks();
 
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -53,6 +80,13 @@ export default function Navbar() {
     setRoleDropdownOpen(false);
     setMobileMenuOpen(false);
     router.push('/login');
+  };
+
+  const getUserPortalLink = () => {
+    if (!user) return '/login';
+    if (user.role === 'ADMIN') return '/admin';
+    if (user.role === 'OFFICER') return '/officer';
+    return '/citizen';
   };
 
   return (
@@ -102,7 +136,6 @@ export default function Navbar() {
             {navLinks.map((item) => {
               const Icon = item.icon;
               const isActive = pathname === item.href;
-              if (item.adminOnly && user?.role === 'CITIZEN') return null;
 
               return (
                 <Link
@@ -130,12 +163,12 @@ export default function Navbar() {
           <div className="flex items-center gap-2 sm:gap-3">
             {user ? (
               <>
-                {/* Role Switcher & Profile Dropdown */}
+                {/* Profile Dropdown */}
                 <div className="relative">
                   <button
                     onClick={() => setRoleDropdownOpen(!roleDropdownOpen)}
                     className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-800 border border-slate-700 hover:border-slate-600 text-xs font-semibold text-slate-200 transition-colors"
-                    title="Active Profile & Role Switcher"
+                    title="User Session Profile"
                   >
                     <span
                       className={`w-2 h-2 rounded-full ${
@@ -146,7 +179,10 @@ export default function Navbar() {
                           : 'bg-emerald-400'
                       }`}
                     />
-                    <span className="hidden sm:inline font-bold">{user.role}</span>
+                    <span className="hidden sm:inline font-bold">{user.name}</span>
+                    <span className="text-[10px] px-1.5 py-0.5 rounded font-bold uppercase bg-slate-700 text-slate-300">
+                      {user.role}
+                    </span>
                     <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
                   </button>
 
@@ -156,66 +192,37 @@ export default function Navbar() {
                       onMouseLeave={() => setRoleDropdownOpen(false)}
                     >
                       <div className="px-4 py-2.5 border-b border-slate-800">
-                        <p className="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Signed In User</p>
+                        <p className="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Signed In Identity</p>
                         <p className="text-xs font-bold text-white truncate">{user.name}</p>
                         <p className="text-[10px] text-slate-400 truncate">{user.email}</p>
-                        <span className="inline-block mt-1 text-[9px] font-bold px-2 py-0.5 rounded bg-blue-500/20 text-blue-300 border border-blue-500/40 uppercase">
-                          {user.role} Privilege
-                        </span>
+                        <div className="flex items-center gap-1.5 mt-1.5">
+                          <span
+                            className={`text-[9px] font-bold px-2 py-0.5 rounded border uppercase ${
+                              user.role === 'ADMIN'
+                                ? 'bg-purple-500/20 text-purple-300 border-purple-500/40'
+                                : user.role === 'OFFICER'
+                                ? 'bg-amber-500/20 text-amber-300 border-amber-500/40'
+                                : 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40'
+                            }`}
+                          >
+                            {user.role}
+                          </span>
+                        </div>
+                        {user.department && (
+                          <p className="text-[10px] text-slate-400 mt-1 truncate">{user.department}</p>
+                        )}
                       </div>
 
-                      <div className="px-4 py-1.5 text-[10px] uppercase font-bold text-slate-400">
-                        Switch Member Role
-                      </div>
-
-                      <button
-                        onClick={() => {
-                          switchRole('ADMIN');
-                          setRoleDropdownOpen(false);
-                        }}
-                        className={`w-full text-left px-4 py-2 text-xs flex items-center justify-between hover:bg-slate-800 transition-colors ${
-                          user.role === 'ADMIN' ? 'text-purple-400 font-bold bg-slate-800/60' : 'text-slate-300'
-                        }`}
-                      >
-                        <span>Administrator (IAS)</span>
-                        <span className="text-[10px] px-1.5 py-0.5 rounded bg-purple-500/20 text-purple-300">ADMIN</span>
-                      </button>
-
-                      <button
-                        onClick={() => {
-                          switchRole('OFFICER');
-                          setRoleDropdownOpen(false);
-                        }}
-                        className={`w-full text-left px-4 py-2 text-xs flex items-center justify-between hover:bg-slate-800 transition-colors ${
-                          user.role === 'OFFICER' ? 'text-amber-400 font-bold bg-slate-800/60' : 'text-slate-300'
-                        }`}
-                      >
-                        <span>Revenue Officer (KAS)</span>
-                        <span className="text-[10px] px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300">OFFICER</span>
-                      </button>
-
-                      <button
-                        onClick={() => {
-                          switchRole('CITIZEN');
-                          setRoleDropdownOpen(false);
-                        }}
-                        className={`w-full text-left px-4 py-2 text-xs flex items-center justify-between hover:bg-slate-800 transition-colors ${
-                          user.role === 'CITIZEN' ? 'text-emerald-400 font-bold bg-slate-800/60' : 'text-slate-300'
-                        }`}
-                      >
-                        <span>Citizen (Priyanka Patil)</span>
-                        <span className="text-[10px] px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300">CITIZEN</span>
-                      </button>
-
-                      <div className="pt-2 mt-1 border-t border-slate-800 px-2 space-y-1">
+                      <div className="pt-2 px-2 space-y-1">
                         <Link
-                          href="/login"
+                          href={getUserPortalLink()}
                           onClick={() => setRoleDropdownOpen(false)}
-                          className="w-full text-left px-3 py-1.5 text-xs text-blue-400 hover:text-blue-300 hover:bg-slate-800 rounded-lg flex items-center gap-2 transition-colors"
+                          className="w-full text-left px-3 py-1.5 text-xs text-blue-400 hover:text-blue-300 hover:bg-slate-800 rounded-lg flex items-center gap-2 transition-colors font-semibold"
                         >
                           <UserIcon className="w-3.5 h-3.5" />
-                          <span>Member Portal Page</span>
+                          <span>My Workspace Portal</span>
                         </Link>
+
                         <button
                           onClick={handleLogout}
                           className="w-full text-left px-3 py-1.5 text-xs text-red-400 hover:text-red-300 hover:bg-red-500/10 rounded-lg flex items-center gap-2 font-bold transition-colors"
@@ -302,7 +309,6 @@ export default function Navbar() {
           {navLinks.map((item) => {
             const Icon = item.icon;
             const isActive = pathname === item.href;
-            if (item.adminOnly && user?.role === 'CITIZEN') return null;
 
             return (
               <Link
@@ -330,3 +336,4 @@ export default function Navbar() {
     </header>
   );
 }
+

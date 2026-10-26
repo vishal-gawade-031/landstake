@@ -265,7 +265,7 @@ export default function LandMap({ initialUlpin, onParcelSelect }: LandMapProps) 
         });
 
         const parcelsLayer = L.geoJSON(
-          { type: 'FeatureCollection', features: filteredFeatures },
+          { type: 'FeatureCollection', features: filteredFeatures } as any,
           {
             style: (feature: any) => {
               const props = feature.properties || {};
@@ -368,11 +368,15 @@ export default function LandMap({ initialUlpin, onParcelSelect }: LandMapProps) 
         parcelsLayer.addTo(map);
         layersRef.current.parcels = parcelsLayer;
 
-        // If initialUlpin provided, zoom to it
-        if (initialUlpin) {
-          const match = filteredFeatures.find((f: any) => f.properties?.ulpin === initialUlpin);
+        // If initialUlpin provided or present in URL query, zoom to it immediately
+        const targetUlpin = initialUlpin || (typeof window !== 'undefined' ? new URLSearchParams(window.location.search).get('ulpin') : null);
+        if (targetUlpin) {
+          const match = filteredFeatures.find(
+            (f: any) => f.properties?.ulpin?.toLowerCase() === targetUlpin.toLowerCase()
+          );
           if (match) {
             handleSelectParcel(match.properties, match);
+            setSidebarOpen(true);
           }
         }
       }

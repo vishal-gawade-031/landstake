@@ -14,6 +14,8 @@ import {
   Calendar,
   Lock,
   Download,
+  CheckCircle,
+  X,
 } from 'lucide-react';
 import QRCode from 'qrcode';
 import { generateLandCardPdf } from '@/lib/generateLandCardPdf';
@@ -26,30 +28,46 @@ export default function VerifyParcelPage() {
   const [loading, setLoading] = useState(true);
   const [qrDataUrl, setQrDataUrl] = useState('');
   const [downloading, setDownloading] = useState(false);
+  const [downloadNotice, setDownloadNotice] = useState<{
+    title: string;
+    url?: string;
+    filename: string;
+  } | null>(null);
 
-  const handleDownloadLandCard = async () => {
+  const handleDownloadLandCard = async (openInNewTab = false) => {
     if (!parcel) return;
     setDownloading(true);
     try {
-      await generateLandCardPdf({
-        ulpin: parcel.ulpin,
-        surveyNo: parcel.surveyNo,
-        district: parcel.district,
-        taluk: parcel.taluk,
-        village: parcel.village,
-        area: parcel.area,
-        gisArea: parcel.gisArea || parcel.area,
-        landUse: parcel.landUse,
-        ownerName: parcel.ownershipRecords?.[0]?.ownerName || 'Registered Khatadar',
-        status: parcel.status,
-        registrationStatus: parcel.registrations?.[0]?.transactionStatus || 'COMPLETED',
-        encumbranceStatus: parcel.encumbrances?.[0]?.status || 'NONE',
-        taxStatus: parcel.propertyTaxes?.[0]?.paymentStatus || 'PAID',
-        centroidLat: parcel.centroidLat,
-        centroidLng: parcel.centroidLng,
-        riskScore: parcel.riskScore,
-        riskLevel: parcel.riskLevel,
-      });
+      const result = await generateLandCardPdf(
+        {
+          ulpin: parcel.ulpin,
+          surveyNo: parcel.surveyNo,
+          district: parcel.district,
+          taluk: parcel.taluk,
+          village: parcel.village,
+          area: parcel.area,
+          gisArea: parcel.gisArea || parcel.area,
+          landUse: parcel.landUse,
+          ownerName: parcel.ownershipRecords?.[0]?.ownerName || 'Registered Khatadar',
+          status: parcel.status,
+          registrationStatus: parcel.registrations?.[0]?.transactionStatus || 'COMPLETED',
+          encumbranceStatus: parcel.encumbrances?.[0]?.status || 'NONE',
+          taxStatus: parcel.propertyTaxes?.[0]?.paymentStatus || 'PAID',
+          centroidLat: parcel.centroidLat,
+          centroidLng: parcel.centroidLng,
+          riskScore: parcel.riskScore,
+          riskLevel: parcel.riskLevel,
+        },
+        openInNewTab
+      );
+
+      if (result) {
+        setDownloadNotice({
+          title: 'Official Land Information Card (ULPIN Master Certificate)',
+          url: result.url,
+          filename: result.filename,
+        });
+      }
     } catch (e) {
       console.error(e);
     } finally {
@@ -224,9 +242,9 @@ export default function VerifyParcelPage() {
           </div>
 
           {/* Actions */}
-          <div className="pt-4 flex flex-col sm:flex-row gap-3">
+          <div className="pt-4 flex flex-col sm:flex-row gap-2.5">
             <button
-              onClick={handleDownloadLandCard}
+              onClick={() => handleDownloadLandCard(false)}
               disabled={downloading}
               className="flex-1 py-2.5 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-2 transition-colors shadow-md"
             >
@@ -235,7 +253,16 @@ export default function VerifyParcelPage() {
               ) : (
                 <Download className="w-4 h-4" />
               )}
-              <span>{downloading ? 'Generating PDF...' : 'Download Verified Land Card (PDF)'}</span>
+              <span>{downloading ? 'Generating PDF...' : 'Download Land Card (PDF)'}</span>
+            </button>
+            <button
+              onClick={() => handleDownloadLandCard(true)}
+              disabled={downloading}
+              className="px-3.5 py-2.5 bg-slate-100 hover:bg-slate-200 disabled:opacity-50 text-slate-700 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-colors border border-slate-300"
+              title="Open or print PDF in a new browser tab"
+            >
+              <ExternalLink className="w-3.5 h-3.5 text-blue-600" />
+              <span>Open in Tab</span>
             </button>
             <Link
               href={`/parcels/${parcel.ulpin}`}
@@ -245,7 +272,7 @@ export default function VerifyParcelPage() {
             </Link>
             <button
               onClick={() => window.print()}
-              className="px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-xl text-xs font-bold flex items-center justify-center gap-2 transition-colors border border-slate-300"
+              className="px-3.5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-colors border border-slate-300"
             >
               <Printer className="w-4 h-4" />
               <span>Print</span>
@@ -253,6 +280,49 @@ export default function VerifyParcelPage() {
           </div>
         </div>
       </div>
+
+      {/* Download Notification Banner / Toast */}
+      {downloadNotice && (
+        <div className="fixed bottom-6 right-6 z-50 max-w-md w-full bg-slate-900 text-white p-4 rounded-2xl shadow-2xl border border-blue-500/40 flex items-start justify-between gap-3 animate-in fade-in slide-in-from-bottom-5">
+          <div className="flex items-start gap-3">
+            <div className="p-2 rounded-xl bg-emerald-500/20 text-emerald-400 shrink-0">
+              <CheckCircle className="w-5 h-5" />
+            </div>
+            <div className="space-y-1">
+              <p className="font-bold text-xs text-white">PDF Ready & Download Started</p>
+              <p className="text-[11px] text-slate-300 font-medium leading-snug">{downloadNotice.title}</p>
+              <p className="text-[10px] text-slate-400 font-mono">{downloadNotice.filename}</p>
+              {downloadNotice.url && (
+                <div className="flex items-center gap-3 pt-1">
+                  <a
+                    href={downloadNotice.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[11px] font-bold text-cyan-400 hover:text-cyan-300 underline flex items-center gap-1"
+                  >
+                    <ExternalLink className="w-3 h-3" />
+                    <span>Open / View PDF</span>
+                  </a>
+                  <a
+                    href={downloadNotice.url}
+                    download={downloadNotice.filename}
+                    className="text-[11px] font-bold text-emerald-400 hover:text-emerald-300 underline flex items-center gap-1"
+                  >
+                    <Download className="w-3 h-3" />
+                    <span>Direct Download Link</span>
+                  </a>
+                </div>
+              )}
+            </div>
+          </div>
+          <button
+            onClick={() => setDownloadNotice(null)}
+            className="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800 transition-colors"
+          >
+            <X className="w-4 h-4" />
+          </button>
+        </div>
+      )}
     </div>
   );
 }

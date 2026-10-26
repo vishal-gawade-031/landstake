@@ -32,13 +32,16 @@ import {
   downloadTippaniMapPdf,
   downloadSaleDeedPdf,
   downloadEncumbranceCertPdf,
+  downloadCompleteDossierPdf,
 } from '@/lib/generateDocumentPdfs';
 import QRCode from 'qrcode';
+import { useAuth } from '@/context/AuthContext';
 
 export default function Parcel360Page() {
   const params = useParams();
   const router = useRouter();
   const ulpin = params?.ulpin as string;
+  const { user, fetchWithAuth } = useAuth();
 
   const [parcel, setParcel] = useState<any>(null);
   const [loading, setLoading] = useState(true);
@@ -48,6 +51,11 @@ export default function Parcel360Page() {
   const [qrDataUrl, setQrDataUrl] = useState<string>('');
   const [downloadingDoc, setDownloadingDoc] = useState<string | null>(null);
   const [downloadingLandCard, setDownloadingLandCard] = useState(false);
+  const [downloadNotice, setDownloadNotice] = useState<{
+    title: string;
+    url?: string;
+    filename: string;
+  } | null>(null);
 
   useEffect(() => {
     if (!ulpin) return;
@@ -55,7 +63,7 @@ export default function Parcel360Page() {
     async function fetchParcel() {
       try {
         setLoading(true);
-        const res = await fetch(`/api/parcels/${ulpin}`);
+        const res = await fetchWithAuth(`/api/parcels/${ulpin}`);
         const json = await res.json();
         if (json.success && json.data) {
           setParcel(json.data);
@@ -75,7 +83,7 @@ export default function Parcel360Page() {
     fetchParcel();
   }, [ulpin]);
 
-  const handleDownloadPdf = async () => {
+  const handleDownloadPdf = async (openInNewTab = false) => {
     if (!parcel) return;
     setDownloadingLandCard(true);
     try {
@@ -84,25 +92,36 @@ export default function Parcel360Page() {
       const encStatus = parcel.encumbrances?.[0]?.status || 'NONE';
       const taxStatus = parcel.propertyTaxes?.[0]?.paymentStatus || 'PAID';
 
-      await generateLandCardPdf({
-        ulpin: parcel.ulpin,
-        surveyNo: parcel.surveyNo,
-        district: parcel.district,
-        taluk: parcel.taluk,
-        village: parcel.village,
-        area: parcel.area,
-        gisArea: parcel.gisArea || parcel.area,
-        landUse: parcel.landUse,
-        ownerName,
-        status: parcel.status,
-        registrationStatus: regStatus,
-        encumbranceStatus: encStatus,
-        taxStatus,
-        centroidLat: parcel.centroidLat,
-        centroidLng: parcel.centroidLng,
-        riskScore: parcel.riskScore,
-        riskLevel: parcel.riskLevel,
-      });
+      const result = await generateLandCardPdf(
+        {
+          ulpin: parcel.ulpin,
+          surveyNo: parcel.surveyNo,
+          district: parcel.district,
+          taluk: parcel.taluk,
+          village: parcel.village,
+          area: parcel.area,
+          gisArea: parcel.gisArea || parcel.area,
+          landUse: parcel.landUse,
+          ownerName,
+          status: parcel.status,
+          registrationStatus: regStatus,
+          encumbranceStatus: encStatus,
+          taxStatus,
+          centroidLat: parcel.centroidLat,
+          centroidLng: parcel.centroidLng,
+          riskScore: parcel.riskScore,
+          riskLevel: parcel.riskLevel,
+        },
+        openInNewTab
+      );
+
+      if (result) {
+        setDownloadNotice({
+          title: 'Official Land Information Card (ULPIN Master Certificate)',
+          url: result.url,
+          filename: result.filename,
+        });
+      }
     } catch (err) {
       console.error('Failed to generate land card PDF', err);
     } finally {
@@ -110,20 +129,60 @@ export default function Parcel360Page() {
     }
   };
 
-  const handleDownloadDocument = async (docType: string) => {
+  const handleDownloadDocument = async (docType: string, openInNewTab = false) => {
     if (!parcel) return;
     setDownloadingDoc(docType);
     try {
-      if (docType === 'rtc') {
-        await downloadRtcExtractPdf(parcel);
-      } else if (docType === 'tippani') {
-        await downloadTippaniMapPdf(parcel);
-      } else if (docType === 'deed') {
-        await downloadSaleDeedPdf(parcel);
-      } else if (docType === 'encumbrance') {
-        await downloadEncumbranceCertPdf(parcel);
+      let result: any = null;
+      let docTitle = '';
+
+      if (docType === 'dossier') {
+        docTitle = 'Complete Cadastral Dossier (All Documents in 1 Master PDF)';
+        result = await downloadCompleteDossierPdf(parcel, openInNewTab);
       } else if (docType === 'card') {
-        await handleDownloadPdf();
+        docTitle = 'Official Land Information Card';
+        result = await generateLandCardPdf(
+          {
+            ulpin: parcel.ulpin,
+            surveyNo: parcel.surveyNo,
+            district: parcel.district,
+            taluk: parcel.taluk,
+            village: parcel.village,
+            area: parcel.area,
+            gisArea: parcel.gisArea || parcel.area,
+            landUse: parcel.landUse,
+            ownerName: parcel.ownershipRecords?.[0]?.ownerName || 'Sri Basavaraj Patil',
+            status: parcel.status,
+            registrationStatus: parcel.registrations?.[0]?.transactionStatus || 'COMPLETED',
+            encumbranceStatus: parcel.encumbrances?.[0]?.status || 'NONE',
+            taxStatus: parcel.propertyTaxes?.[0]?.paymentStatus || 'PAID',
+            centroidLat: parcel.centroidLat,
+            centroidLng: parcel.centroidLng,
+            riskScore: parcel.riskScore,
+            riskLevel: parcel.riskLevel,
+          },
+          openInNewTab
+        );
+      } else if (docType === 'rtc') {
+        docTitle = 'Record of Rights, Tenancy & Crops (RTC / Form 16)';
+        result = await downloadRtcExtractPdf(parcel, openInNewTab);
+      } else if (docType === 'tippani') {
+        docTitle = 'Cadastral Survey Tippani Boundary Map';
+        result = await downloadTippaniMapPdf(parcel, openInNewTab);
+      } else if (docType === 'deed') {
+        docTitle = 'Certified Copy of Registered Title Deed';
+        result = await downloadSaleDeedPdf(parcel, openInNewTab);
+      } else if (docType === 'encumbrance') {
+        docTitle = 'Certificate of Encumbrance on Property (Form 15)';
+        result = await downloadEncumbranceCertPdf(parcel, openInNewTab);
+      }
+
+      if (result) {
+        setDownloadNotice({
+          title: docTitle,
+          url: result.url,
+          filename: result.filename,
+        });
       }
     } catch (err) {
       console.error(`Failed to download ${docType}`, err);
@@ -164,6 +223,8 @@ export default function Parcel360Page() {
     );
   }
 
+  const isOfficerOrAdmin = user && (user.role === 'ADMIN' || user.role === 'OFFICER');
+
   const tabs = [
     { id: 'overview', label: 'Overview', icon: MapPin },
     { id: 'ownership', label: 'Ownership', icon: Shield },
@@ -176,7 +237,7 @@ export default function Parcel360Page() {
     { id: 'restrictions', label: 'Restrictions', icon: AlertTriangle },
     { id: 'utilities', label: 'Utilities', icon: Zap },
     { id: 'documents', label: 'Documents', icon: FileText },
-    { id: 'audit', label: 'Audit History', icon: History },
+    ...(isOfficerOrAdmin ? [{ id: 'audit', label: 'Audit History', icon: History }] : []),
   ];
 
   const primaryOwner = parcel.ownershipRecords?.[0];
@@ -233,31 +294,57 @@ export default function Parcel360Page() {
           </div>
 
           {/* Action Buttons */}
-          <div className="flex flex-wrap items-center gap-2.5 shrink-0">
+          <div className="flex flex-wrap items-center gap-2 shrink-0">
             <button
               onClick={() => setQrModalOpen(true)}
-              className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 text-xs font-bold border border-slate-300 dark:border-slate-700 transition-colors shadow-sm"
+              className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 text-xs font-bold border border-slate-300 dark:border-slate-700 transition-colors shadow-sm"
+              title="View Public Verification QR Code"
             >
               <QrCode className="w-4 h-4 text-blue-600 dark:text-blue-400" />
-              <span>Generate QR</span>
+              <span>QR Code</span>
             </button>
 
             <button
-              onClick={handleDownloadPdf}
+              onClick={() => handleDownloadPdf(false)}
               disabled={downloadingLandCard}
-              className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white text-xs font-bold shadow-md transition-colors"
+              className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white text-xs font-bold shadow-md transition-colors"
+              title="Download Land Card in PDF format"
             >
               {downloadingLandCard ? (
                 <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
               ) : (
                 <Download className="w-4 h-4" />
               )}
-              <span>{downloadingLandCard ? 'Generating PDF...' : 'Download Land Card'}</span>
+              <span>{downloadingLandCard ? 'Generating...' : 'Download Land Card (PDF)'}</span>
+            </button>
+
+            <button
+              onClick={() => handleDownloadPdf(true)}
+              disabled={downloadingLandCard}
+              className="flex items-center gap-1.5 px-2.5 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-bold border border-slate-300 dark:border-slate-700 transition-colors shadow-sm"
+              title="Open or Print Land Card PDF in a new tab"
+            >
+              <ExternalLink className="w-3.5 h-3.5 text-blue-500" />
+              <span>Open in Tab</span>
+            </button>
+
+            <button
+              onClick={() => handleDownloadDocument('dossier', false)}
+              disabled={downloadingDoc === 'dossier'}
+              className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white text-xs font-bold shadow-md transition-colors"
+              title="Download all 5 cadastral documents combined in 1 PDF dossier"
+            >
+              {downloadingDoc === 'dossier' ? (
+                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+              ) : (
+                <FileCheck className="w-4 h-4" />
+              )}
+              <span>{downloadingDoc === 'dossier' ? 'Compiling Dossier...' : 'Download All Docs (PDF)'}</span>
             </button>
 
             <Link
               href={`/?ulpin=${parcel.ulpin}`}
-              className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-900 dark:bg-slate-800 hover:bg-slate-800 text-white text-xs font-bold shadow-sm transition-colors border border-slate-700"
+              className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-900 dark:bg-slate-800 hover:bg-slate-800 text-white text-xs font-bold shadow-sm transition-colors border border-slate-700"
             >
               <MapIcon className="w-4 h-4 text-cyan-400" />
               <span>View on Map</span>
@@ -783,10 +870,64 @@ export default function Parcel360Page() {
                     Cryptographically authenticated PDF extracts generated directly from integrated Land Stack datasets.
                   </p>
                 </div>
-                <span className="text-[11px] font-bold px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 flex items-center gap-1.5 w-fit">
-                  <FileCheck className="w-3.5 h-3.5" />
-                  All 5 Extracts Available for Download
-                </span>
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    disabled={downloadingDoc === 'dossier'}
+                    onClick={() => handleDownloadDocument('dossier', false)}
+                    className="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white font-bold text-xs shadow-sm flex items-center gap-1.5 transition-colors"
+                  >
+                    <Download className="w-3.5 h-3.5" />
+                    <span>Download All (1 PDF)</span>
+                  </button>
+                  <span className="text-[11px] font-bold px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 flex items-center gap-1.5 w-fit">
+                    <FileCheck className="w-3.5 h-3.5" />
+                    All 5 Extracts Available in PDF
+                  </span>
+                </div>
+              </div>
+
+              {/* Master Complete Cadastral Dossier Banner */}
+              <div className="p-5 rounded-2xl bg-gradient-to-r from-slate-900 via-blue-950 to-indigo-950 text-white shadow-lg border border-blue-800/60 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div className="space-y-1.5">
+                  <div className="flex items-center gap-2">
+                    <span className="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-blue-500/30 text-blue-200 border border-blue-400/40">
+                      All-in-One Legal Cadastral Package
+                    </span>
+                    <span className="text-[10px] text-amber-300 font-bold">5 Authenticated Sections</span>
+                  </div>
+                  <h4 className="text-base sm:text-lg font-black text-white tracking-tight">
+                    Complete Cadastral Dossier (Unified Multi-Page Master PDF)
+                  </h4>
+                  <p className="text-xs text-blue-200/90 max-w-2xl leading-relaxed">
+                    Download all 5 statutory land extracts compiled into a single multi-page certified PDF dossier containing:
+                    1. Land Information Card, 2. RTC Pahani Form 16, 3. Cadastral Survey Tippani Traverse Map, 4. Registered Title Deed Conveyance, and 5. Form 15 Non-Encumbrance Certificate.
+                  </p>
+                </div>
+                <div className="flex flex-wrap items-center gap-2.5 shrink-0">
+                  <button
+                    type="button"
+                    disabled={downloadingDoc === 'dossier'}
+                    onClick={() => handleDownloadDocument('dossier', false)}
+                    className="px-4 py-2.5 bg-blue-600 hover:bg-blue-500 disabled:opacity-50 text-white rounded-xl font-bold text-xs shadow-md transition-all flex items-center gap-2"
+                  >
+                    {downloadingDoc === 'dossier' ? (
+                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    ) : (
+                      <Download className="w-4 h-4" />
+                    )}
+                    <span>{downloadingDoc === 'dossier' ? 'Generating Dossier...' : 'Download Complete Dossier (PDF)'}</span>
+                  </button>
+                  <button
+                    type="button"
+                    disabled={downloadingDoc === 'dossier'}
+                    onClick={() => handleDownloadDocument('dossier', true)}
+                    className="px-3.5 py-2.5 bg-white/10 hover:bg-white/20 disabled:opacity-50 text-white rounded-xl font-bold text-xs border border-white/20 transition-all flex items-center gap-1.5"
+                  >
+                    <ExternalLink className="w-3.5 h-3.5 text-cyan-300" />
+                    <span>Open in Tab</span>
+                  </button>
+                </div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
@@ -872,30 +1013,45 @@ export default function Parcel360Page() {
 
                         <div className="p-2 bg-slate-50 dark:bg-slate-800/60 rounded-lg flex items-center justify-between text-[10px] text-slate-500 font-mono">
                           <span>Ref: {doc.ref}</span>
-                          <span className="text-emerald-600 font-bold">PDF Format</span>
+                          <span className="text-emerald-600 font-bold flex items-center gap-1">
+                            <FileCheck className="w-3 h-3" />
+                            PDF Format
+                          </span>
                         </div>
                       </div>
 
                       <div className="pt-2 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between gap-2">
-                        <span className="text-[10px] text-slate-400">SHA-256 Digitally Attested</span>
-                        <button
-                          type="button"
-                          disabled={isDownloading}
-                          onClick={() => handleDownloadDocument(doc.id)}
-                          className="px-3.5 py-1.5 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white rounded-xl font-bold text-xs shadow-sm transition-colors flex items-center gap-1.5"
-                        >
-                          {isDownloading ? (
-                            <>
-                              <div className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                              <span>Generating...</span>
-                            </>
-                          ) : (
-                            <>
-                              <Download className="w-3.5 h-3.5" />
-                              <span>Download PDF</span>
-                            </>
-                          )}
-                        </button>
+                        <span className="text-[10px] text-slate-400">SHA-256 Attested</span>
+                        <div className="flex items-center gap-1.5">
+                          <button
+                            type="button"
+                            disabled={isDownloading}
+                            onClick={() => handleDownloadDocument(doc.id, true)}
+                            className="px-2.5 py-1.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 disabled:opacity-50 text-slate-700 dark:text-slate-300 rounded-xl font-bold text-xs transition-colors flex items-center gap-1 border border-slate-300 dark:border-slate-700"
+                            title="Open or print PDF in a new tab"
+                          >
+                            <ExternalLink className="w-3 h-3 text-blue-500" />
+                            <span>Open</span>
+                          </button>
+                          <button
+                            type="button"
+                            disabled={isDownloading}
+                            onClick={() => handleDownloadDocument(doc.id, false)}
+                            className="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white rounded-xl font-bold text-xs shadow-sm transition-colors flex items-center gap-1.5"
+                          >
+                            {isDownloading ? (
+                              <>
+                                <div className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                                <span>Generating...</span>
+                              </>
+                            ) : (
+                              <>
+                                <Download className="w-3.5 h-3.5" />
+                                <span>Download PDF</span>
+                              </>
+                            )}
+                          </button>
+                        </div>
                       </div>
                     </div>
                   );
@@ -967,6 +1123,49 @@ export default function Parcel360Page() {
               </Link>
             </div>
           </div>
+        </div>
+      )}
+
+      {/* Download Notification Banner / Toast */}
+      {downloadNotice && (
+        <div className="fixed bottom-6 right-6 z-50 max-w-md w-full bg-slate-900 text-white p-4 rounded-2xl shadow-2xl border border-blue-500/40 flex items-start justify-between gap-3 animate-in fade-in slide-in-from-bottom-5">
+          <div className="flex items-start gap-3">
+            <div className="p-2 rounded-xl bg-emerald-500/20 text-emerald-400 shrink-0">
+              <CheckCircle className="w-5 h-5" />
+            </div>
+            <div className="space-y-1">
+              <p className="font-bold text-xs text-white">PDF Ready & Download Started</p>
+              <p className="text-[11px] text-slate-300 font-medium leading-snug">{downloadNotice.title}</p>
+              <p className="text-[10px] text-slate-400 font-mono">{downloadNotice.filename}</p>
+              {downloadNotice.url && (
+                <div className="flex items-center gap-3 pt-1">
+                  <a
+                    href={downloadNotice.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[11px] font-bold text-cyan-400 hover:text-cyan-300 underline flex items-center gap-1"
+                  >
+                    <ExternalLink className="w-3 h-3" />
+                    <span>Open / View PDF</span>
+                  </a>
+                  <a
+                    href={downloadNotice.url}
+                    download={downloadNotice.filename}
+                    className="text-[11px] font-bold text-emerald-400 hover:text-emerald-300 underline flex items-center gap-1"
+                  >
+                    <Download className="w-3 h-3" />
+                    <span>Direct Download Link</span>
+                  </a>
+                </div>
+              )}
+            </div>
+          </div>
+          <button
+            onClick={() => setDownloadNotice(null)}
+            className="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800 transition-colors"
+          >
+            <X className="w-4 h-4" />
+          </button>
         </div>
       )}
     </div>

@@ -1,14 +1,18 @@
 import { NextRequest } from 'next/server';
 import prisma from '@/lib/prisma';
 import { apiSuccess, apiError } from '@/lib/apiResponse';
-import { getUserFromRequest } from '@/lib/auth';
+import { authorizeRole } from '@/lib/auth';
 
 export async function PATCH(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const user = getUserFromRequest(req);
+    const auth = authorizeRole(req, ['ADMIN', 'OFFICER']);
+    if (!auth.authorized) {
+      return apiError(auth.error || 'Forbidden: Officer or Admin authorization required', auth.status);
+    }
+    const user = auth.user!;
     const { id } = await params;
     const body = await req.json();
     const { status, remarks, assignedOfficer } = body;

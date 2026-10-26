@@ -1,9 +1,15 @@
 import { NextRequest } from 'next/server';
 import prisma from '@/lib/prisma';
 import { apiSuccess, apiError } from '@/lib/apiResponse';
+import { authorizeRole } from '@/lib/auth';
 
 export async function GET(req: NextRequest) {
   try {
+    const auth = authorizeRole(req, ['ADMIN']);
+    if (!auth.authorized) {
+      return apiError(auth.error || 'Forbidden: System audit logs are restricted exclusively to Administrators', auth.status);
+    }
+
     const { searchParams } = new URL(req.url);
     const action = searchParams.get('action');
     const role = searchParams.get('role');

@@ -5,6 +5,11 @@ import { getUserFromRequest } from '@/lib/auth';
 
 export async function GET(req: NextRequest) {
   try {
+    const user = getUserFromRequest(req);
+    if (!user) {
+      return apiError('Unauthorized: Authentication required to view disputes', 401);
+    }
+
     const { searchParams } = new URL(req.url);
     const status = searchParams.get('status');
     const ulpin = searchParams.get('ulpin');
@@ -14,6 +19,14 @@ export async function GET(req: NextRequest) {
     if (status && status !== 'ALL') where.status = status;
     if (ulpin) where.parcelUlpin = ulpin;
     if (type && type !== 'ALL') where.disputeType = type;
+
+    // Strict Role Separation: Citizens only view their own disputes
+    if (user.role === 'CITIZEN') {
+      where.OR = [
+        { citizenName: user.name },
+        { citizenName: user.email },
+      ];
+    }
 
     const disputes = await prisma.dispute.findMany({
       where,
@@ -43,6 +56,10 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   try {
     const user = getUserFromRequest(req);
+    if (!user) {
+      return apiError('Unauthorized: Authentication required to file a dispute', 401);
+    }
+
     const body = await req.json();
     const { parcelUlpin, disputeType, description, citizenName } = body;
 
@@ -63,24 +80,26 @@ export async function POST(req: NextRequest) {
         disputeNumber,
         parcelUlpin,
         surveyNumber: parcel.surveyNo,
-        citizenName: citizenName || user?.name || 'Citizen Applicant',
+        citizenName: user.role === 'CITIZEN' ? (user.name || user.email) : (citizenName || user.name),
         disputeType,
         description,
         assignedOfficer: 'Assistant Commissioner (Revenue Sub-Division)',
         status: 'OPEN',
-        remarks: 'Preliminary complaint registered; summon notice pending dispatch',
+        remarks: 'Preliminary complaint registered; scheduled for officer inquiry and notice issuance.',
       },
     });
 
-    // Mark parcel as disputed
-    await prisma.parcel.update({
-      where: { ulpin: parcelUlpin },
-      data: {
-        status: 'DISPUTED',
-        hasOwnershipConflict: disputeType === 'Ownership Dispute' ? true : parcel.hasOwnershipConflict,
-        hasBoundaryOverlap: disputeType === 'Boundary Dispute' ? true : parcel.hasBoundaryOverlap,
-      },
-    });
+    // Official parcel state changes require authorized Officer or Admin review
+    if (user.role === 'ADMIN' || user.role === 'OFFICER') {
+      await prisma.parcel.update({
+        where: { ulpin: parcelUlpin },
+        data: {
+          status: 'DISPUTED',
+          hasOwnershipConflict: disputeType === 'Ownership Dispute' ? true : parcel.hasOwnershipConflict,
+          hasBoundaryOverlap: disputeType === 'Boundary Dispute' ? true : parcel.hasBoundaryOverlap,
+        },
+      });
+    }
 
     // Create Audit Log
     await prisma.auditLog.create({
@@ -89,8 +108,8 @@ export async function POST(req: NextRequest) {
         entityType: 'DISPUTE',
         entityId: newDispute.disputeNumber,
         parcelUlpin,
-        performedBy: user?.email || 'CITIZEN',
-        userRole: user?.role || 'CITIZEN',
+        performedBy: user.email,
+        userRole: user.role,
         details: `Dispute filed for parcel ${parcelUlpin}: ${disputeType}`,
       },
     });

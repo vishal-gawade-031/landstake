@@ -1,18 +1,19 @@
 import { jsPDF } from 'jspdf';
 import QRCode from 'qrcode';
+import { saveOrOpenPdf } from './pdfHelper';
 
 export interface DocumentParcelData {
   ulpin: string;
   surveyNo: string;
   subDivision?: string | null;
-  district: string;
-  taluk: string;
-  village: string;
+  district?: string;
+  taluk?: string;
+  village?: string;
   hobli?: string | null;
   area: number;
   gisArea?: number | null;
-  landUse: string;
-  status: string;
+  landUse?: string;
+  status?: string;
   centroidLat?: number;
   centroidLng?: number;
   ownershipRecords?: any[];
@@ -81,7 +82,7 @@ async function drawGovHeaderAndFooter(
     doc.setTextColor(100, 116, 139);
     doc.text('Scan to Verify Online', pageWidth - 24, 65, { align: 'center' });
   } catch (err) {
-    console.error('QR code generation error:', err);
+    console.warn('QR code generation skipped:', err);
   }
 
   // Bottom Disclaimer Footer
@@ -112,9 +113,15 @@ async function drawGovHeaderAndFooter(
 }
 
 // 1. RTC EXTRACT (Form 16 / Bhoomi Style)
-export async function downloadRtcExtractPdf(parcel: DocumentParcelData) {
+export async function downloadRtcExtractPdf(parcel: DocumentParcelData, openInNewTab = false) {
   const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
   const pageWidth = doc.internal.pageSize.getWidth();
+  const district = parcel.district || 'Belagavi';
+  const taluk = parcel.taluk || 'Belagavi';
+  const village = parcel.village || 'Demo Village';
+  const surveyNo = parcel.surveyNo || '101';
+  const area = typeof parcel.area === 'number' ? parcel.area : 1.0;
+  const gisArea = typeof parcel.gisArea === 'number' ? parcel.gisArea : area;
 
   await drawGovHeaderAndFooter(
     doc,
@@ -141,11 +148,11 @@ export async function downloadRtcExtractPdf(parcel: DocumentParcelData) {
   doc.setFontSize(8);
   doc.setFont('helvetica', 'normal');
   doc.setTextColor(71, 85, 105);
-  doc.text(`District: ${parcel.district}`, 18, y + 13);
-  doc.text(`Taluk: ${parcel.taluk}`, 70, y + 13);
+  doc.text(`District: ${district}`, 18, y + 13);
+  doc.text(`Taluk: ${taluk}`, 70, y + 13);
   doc.text(`Hobli: ${parcel.hobli || 'Central Hobli'}`, 115, y + 13);
-  doc.text(`Village: ${parcel.village}`, 18, y + 20);
-  doc.text(`Survey No: ${parcel.surveyNo}`, 70, y + 20);
+  doc.text(`Village: ${village}`, 18, y + 20);
+  doc.text(`Survey No: ${surveyNo}`, 70, y + 20);
   doc.text(`Hissa / Sub-Division: ${parcel.subDivision || '1'}`, 115, y + 20);
 
   y += 34;
@@ -162,16 +169,16 @@ export async function downloadRtcExtractPdf(parcel: DocumentParcelData) {
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(8);
   doc.setTextColor(71, 85, 105);
-  doc.text(`Total Legal Extent: ${parcel.area} Acres`, 18, y + 13);
-  doc.text(`GIS Survey Extent: ${parcel.gisArea || parcel.area} Acres`, 70, y + 13);
-  doc.text(`Cultivable Area: ${(parcel.area * 0.95).toFixed(2)} Acres`, 130, y + 13);
-  doc.text(`Kharab (Uncultivable): ${(parcel.area * 0.05).toFixed(2)} Acres`, 18, y + 19);
-  doc.text(`Soil Classification: ${ror?.soilType || 'Black Cotton / Medium Clay'}`, 70, y + 19);
-  doc.text(`Annual Assessment: Rs. ${(parcel.area * 145).toFixed(2)}`, 130, y + 19);
+  doc.text(`Total Legal Extent: ${area} Acres`, 18, y + 13);
+  doc.text(`GIS Survey Extent: ${gisArea} Acres`, 70, y + 13);
+  doc.text(`Cultivable Area: ${(area * 0.95).toFixed(2)} Acres`, 130, y + 13);
+  doc.text(`Kharab (Uncultivable): ${(area * 0.05).toFixed(2)} Acres`, 18, y + 19);
+  doc.text(`Soil Classification: ${ror?.soilClassification || ror?.soilType || 'Black Cotton / Medium Clay'}`, 70, y + 19);
+  doc.text(`Annual Assessment: Rs. ${(area * 145).toFixed(2)}`, 130, y + 19);
 
   y += 30;
 
-  // Ownership Details (Column 9 & 10 of RTC)
+  // Ownership Details
   doc.setFillColor(248, 250, 252);
   doc.roundedRect(14, y, pageWidth - 28, 32, 2, 2, 'FD');
 
@@ -183,22 +190,22 @@ export async function downloadRtcExtractPdf(parcel: DocumentParcelData) {
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(8);
   doc.setTextColor(71, 85, 105);
-  doc.text(`Khatadar / Owner Name:`, 18, y + 13);
+  doc.text('Khatadar / Owner Name:', 18, y + 13);
   doc.setFont('helvetica', 'bold');
   doc.setTextColor(15, 23, 42);
-  doc.text(`${owner?.ownerName || 'Sri Basavaraj Patil'} (Khata No: ${owner?.khataNumber || 'KT-8821'})`, 60, y + 13);
+  doc.text(`${owner?.ownerName || 'Sri Basavaraj Patil'} (Khata No: ${owner?.khataNumber || ror?.khataNumber || 'KT-8821'})`, 60, y + 13);
 
   doc.setFont('helvetica', 'normal');
   doc.setTextColor(71, 85, 105);
-  doc.text(`Relationship / Father's Name:`, 18, y + 19);
-  doc.text(`${owner?.fatherOrHusbandName || 'Sri Mallappa Patil'}`, 60, y + 19);
+  doc.text("Relationship / Father's Name:", 18, y + 19);
+  doc.text(`${owner?.fatherOrHusbandName || ror?.fatherHusbandName || 'Sri Mallappa Patil'}`, 60, y + 19);
 
-  doc.text(`Ownership Share / Right:`, 18, y + 25);
+  doc.text('Ownership Share / Right:', 18, y + 25);
   doc.text(`${owner?.share || '100% (Single Ownership)'} — Mode: ${owner?.acquisitionMode || 'Inheritance / Succession'}`, 60, y + 25);
 
   y += 38;
 
-  // Tenancy & Cultivation Details (Col 12)
+  // Tenancy & Cultivation Details
   doc.setFillColor(241, 245, 249);
   doc.roundedRect(14, y, pageWidth - 28, 28, 2, 2, 'FD');
 
@@ -211,9 +218,9 @@ export async function downloadRtcExtractPdf(parcel: DocumentParcelData) {
   doc.setFontSize(8);
   doc.setTextColor(71, 85, 105);
   doc.text(`Cultivator Name: ${ror?.cultivatorName || owner?.ownerName || 'Self (Owner Cultivated)'}`, 18, y + 13);
-  doc.text(`Season: Kharif & Rabi 2025-26`, 115, y + 13);
-  doc.text(`Primary Crop: ${ror?.cropName || (parcel.landUse === 'Agricultural' ? 'Sugarcane / Jowar' : 'Built-up / Non-Agricultural')}`, 18, y + 20);
-  doc.text(`Irrigation Source: ${ror?.waterSource || 'Borewell / Malaprabha Canal'}`, 115, y + 20);
+  doc.text('Season: Kharif & Rabi 2025-26', 115, y + 13);
+  doc.text(`Primary Crop: ${ror?.cropName || (parcel.landUse === 'Agricultural' ? 'Sugarcane / Jowar' : 'Built-up / Converted')}`, 18, y + 20);
+  doc.text(`Irrigation Source: ${ror?.waterSource || 'Borewell / Municipal Pipeline'}`, 115, y + 20);
 
   y += 34;
 
@@ -230,8 +237,8 @@ export async function downloadRtcExtractPdf(parcel: DocumentParcelData) {
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(8);
   doc.setTextColor(71, 85, 105);
-  doc.text(`Last Certified Mutation: ${owner?.mutationNumber || 'MR-T12/2021-22'} (Dated: 2021-09-14)`, 18, y + 13);
-  doc.text(`Encumbrance Status:`, 18, y + 20);
+  doc.text(`Last Certified Mutation: ${owner?.mutationNumber || 'MR-T12/2021-22'} (Dated: ${owner?.mutationDate || '2021-09-14'})`, 18, y + 13);
+  doc.text('Encumbrance Status:', 18, y + 20);
   if (enc && enc.status === 'ACTIVE') {
     doc.setTextColor(185, 28, 28);
     doc.setFont('helvetica', 'bold');
@@ -239,7 +246,7 @@ export async function downloadRtcExtractPdf(parcel: DocumentParcelData) {
   } else {
     doc.setTextColor(16, 185, 129);
     doc.setFont('helvetica', 'bold');
-    doc.text(`NIL (No registered encumbrances or bank hypothecation)`, 50, y + 20);
+    doc.text('NIL (No registered encumbrances or bank hypothecation)', 50, y + 20);
   }
 
   y += 34;
@@ -248,17 +255,23 @@ export async function downloadRtcExtractPdf(parcel: DocumentParcelData) {
   doc.setFont('courier', 'normal');
   doc.setFontSize(7);
   doc.setTextColor(100, 116, 139);
-  doc.text(`SHA-256 DIGITAL HASH: e4b29c9a8f103b4481029c7882aa911b302847291a0c71a39f`, 14, y);
+  doc.text('SHA-256 DIGITAL HASH: e4b29c9a8f103b4481029c7882aa911b302847291a0c71a39f', 14, y);
   doc.text(`ISSUED BY: KADASTRA Bhoomi-GIS Digital Engine | Timestamp: ${new Date().toISOString()}`, 14, y + 4);
 
-  doc.save(`RTC_Extract_${parcel.ulpin}.pdf`);
+  return saveOrOpenPdf(doc, `RTC_Extract_${parcel.ulpin}.pdf`, openInNewTab);
 }
 
 // 2. CADASTRAL SURVEY TIPPANI MAP
-export async function downloadTippaniMapPdf(parcel: DocumentParcelData) {
+export async function downloadTippaniMapPdf(parcel: DocumentParcelData, openInNewTab = false) {
   const doc = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4' });
   const pageWidth = doc.internal.pageSize.getWidth();
   const pageHeight = doc.internal.pageSize.getHeight();
+  const district = parcel.district || 'Belagavi';
+  const taluk = parcel.taluk || 'Belagavi';
+  const village = parcel.village || 'Demo Village';
+  const surveyNo = parcel.surveyNo || '101';
+  const area = typeof parcel.area === 'number' ? parcel.area : 1.0;
+  const gisArea = typeof parcel.gisArea === 'number' ? parcel.gisArea : area;
 
   // Top Header
   doc.setFillColor(15, 23, 42);
@@ -276,25 +289,31 @@ export async function downloadTippaniMapPdf(parcel: DocumentParcelData) {
 
   doc.setFontSize(8);
   doc.setTextColor(253, 224, 71);
-  doc.text(`SURVEY NO: ${parcel.surveyNo} | VILLAGE: ${parcel.village.toUpperCase()} | TALUK: ${parcel.taluk.toUpperCase()}`, pageWidth / 2, 24, { align: 'center' });
+  doc.text(`SURVEY NO: ${surveyNo} | VILLAGE: ${village.toUpperCase()} | TALUK: ${taluk.toUpperCase()}`, pageWidth / 2, 24, { align: 'center' });
 
   // Cadastral Map Canvas Box
   doc.setDrawColor(30, 41, 59);
   doc.setFillColor(255, 255, 255);
   doc.roundedRect(14, 34, 180, 130, 2, 2, 'FD');
 
-  // Simulated Polygon Drawing
+  // Simulated Polygon Drawing using native doc.lines
   doc.setDrawColor(37, 99, 235);
   doc.setLineWidth(0.8);
   doc.setFillColor(239, 246, 255);
-  doc.polygon([
-    [40, 50],
-    [160, 45],
-    [175, 120],
-    [120, 150],
-    [50, 135],
-    [40, 50],
-  ], 'FD');
+  doc.lines(
+    [
+      [120, -5],
+      [15, 75],
+      [-55, 30],
+      [-70, -15],
+      [-10, -85],
+    ],
+    40,
+    50,
+    [1, 1],
+    'FD',
+    true
+  );
 
   // Survey Stations / Boundary Nodes
   const nodes = [
@@ -318,11 +337,11 @@ export async function downloadTippaniMapPdf(parcel: DocumentParcelData) {
   doc.setFontSize(10);
   doc.setFont('helvetica', 'bold');
   doc.setTextColor(30, 58, 138);
-  doc.text(`SY NO: ${parcel.surveyNo}`, 100, 95, { align: 'center' });
+  doc.text(`SY NO: ${surveyNo}`, 100, 95, { align: 'center' });
   doc.setFontSize(8);
   doc.setFont('helvetica', 'normal');
-  doc.text(`Area: ${parcel.area} Acres (${parcel.gisArea || parcel.area} Acres GIS)`, 100, 102, { align: 'center' });
-  doc.text(`Centroid: [${parcel.centroidLat?.toFixed(4)}, ${parcel.centroidLng?.toFixed(4)}]`, 100, 108, { align: 'center' });
+  doc.text(`Area: ${area} Acres (${gisArea} Acres GIS)`, 100, 102, { align: 'center' });
+  doc.text(`Centroid: [${parcel.centroidLat?.toFixed(4) || '15.8497'}, ${parcel.centroidLng?.toFixed(4) || '74.4977'}]`, 100, 108, { align: 'center' });
 
   // North Arrow
   doc.setFillColor(15, 23, 42);
@@ -368,13 +387,18 @@ export async function downloadTippaniMapPdf(parcel: DocumentParcelData) {
   doc.setTextColor(185, 28, 28);
   doc.text('DEMO CADASTRAL MAP — NOT AN OFFICIAL SURVEY DEPARTMENT TIPPANI', pageWidth / 2, pageHeight - 5, { align: 'center' });
 
-  doc.save(`Cadastral_Tippani_${parcel.ulpin}.pdf`);
+  return saveOrOpenPdf(doc, `Cadastral_Tippani_${parcel.ulpin}.pdf`, openInNewTab);
 }
 
 // 3. REGISTERED SALE DEED EXTRACT
-export async function downloadSaleDeedPdf(parcel: DocumentParcelData) {
+export async function downloadSaleDeedPdf(parcel: DocumentParcelData, openInNewTab = false) {
   const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
   const pageWidth = doc.internal.pageSize.getWidth();
+  const district = parcel.district || 'Belagavi';
+  const taluk = parcel.taluk || 'Belagavi';
+  const village = parcel.village || 'Demo Village';
+  const surveyNo = parcel.surveyNo || '101';
+  const area = typeof parcel.area === 'number' ? parcel.area : 1.0;
 
   await drawGovHeaderAndFooter(
     doc,
@@ -399,10 +423,10 @@ export async function downloadSaleDeedPdf(parcel: DocumentParcelData) {
   doc.setFontSize(8);
   doc.setFont('helvetica', 'normal');
   doc.setTextColor(71, 85, 105);
-  doc.text(`Document No: ${reg?.deedNumber || 'BK-1-8842/2021'}`, 18, y + 13);
-  doc.text(`Sub-Registrar Office: ${reg?.subRegistrarOffice || parcel.taluk + ' SRO'}`, 80, y + 13);
+  doc.text(`Document No: ${reg?.registrationNumber || reg?.deedNumber || 'BK-1-8842/2021'}`, 18, y + 13);
+  doc.text(`Sub-Registrar Office: ${reg?.subRegistrarOffice || taluk + ' SRO'}`, 80, y + 13);
   doc.text(`Registration Date: ${reg?.registrationDate || '2021-08-20'}`, 18, y + 19);
-  doc.text(`Book / Volume: Book 1, Volume 412, Pages 102-118`, 80, y + 19);
+  doc.text('Book / Volume: Book 1, Volume 412, Pages 102-118', 80, y + 19);
 
   y += 30;
 
@@ -418,18 +442,18 @@ export async function downloadSaleDeedPdf(parcel: DocumentParcelData) {
   doc.setFontSize(8);
   doc.setFont('helvetica', 'normal');
   doc.setTextColor(71, 85, 105);
-  doc.text(`Purchaser / Present Owner:`, 18, y + 13);
+  doc.text('Purchaser / Present Owner:', 18, y + 13);
   doc.setFont('helvetica', 'bold');
   doc.setTextColor(15, 23, 42);
-  doc.text(`${owner?.ownerName || 'Sri Basavaraj Patil'} (Aadhaar / PAN Verified)`, 60, y + 13);
+  doc.text(`${owner?.ownerName || reg?.currentOwner || 'Sri Basavaraj Patil'} (Aadhaar / PAN Verified)`, 60, y + 13);
 
   doc.setFont('helvetica', 'normal');
   doc.setTextColor(71, 85, 105);
-  doc.text(`Vendor / Transferor:`, 18, y + 20);
-  doc.text(`Sri Chandrashekhar K. Hugar & Co-parceners`, 60, y + 20);
+  doc.text('Vendor / Transferor:', 18, y + 20);
+  doc.text(`${reg?.previousOwner || 'Sri Chandrashekhar K. Hugar & Co-parceners'}`, 60, y + 20);
 
-  doc.text(`Nature of Conveyance:`, 18, y + 26);
-  doc.text(`Absolute Deed of Sale (Free from prior encumbrances)`, 60, y + 26);
+  doc.text('Nature of Conveyance:', 18, y + 26);
+  doc.text('Absolute Deed of Sale (Free from prior encumbrances)', 60, y + 26);
 
   y += 36;
 
@@ -442,13 +466,16 @@ export async function downloadSaleDeedPdf(parcel: DocumentParcelData) {
   doc.setTextColor(15, 23, 42);
   doc.text('III. CONSIDERATION & STAMP REVENUE', 18, y + 6);
 
+  const consideration = reg?.considerationAmount || area * 1850000;
+  const stampDuty = reg?.stampDutyPaid || area * 1850000 * 0.055;
+
   doc.setFontSize(8);
   doc.setFont('helvetica', 'normal');
   doc.setTextColor(71, 85, 105);
-  doc.text(`Sale Consideration: Rs. ${(parcel.area * 1850000).toLocaleString('en-IN')}`, 18, y + 13);
-  doc.text(`Govt Guidance Value: Rs. ${(parcel.area * 1620000).toLocaleString('en-IN')}`, 90, y + 13);
-  doc.text(`Stamp Duty Paid (5.5%): Rs. ${(parcel.area * 1850000 * 0.055).toLocaleString('en-IN')}`, 18, y + 20);
-  doc.text(`Registration Fee Paid (2%): Rs. ${(parcel.area * 1850000 * 0.02).toLocaleString('en-IN')}`, 90, y + 20);
+  doc.text(`Sale Consideration: Rs. ${consideration.toLocaleString('en-IN')}`, 18, y + 13);
+  doc.text(`Govt Guidance Value: Rs. ${(area * 1620000).toLocaleString('en-IN')}`, 90, y + 13);
+  doc.text(`Stamp Duty Paid (5.5%): Rs. ${stampDuty.toLocaleString('en-IN')}`, 18, y + 20);
+  doc.text(`Registration Fee Paid (2%): Rs. ${(consideration * 0.02).toLocaleString('en-IN')}`, 90, y + 20);
 
   y += 34;
 
@@ -464,24 +491,28 @@ export async function downloadSaleDeedPdf(parcel: DocumentParcelData) {
   doc.setFontSize(8);
   doc.setFont('helvetica', 'normal');
   doc.setTextColor(71, 85, 105);
-  doc.text(`All that piece and parcel of land bearing Survey No: ${parcel.surveyNo}, measuring ${parcel.area} Acres`, 18, y + 13);
-  doc.text(`situated in ${parcel.village} Village, ${parcel.hobli || 'Central'} Hobli, ${parcel.taluk} Taluk, ${parcel.district} District.`, 18, y + 19);
-  doc.text(`Bounded on East by: Sy No 105 | West by: Canal buffer | North by: Sy No 102 | South by: 40ft Road.`, 18, y + 25);
+  doc.text(`All that piece and parcel of land bearing Survey No: ${surveyNo}, measuring ${area} Acres`, 18, y + 13);
+  doc.text(`situated in ${village} Village, ${parcel.hobli || 'Central'} Hobli, ${taluk} Taluk, ${district} District.`, 18, y + 19);
+  doc.text('Bounded on East by: Sy No 105 | West by: Canal buffer | North by: Sy No 102 | South by: 40ft Road.', 18, y + 25);
 
   y += 36;
   doc.setFont('courier', 'normal');
   doc.setFontSize(7);
   doc.setTextColor(100, 116, 139);
-  doc.text(`ATTESTATION: Certified true electronic copy extracted from Kaveri Sub-Registry Central Server.`, 14, y);
+  doc.text('ATTESTATION: Certified true electronic copy extracted from Kaveri Sub-Registry Central Server.', 14, y);
   doc.text(`DIGITAL SIGNATURE ID: KAV-DEED-${parcel.ulpin}-2026-X89`, 14, y + 4);
 
-  doc.save(`Sale_Deed_Copy_${parcel.ulpin}.pdf`);
+  return saveOrOpenPdf(doc, `Sale_Deed_Copy_${parcel.ulpin}.pdf`, openInNewTab);
 }
 
 // 4. FORM 15 NON-ENCUMBRANCE CERTIFICATE
-export async function downloadEncumbranceCertPdf(parcel: DocumentParcelData) {
+export async function downloadEncumbranceCertPdf(parcel: DocumentParcelData, openInNewTab = false) {
   const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
   const pageWidth = doc.internal.pageSize.getWidth();
+  const district = parcel.district || 'Belagavi';
+  const taluk = parcel.taluk || 'Belagavi';
+  const village = parcel.village || 'Demo Village';
+  const surveyNo = parcel.surveyNo || '101';
 
   await drawGovHeaderAndFooter(
     doc,
@@ -507,7 +538,7 @@ export async function downloadEncumbranceCertPdf(parcel: DocumentParcelData) {
   doc.setFont('helvetica', 'normal');
   doc.setTextColor(71, 85, 105);
   doc.text(`Search Period: 01-04-1995 to ${new Date().toLocaleDateString('en-GB')} (30 Years Search)`, 18, y + 13);
-  doc.text(`Target Property: Sy No. ${parcel.surveyNo}, ${parcel.village} Village, ${parcel.taluk} Taluk`, 18, y + 19);
+  doc.text(`Target Property: Sy No. ${surveyNo}, ${village} Village, ${taluk} Taluk`, 18, y + 19);
 
   y += 32;
 
@@ -530,9 +561,9 @@ export async function downloadEncumbranceCertPdf(parcel: DocumentParcelData) {
     doc.setFontSize(8);
     doc.setTextColor(71, 85, 105);
     doc.text(`Registered Financial Institution: ${enc.institution || 'State Bank of India'}`, 18, y + 21);
-    doc.text(`Nature of Charge: Equitable Mortgage by Deposit of Title Deeds`, 18, y + 27);
+    doc.text('Nature of Charge: Equitable Mortgage by Deposit of Title Deeds', 18, y + 27);
     doc.text(`Sanctioned Amount: Rs. ${enc.amount?.toLocaleString('en-IN')}`, 18, y + 33);
-    doc.text(`Registered Date: 2023-04-12 | Registered Volume: Book 1, Vol 512, P. 88`, 18, y + 39);
+    doc.text('Registered Date: 2023-04-12 | Registered Volume: Book 1, Vol 512, P. 88', 18, y + 39);
   } else {
     doc.setFontSize(9);
     doc.setFont('helvetica', 'bold');
@@ -569,10 +600,10 @@ export async function downloadEncumbranceCertPdf(parcel: DocumentParcelData) {
   doc.setFontSize(8);
   doc.setFont('helvetica', 'normal');
   doc.setTextColor(71, 85, 105);
-  doc.text(`Issuing Sub-Registrar: Sub-Registrar, ${parcel.taluk} Taluk Central Office`, 18, y + 13);
-  doc.text(`Certificate Tracking Ref: EC-SR-${parcel.district.substring(0, 3).toUpperCase()}-2026-9021`, 18, y + 19);
+  doc.text(`Issuing Sub-Registrar: Sub-Registrar, ${taluk} Taluk Central Office`, 18, y + 13);
+  doc.text(`Certificate Tracking Ref: EC-SR-${(district.substring(0, 3) || 'BEL').toUpperCase()}-2026-9021`, 18, y + 19);
 
-  doc.save(`Encumbrance_Certificate_Form15_${parcel.ulpin}.pdf`);
+  return saveOrOpenPdf(doc, `Encumbrance_Certificate_Form15_${parcel.ulpin}.pdf`, openInNewTab);
 }
 
 // 5. SERVICE REQUEST ACKNOWLEDGMENT RECEIPT
@@ -586,7 +617,7 @@ export async function downloadServiceReceiptPdf(request: {
   status: string;
   assignedOfficer?: string | null;
   createdAt: string;
-}) {
+}, openInNewTab = false) {
   const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
   const pageWidth = doc.internal.pageSize.getWidth();
 
@@ -612,21 +643,21 @@ export async function downloadServiceReceiptPdf(request: {
   doc.setFontSize(8);
   doc.setFont('helvetica', 'normal');
   doc.setTextColor(71, 85, 105);
-  doc.text(`Application Number:`, 18, y + 13);
+  doc.text('Application Number:', 18, y + 13);
   doc.setFont('helvetica', 'bold');
   doc.setTextColor(37, 99, 235);
   doc.text(request.requestNumber, 55, y + 13);
 
   doc.setFont('helvetica', 'normal');
   doc.setTextColor(71, 85, 105);
-  doc.text(`Target Parcel (ULPIN):`, 18, y + 19);
+  doc.text('Target Parcel (ULPIN):', 18, y + 19);
   doc.setFont('helvetica', 'bold');
   doc.setTextColor(15, 23, 42);
   doc.text(request.parcelUlpin, 55, y + 19);
 
   doc.setFont('helvetica', 'normal');
   doc.setTextColor(71, 85, 105);
-  doc.text(`Service Category:`, 18, y + 25);
+  doc.text('Service Category:', 18, y + 25);
   doc.text(request.serviceType, 55, y + 25);
 
   y += 36;
@@ -664,13 +695,322 @@ export async function downloadServiceReceiptPdf(request: {
   doc.setTextColor(71, 85, 105);
   doc.text(`Current Processing State: ${request.status}`, 18, y + 13);
   doc.text(`Assigned Scrutiny Officer: ${request.assignedOfficer || 'Shri R. K. Patil (Tahasildar)'}`, 18, y + 19);
-  doc.text(`Statutory Sakala Resolution Timeline: 21 Working Days from Scrutiny`, 18, y + 25);
+  doc.text('Statutory Sakala Resolution Timeline: 21 Working Days from Scrutiny', 18, y + 25);
 
   y += 38;
   doc.setFont('courier', 'normal');
   doc.setFontSize(7);
   doc.setTextColor(100, 116, 139);
-  doc.text(`DIGITAL RECEIPT: Authenticated submission record generated by LANDSTACK Portal.`, 14, y);
+  doc.text('DIGITAL RECEIPT: Authenticated submission record generated by LANDSTACK Portal.', 14, y);
 
-  doc.save(`Acknowledgment_Receipt_${request.requestNumber}.pdf`);
+  return saveOrOpenPdf(doc, `Acknowledgment_Receipt_${request.requestNumber}.pdf`, openInNewTab);
+}
+
+// 6. OFFICIAL CITIZEN APPLICATION VERIFICATION CERTIFICATE
+export async function downloadApprovalCertificatePdf(request: {
+  requestNumber: string;
+  parcelUlpin: string;
+  serviceType: string;
+  citizenName: string;
+  citizenEmail: string;
+  citizenPhone: string;
+  status: string;
+  assignedOfficer?: string | null;
+  createdAt: string;
+  updatedAt?: string;
+  remarks?: string | null;
+}, openInNewTab = false) {
+  const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+  const pageWidth = doc.internal.pageSize.getWidth();
+
+  await drawGovHeaderAndFooter(
+    doc,
+    'OFFICIAL APPLICATION VERIFICATION CERTIFICATE',
+    'Department of Revenue & Cadastral Administration — Endorsed Order',
+    `CERT-APP-${request.requestNumber.slice(-6)}`,
+    request.parcelUlpin
+  );
+
+  let y = 42;
+
+  // Verified Status Banner Box
+  doc.setFillColor(240, 253, 244); // emerald-50
+  doc.setDrawColor(34, 197, 94); // emerald-500
+  doc.roundedRect(14, y, pageWidth - 54, 30, 2, 2, 'FD');
+
+  doc.setFontSize(10);
+  doc.setFont('helvetica', 'bold');
+  doc.setTextColor(21, 128, 61); // emerald-700
+  doc.text('✓ APPLICATION OFFICIALLY VERIFIED & ENDORSED', 18, y + 7);
+
+  doc.setFontSize(8);
+  doc.setFont('helvetica', 'normal');
+  doc.setTextColor(71, 85, 105);
+  doc.text('Application Number:', 18, y + 14);
+  doc.setFont('helvetica', 'bold');
+  doc.setTextColor(15, 23, 42);
+  doc.text(request.requestNumber, 55, y + 14);
+
+  doc.setFont('helvetica', 'normal');
+  doc.setTextColor(71, 85, 105);
+  doc.text('Target Parcel (ULPIN):', 18, y + 20);
+  doc.setFont('helvetica', 'bold');
+  doc.setTextColor(37, 99, 235);
+  doc.text(request.parcelUlpin, 55, y + 20);
+
+  doc.setFont('helvetica', 'normal');
+  doc.setTextColor(71, 85, 105);
+  doc.text('Service Type:', 18, y + 26);
+  doc.text(request.serviceType, 55, y + 26);
+
+  y += 36;
+
+  // Applicant Particulars Box
+  doc.setFillColor(248, 250, 252);
+  doc.setDrawColor(203, 213, 225);
+  doc.roundedRect(14, y, pageWidth - 28, 28, 2, 2, 'FD');
+
+  doc.setFontSize(9);
+  doc.setFont('helvetica', 'bold');
+  doc.setTextColor(15, 23, 42);
+  doc.text('I. APPLICANT PARTICULARS & IDENTITY ATTESTATION', 18, y + 6);
+
+  doc.setFontSize(8);
+  doc.setFont('helvetica', 'normal');
+  doc.setTextColor(71, 85, 105);
+  doc.text(`Applicant Name: ${request.citizenName}`, 18, y + 13);
+  doc.text(`Contact Phone: ${request.citizenPhone}`, 110, y + 13);
+  doc.text(`Registered Email: ${request.citizenEmail}`, 18, y + 20);
+  doc.text(`Application Date: ${new Date(request.createdAt).toLocaleDateString('en-GB')}`, 110, y + 20);
+
+  y += 34;
+
+  // Official Scrutiny & Verification Findings
+  doc.setFillColor(241, 245, 249);
+  doc.roundedRect(14, y, pageWidth - 28, 42, 2, 2, 'FD');
+
+  doc.setFontSize(9);
+  doc.setFont('helvetica', 'bold');
+  doc.setTextColor(15, 23, 42);
+  doc.text('II. STATUTORY REVENUE OFFICER SCRUTINY & FINDINGS', 18, y + 6);
+
+  doc.setFontSize(8);
+  doc.setFont('helvetica', 'normal');
+  doc.setTextColor(71, 85, 105);
+  doc.text(`Adjudicating Authority: ${request.assignedOfficer || 'Shri R. K. Patil (Tahasildar)'}`, 18, y + 13);
+  doc.text(`Official Endorsement Status: ${request.status || 'VERIFIED'}`, 18, y + 19);
+  doc.text('Verification Findings / Order Remarks:', 18, y + 25);
+  doc.setFont('helvetica', 'bold');
+  doc.setTextColor(15, 23, 42);
+  doc.text(
+    request.remarks || 'Cadastral records, ownership chain, and encumbrance certificates verified and found in order.',
+    18,
+    y + 31,
+    { maxWidth: pageWidth - 36 }
+  );
+
+  y += 48;
+
+  // Official Seal & Attestation Box
+  doc.setFillColor(248, 250, 252);
+  doc.roundedRect(14, y, pageWidth - 28, 30, 2, 2, 'FD');
+
+  doc.setFontSize(8.5);
+  doc.setFont('helvetica', 'bold');
+  doc.setTextColor(15, 23, 42);
+  doc.text('III. ELECTRONIC SEAL & ATTESTATION', 18, y + 6);
+
+  doc.setFontSize(7.5);
+  doc.setFont('helvetica', 'normal');
+  doc.setTextColor(71, 85, 105);
+  doc.text('Issuing Cell: Taluk Revenue & Cadastral Verification Bench', 18, y + 12);
+  doc.text(`Digital Order Verification ID: CERT-VER-${request.parcelUlpin.slice(-6)}-2026`, 18, y + 17);
+  doc.text(`Generated Timestamp: ${new Date().toUTCString()}`, 18, y + 22);
+
+  y += 36;
+  doc.setFont('courier', 'normal');
+  doc.setFontSize(7);
+  doc.setTextColor(100, 116, 139);
+  doc.text('AUTHENTICATED ORDER: Generated digitally by Integrated GIS Land Governance Platform.', 14, y);
+
+  return saveOrOpenPdf(doc, `Verification_Certificate_${request.requestNumber}.pdf`, openInNewTab);
+}
+
+// 7. COMPREHENSIVE CADASTRAL DOSSIER (ALL 5 DOCUMENTS IN ONE MULTI-PAGE PDF)
+export async function downloadCompleteDossierPdf(parcel: DocumentParcelData, openInNewTab = false) {
+  const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+  const pageWidth = doc.internal.pageSize.getWidth();
+  const pageHeight = doc.internal.pageSize.getHeight();
+  const ulpin = parcel.ulpin || 'KA-BLG-001-000101';
+  const district = parcel.district || 'Belagavi';
+  const taluk = parcel.taluk || 'Belagavi';
+  const village = parcel.village || 'Demo Village';
+  const surveyNo = parcel.surveyNo || '101';
+  const area = typeof parcel.area === 'number' ? parcel.area : 1.0;
+  const gisArea = typeof parcel.gisArea === 'number' ? parcel.gisArea : area;
+  const owner = parcel.ownershipRecords?.[0];
+  const ror = parcel.rorRecords?.[0];
+  const reg = parcel.registrations?.[0];
+  const enc = parcel.encumbrances?.[0];
+
+  // PAGE 1: MASTER LAND CARD & OVERVIEW
+  await drawGovHeaderAndFooter(
+    doc,
+    'OFFICIAL CADASTRAL DOSSIER — SECTION 1: MASTER SUMMARY',
+    'Integrated Cadastral Cadre',
+    `DOSSIER-${ulpin.slice(-4)}`,
+    ulpin
+  );
+
+  doc.setFillColor(248, 250, 252);
+  doc.setDrawColor(203, 213, 225);
+  doc.roundedRect(14, 42, pageWidth - 28, 48, 2, 2, 'FD');
+
+  doc.setFontSize(11);
+  doc.setFont('helvetica', 'bold');
+  doc.setTextColor(15, 23, 42);
+  doc.text('MASTER CADASTRAL RECORD OVERVIEW', 18, 50);
+
+  doc.setFontSize(8.5);
+  doc.setFont('helvetica', 'normal');
+  doc.setTextColor(71, 85, 105);
+  doc.text(`ULPIN: ${ulpin}`, 18, 58);
+  doc.text(`Survey Number: ${surveyNo}`, 80, 58);
+  doc.text(`Village / Taluk: ${village}, ${taluk}`, 18, 65);
+  doc.text(`District: ${district}`, 80, 65);
+  doc.text(`Total Legal Extent: ${area} Acres`, 18, 72);
+  doc.text(`GIS Survey Area: ${gisArea} Acres`, 80, 72);
+  doc.text(`Land Classification: ${parcel.landUse || 'Agricultural'}`, 18, 79);
+  doc.text(`Cadastral Status: ${parcel.status || 'VERIFIED'}`, 80, 79);
+
+  // Section 2 on Page 1: Ownership
+  doc.setFillColor(241, 245, 249);
+  doc.roundedRect(14, 96, pageWidth - 28, 40, 2, 2, 'FD');
+  doc.setFontSize(10);
+  doc.setFont('helvetica', 'bold');
+  doc.setTextColor(15, 23, 42);
+  doc.text('REGISTERED KHATADAR & TITLE HOLDER', 18, 104);
+
+  doc.setFontSize(8.5);
+  doc.setFont('helvetica', 'normal');
+  doc.setTextColor(71, 85, 105);
+  doc.text(`Owner Name: ${owner?.ownerName || 'Sri Basavaraj Patil'}`, 18, 112);
+  doc.text(`Khata Reference: ${owner?.khataNumber || ror?.khataNumber || 'KT-104'}`, 100, 112);
+  doc.text(`Father / Husband Name: ${owner?.fatherOrHusbandName || ror?.fatherHusbandName || 'Sri Mallappa Patil'}`, 18, 119);
+  doc.text(`Share Extent: ${owner?.share || '100%'} Freehold`, 100, 119);
+  doc.text(`Acquisition Mode: ${owner?.acquisitionMode || 'Registered Conveyance Deed'}`, 18, 126);
+
+  // Section 3 on Page 1: Encumbrance & Status
+  doc.setFillColor(248, 250, 252);
+  doc.roundedRect(14, 142, pageWidth - 28, 40, 2, 2, 'FD');
+  doc.setFontSize(10);
+  doc.setFont('helvetica', 'bold');
+  doc.setTextColor(15, 23, 42);
+  doc.text('TITLE CLEARANCE & RISK AUDIT', 18, 150);
+
+  doc.setFontSize(8.5);
+  doc.setFont('helvetica', 'normal');
+  doc.setTextColor(71, 85, 105);
+  doc.text(`Encumbrance: ${enc?.status === 'ACTIVE' ? 'Active Financial Lien' : 'Nil Form 15 Encumbrance'}`, 18, 158);
+  doc.text(`Property Tax: ${parcel.propertyTaxes?.[0]?.paymentStatus || 'PAID'}`, 100, 158);
+  doc.text(`Centroid: [${parcel.centroidLat?.toFixed(5) || '15.84970'} N, ${parcel.centroidLng?.toFixed(5) || '74.49770'} E]`, 18, 166);
+  doc.text('Dossier Components: 5 Authenticated Extract Sheets Follow', 18, 174);
+
+  // PAGE 2: RTC FORM 16
+  doc.addPage();
+  await drawGovHeaderAndFooter(
+    doc,
+    'SECTION 2: RECORD OF RIGHTS & CROPS (RTC / FORM 16)',
+    'Rule 58 of Karnataka Land Revenue Rules, 1966',
+    'RTC-F16',
+    ulpin
+  );
+
+  doc.setFillColor(248, 250, 252);
+  doc.roundedRect(14, 42, pageWidth - 28, 40, 2, 2, 'FD');
+  doc.setFontSize(9);
+  doc.setFont('helvetica', 'bold');
+  doc.setTextColor(15, 23, 42);
+  doc.text('I. LAND REVENUE ASSESSMENT & CULTIVATION (PAHANI)', 18, 50);
+  doc.setFontSize(8);
+  doc.setFont('helvetica', 'normal');
+  doc.setTextColor(71, 85, 105);
+  doc.text(`Survey No: ${surveyNo} | Hissa: ${parcel.subDivision || '1'} | Village: ${village}`, 18, 58);
+  doc.text(`Legal Extent: ${area} Acres | Kharab: ${(area * 0.05).toFixed(2)} Acres`, 18, 65);
+  doc.text(`Cultivator: ${ror?.cultivatorName || owner?.ownerName || 'Self'}`, 18, 72);
+  doc.text(`Crop: ${ror?.cropName || 'Sugarcane / Jowar'}`, 100, 72);
+
+  // PAGE 3: SURVEY TIPPANI SKETCH
+  doc.addPage();
+  await drawGovHeaderAndFooter(
+    doc,
+    'SECTION 3: CADASTRAL SURVEY TIPPANI BOUNDARY TRAVERSE',
+    'Department of Survey, Settlement & Land Records',
+    'TIPPANI-SSL',
+    ulpin
+  );
+
+  doc.setDrawColor(30, 41, 59);
+  doc.setFillColor(255, 255, 255);
+  doc.roundedRect(14, 42, pageWidth - 28, 100, 2, 2, 'FD');
+
+  doc.setDrawColor(37, 99, 235);
+  doc.setLineWidth(0.8);
+  doc.setFillColor(239, 246, 255);
+  doc.lines([[80, -5], [10, 50], [-40, 20], [-45, -10], [-5, -55]], 50, 60, [1, 1], 'FD', true);
+
+  doc.setFontSize(9);
+  doc.setFont('helvetica', 'bold');
+  doc.setTextColor(30, 58, 138);
+  doc.text(`SY NO: ${surveyNo} (${area} Acres)`, 90, 85, { align: 'center' });
+
+  // PAGE 4: SALE DEED
+  doc.addPage();
+  await drawGovHeaderAndFooter(
+    doc,
+    'SECTION 4: REGISTERED CONVEYANCE TITLE DEED COPY',
+    'Department of Stamps & Registration (Kaveri Platform)',
+    'DEED-BK1',
+    ulpin
+  );
+
+  doc.setFillColor(248, 250, 252);
+  doc.roundedRect(14, 42, pageWidth - 28, 50, 2, 2, 'FD');
+  doc.setFontSize(9);
+  doc.setFont('helvetica', 'bold');
+  doc.setTextColor(15, 23, 42);
+  doc.text('REGISTRATION DOCKET & CONTRACTING PARTIES', 18, 50);
+  doc.setFontSize(8);
+  doc.setFont('helvetica', 'normal');
+  doc.setTextColor(71, 85, 105);
+  doc.text(`Deed Number: ${reg?.registrationNumber || reg?.deedNumber || 'BK-1-8842/2021'}`, 18, 58);
+  doc.text(`Sub-Registrar Office: ${reg?.subRegistrarOffice || taluk + ' SRO'}`, 100, 58);
+  doc.text(`Purchaser / Owner: ${owner?.ownerName || reg?.currentOwner || 'Sri Basavaraj Patil'}`, 18, 66);
+  doc.text(`Vendor: ${reg?.previousOwner || 'Sri Chandrashekhar K. Hugar'}`, 18, 73);
+  doc.text(`Consideration: Rs. ${(reg?.considerationAmount || area * 1850000).toLocaleString('en-IN')}`, 18, 80);
+
+  // PAGE 5: FORM 15 NON-ENCUMBRANCE
+  doc.addPage();
+  await drawGovHeaderAndFooter(
+    doc,
+    'SECTION 5: CERTIFICATE OF ENCUMBRANCE ON PROPERTY (FORM 15/16)',
+    'Rule 148 of Karnataka Registration Rules, 1965',
+    'ENC-F15',
+    ulpin
+  );
+
+  doc.setFillColor(248, 250, 252);
+  doc.roundedRect(14, 42, pageWidth - 28, 50, 2, 2, 'FD');
+  doc.setFontSize(9);
+  doc.setFont('helvetica', 'bold');
+  doc.setTextColor(16, 185, 129);
+  doc.text('FORM 16: NIL ENCUMBRANCE CERTIFICATE', 18, 50);
+  doc.setFontSize(8);
+  doc.setFont('helvetica', 'normal');
+  doc.setTextColor(71, 85, 105);
+  doc.text(`Search Criteria: Survey No. ${surveyNo}, ${village} Village, ${taluk} Taluk (30 Years)`, 18, 58);
+  doc.text('Finding: No mortgage, act, lien or charge detected affecting the property.', 18, 66);
+  doc.text(`Digital Seal: KAV-ENC-${ulpin.slice(-4)}-2026-X77`, 18, 74);
+
+  return saveOrOpenPdf(doc, `COMPLETE_CADASTRAL_DOSSIER_${ulpin}.pdf`, openInNewTab);
 }

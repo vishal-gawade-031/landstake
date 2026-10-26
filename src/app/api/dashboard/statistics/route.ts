@@ -1,9 +1,15 @@
 import { NextRequest } from 'next/server';
 import prisma from '@/lib/prisma';
 import { apiSuccess, apiError } from '@/lib/apiResponse';
+import { authorizeRole } from '@/lib/auth';
 
 export async function GET(req: NextRequest) {
   try {
+    const auth = authorizeRole(req, ['ADMIN', 'OFFICER']);
+    if (!auth.authorized) {
+      return apiError(auth.error || 'Forbidden: Executive analytics are restricted to departmental Officers and Administrators', auth.status);
+    }
+
     const [
       totalParcels,
       verifiedParcels,

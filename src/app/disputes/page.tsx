@@ -24,7 +24,7 @@ const DISPUTE_TYPES = [
 ];
 
 export default function DisputesPage() {
-  const { user } = useAuth();
+  const { user, fetchWithAuth } = useAuth();
   const [disputes, setDisputes] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [typeFilter, setTypeFilter] = useState('ALL');
@@ -41,7 +41,7 @@ export default function DisputesPage() {
   const fetchDisputes = async () => {
     try {
       setLoading(true);
-      const res = await fetch('/api/disputes');
+      const res = await fetchWithAuth('/api/disputes');
       const json = await res.json();
       if (json.success) {
         setDisputes(json.data);
@@ -55,13 +55,13 @@ export default function DisputesPage() {
 
   useEffect(() => {
     fetchDisputes();
-  }, []);
+  }, [fetchWithAuth]);
 
   const handleCreateDispute = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       setSubmitting(true);
-      const res = await fetch('/api/disputes', {
+      const res = await fetchWithAuth('/api/disputes', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -85,6 +85,7 @@ export default function DisputesPage() {
       setSubmitting(false);
     }
   };
+
 
   const filtered = disputes.filter((d) => {
     if (typeFilter !== 'ALL' && d.disputeType !== typeFilter) return false;

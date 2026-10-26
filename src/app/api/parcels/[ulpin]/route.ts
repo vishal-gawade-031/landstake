@@ -3,11 +3,15 @@ import prisma from '@/lib/prisma';
 import { apiSuccess, apiError } from '@/lib/apiResponse';
 import { RiskEngine } from '@/services/riskEngine';
 
+import { getUserFromRequest } from '@/lib/auth';
+
 export async function GET(
   req: NextRequest,
   { params }: { params: Promise<{ ulpin: string }> }
 ) {
   try {
+    const user = getUserFromRequest(req);
+    const isPrivileged = user && (user.role === 'ADMIN' || user.role === 'OFFICER');
     const { ulpin } = await params;
 
     const parcel = await prisma.parcel.findUnique({
@@ -48,11 +52,24 @@ export async function GET(
       hasTaxIssue: parcel.hasTaxIssue,
     });
 
+    // Redact internal administrative and confidential fields for Citizen or Unauthenticated callers
+    const safeParcel = {
+      ...parcel,
+      auditLogs: isPrivileged ? parcel.auditLogs : [],
+      fraudAlerts: isPrivileged ? parcel.fraudAlerts : [],
+      mortgages: isPrivileged ? parcel.mortgages : [],
+      evaluatedRisk: isPrivileged
+        ? riskAssessment
+        : {
+            riskScore: parcel.riskScore,
+            riskLevel: parcel.riskLevel,
+            factors: [],
+            recommendations: ['Public Cadastral Record verified with State Revenue GIS.'],
+          },
+    };
+
     return apiSuccess(
-      {
-        ...parcel,
-        evaluatedRisk: riskAssessment,
-      },
+      safeParcel,
       'Parcel retrieved successfully'
     );
   } catch (error: any) {

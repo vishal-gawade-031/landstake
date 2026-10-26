@@ -1,9 +1,15 @@
 import { NextRequest } from 'next/server';
 import prisma from '@/lib/prisma';
 import { apiSuccess, apiError } from '@/lib/apiResponse';
+import { authorizeRole } from '@/lib/auth';
 
 export async function GET(req: NextRequest) {
   try {
+    const auth = authorizeRole(req, ['ADMIN', 'OFFICER']);
+    if (!auth.authorized) {
+      return apiError(auth.error || 'Forbidden: Confidential fraud alerts are restricted to departmental officers', auth.status);
+    }
+
     const { searchParams } = new URL(req.url);
     const status = searchParams.get('status');
     const severity = searchParams.get('severity');

@@ -1,18 +1,18 @@
 import { NextRequest } from 'next/server';
 import prisma from '@/lib/prisma';
 import { apiSuccess, apiError } from '@/lib/apiResponse';
-import { getUserFromRequest } from '@/lib/auth';
+import { getUserFromRequest, authorizeRole } from '@/lib/auth';
 
 export async function PATCH(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const user = getUserFromRequest(req);
-    // Officers or Admins can advance status
-    if (user && user.role === 'CITIZEN') {
-      return apiError('Unauthorized: Citizens cannot modify service request status', 403);
+    const auth = authorizeRole(req, ['ADMIN', 'OFFICER']);
+    if (!auth.authorized) {
+      return apiError(auth.error || 'Unauthorized: Officer or Admin authorization required', auth.status);
     }
+    const user = auth.user!;
 
     const { id } = await params;
     const body = await req.json();
@@ -23,6 +23,7 @@ export async function PATCH(
       'UNDER_REVIEW',
       'DOCUMENT_VERIFICATION',
       'OFFICER_REVIEW',
+      'VERIFIED',
       'APPROVED',
       'REJECTED',
       'COMPLETED',

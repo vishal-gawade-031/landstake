@@ -5,15 +5,28 @@ import { getUserFromRequest } from '@/lib/auth';
 
 export async function GET(req: NextRequest) {
   try {
+    const user = getUserFromRequest(req);
+    if (!user) {
+      return apiError('Unauthorized: Authentication required to view service requests', 401);
+    }
+
     const { searchParams } = new URL(req.url);
     const status = searchParams.get('status');
     const ulpin = searchParams.get('ulpin');
-    const citizenEmail = searchParams.get('citizenEmail');
 
     const where: any = {};
     if (status && status !== 'ALL') where.status = status;
     if (ulpin) where.parcelUlpin = ulpin;
-    if (citizenEmail) where.citizenEmail = citizenEmail;
+
+    // Strict Role Separation:
+    // CITIZEN can only view their own requests (by citizenId or authenticated email)
+    if (user.role === 'CITIZEN') {
+      where.OR = [
+        { citizenId: user.userId },
+        { citizenEmail: user.email },
+      ];
+    }
+    // OFFICER and ADMIN can view all or filter by search parameters
 
     const requests = await prisma.serviceRequest.findMany({
       where,
@@ -43,11 +56,15 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   try {
     const user = getUserFromRequest(req);
-    const body = await req.json();
-    const { parcelUlpin, serviceType, citizenName, citizenEmail, citizenPhone, remarks } = body;
+    if (!user) {
+      return apiError('Authentication required to submit service request', 401);
+    }
 
-    if (!parcelUlpin || !serviceType || !citizenName) {
-      return apiError('Missing required fields: parcelUlpin, serviceType, citizenName', 400);
+    const body = await req.json();
+    const { parcelUlpin, serviceType, citizenName, citizenPhone, remarks } = body;
+
+    if (!parcelUlpin || !serviceType) {
+      return apiError('Missing required fields: parcelUlpin, serviceType', 400);
     }
 
     // Verify parcel exists
@@ -60,17 +77,20 @@ export async function POST(req: NextRequest) {
     const count = await prisma.serviceRequest.count();
     const reqNumber = `REQ-2026-${(count + 1).toString().padStart(6, '0')}`;
 
+    const finalCitizenName = user.role === 'CITIZEN' ? user.email.split('@')[0] : (citizenName || 'Citizen Applicant');
+    const finalCitizenEmail = user.role === 'CITIZEN' ? user.email : (body.citizenEmail || user.email);
+
     const newRequest = await prisma.serviceRequest.create({
       data: {
         requestNumber: reqNumber,
         parcelUlpin,
-        citizenId: user?.userId || null,
-        citizenName,
-        citizenEmail: citizenEmail || user?.email || 'citizen@landstack.demo',
+        citizenId: user.userId,
+        citizenName: citizenName || finalCitizenName,
+        citizenEmail: finalCitizenEmail,
         citizenPhone: citizenPhone || '+91 98450 00000',
         serviceType,
         status: 'SUBMITTED',
-        remarks: remarks || 'Citizen application submitted through portal',
+        remarks: remarks || 'Citizen application submitted through authenticated portal',
         assignedOfficer: 'Shri Anand Kulkarni (KAS)',
       },
     });
@@ -82,8 +102,8 @@ export async function POST(req: NextRequest) {
         entityType: 'SERVICE',
         entityId: newRequest.requestNumber,
         parcelUlpin,
-        performedBy: citizenEmail || user?.email || 'CITIZEN',
-        userRole: user?.role || 'CITIZEN',
+        performedBy: user.email,
+        userRole: user.role,
         details: `Created service request ${newRequest.requestNumber} for ${serviceType}`,
       },
     });

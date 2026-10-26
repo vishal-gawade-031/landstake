@@ -9,7 +9,6 @@ import {
   AlertTriangle,
   BarChart3,
   UserCheck,
-  Satellite,
   Settings,
   Lock,
   ExternalLink,
@@ -26,10 +25,10 @@ export default function Footer() {
               <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white">
                 <Map className="w-5 h-5" />
               </div>
-              <span className="font-extrabold text-base text-white tracking-tight">LANDSTACK</span>
+              <span className="font-extrabold text-base text-white tracking-tight">GIS Land Governance</span>
             </div>
             <p className="text-slate-400 leading-relaxed text-[11px]">
-              GIS-Based Integrated Land Governance Platform. Demonstrating parcel-centric unification across cadastral boundaries, ownership, registrations, and planning around unique ULPIN identifiers.
+              Integrated Land Governance Platform. Demonstrating parcel-centric unification across cadastral boundaries, ownership, registrations, and planning around unique ULPIN identifiers.
             </p>
             <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-slate-900 border border-slate-800 text-slate-300 text-[10px]">
               <Lock className="w-3 h-3 text-emerald-400" />
@@ -39,7 +38,7 @@ export default function Footer() {
 
           {/* Quick Links */}
           <div className="space-y-2">
-            <h4 className="font-bold text-white text-xs uppercase tracking-wider">Spatial & Records</h4>
+            <h4 className="font-bold text-white text-xs uppercase tracking-wider">Public Services</h4>
             <ul className="space-y-1.5 text-[11px]">
               <li>
                 <Link href="/" className="hover:text-white transition-colors">
@@ -69,9 +68,9 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Advanced Governance Modules */}
+          {/* Governance Modules */}
           <div className="space-y-2">
-            <h4 className="font-bold text-white text-xs uppercase tracking-wider">Intelligence & Admin</h4>
+            <h4 className="font-bold text-white text-xs uppercase tracking-wider">Official Portals</h4>
             <ul className="space-y-1.5 text-[11px]">
               <li>
                 <Link href="/admin/fraud-alerts" className="hover:text-white transition-colors flex items-center gap-1">
@@ -80,8 +79,8 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/satellite-ai" className="hover:text-white transition-colors">
-                  Satellite Change Detection AI
+                <Link href="/officer" className="hover:text-white transition-colors">
+                  Officer Adjudication Queue
                 </Link>
               </li>
               <li>
@@ -113,7 +112,7 @@ export default function Footer() {
         </div>
 
         <div className="pt-8 border-t border-slate-800/80 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-slate-500">
-          <p>&copy; 2026 LANDSTACK — Integrated GIS Land Governance Platform. All rights reserved.</p>
+          <p>&copy; 2026 Integrated GIS Land Governance Platform. All rights reserved.</p>
           <div className="flex items-center gap-4 text-[10px]">
             <span>OpenStreetMap &copy; OSM Contributors</span>
             <span>&bull;</span>

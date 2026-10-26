@@ -37,7 +37,11 @@ const RISK_COLORS: Record<string, string> = {
   CRITICAL: '#ef4444',
 };
 
+import { useAuth } from '@/context/AuthContext';
+import Link from 'next/link';
+
 export default function DashboardPage() {
+  const { user, fetchWithAuth } = useAuth();
   const [stats, setStats] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [mounted, setMounted] = useState(false);
@@ -47,7 +51,7 @@ export default function DashboardPage() {
     async function loadStats() {
       try {
         setLoading(true);
-        const res = await fetch('/api/dashboard/statistics');
+        const res = await fetchWithAuth('/api/dashboard/statistics');
         const json = await res.json();
         if (json.success && json.data) {
           setStats(json.data);
@@ -59,7 +63,24 @@ export default function DashboardPage() {
       }
     }
     loadStats();
-  }, []);
+  }, [fetchWithAuth]);
+
+  if (user && user.role === 'CITIZEN') {
+    return (
+      <div className="max-w-md mx-auto my-16 p-6 bg-white dark:bg-slate-900 rounded-2xl border border-amber-200 dark:border-amber-800 text-center space-y-3">
+        <h3 className="font-bold text-slate-900 dark:text-white">Notice: Executive Analytics</h3>
+        <p className="text-xs text-slate-500">
+          Executive state-wide analytics are restricted to Revenue Officers and Administrators. Citizens should navigate to their dedicated Citizen Workspace.
+        </p>
+        <Link
+          href="/citizen"
+          className="inline-block px-4 py-2 bg-blue-600 text-white font-bold text-xs rounded-xl hover:bg-blue-700"
+        >
+          Go to Citizen Workspace &rarr;
+        </Link>
+      </div>
+    );
+  }
 
   if (!mounted || loading) {
     return (
@@ -195,7 +216,7 @@ export default function DashboardPage() {
                     ))}
                   </Pie>
                   <Tooltip />
-                  <Legend textAnchor="end" wrapperStyle={{ fontSize: '11px' }} />
+                  <Legend align="right" wrapperStyle={{ fontSize: '11px' }} />
                 </PieChart>
               </ResponsiveContainer>
             </div>

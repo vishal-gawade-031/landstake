@@ -41,6 +41,7 @@ function LoginContent() {
   const redirectUrl = searchParams.get('redirect') || '';
   const { user, loginWithCredentials, loginAsRole, logout } = useAuth();
 
+  const [activeTab, setActiveTab] = useState<'LOGIN' | 'REGISTER'>('LOGIN');
   const [selectedRole, setSelectedRole] = useState<'ADMIN' | 'OFFICER' | 'CITIZEN'>('ADMIN');
   const [email, setEmail] = useState('admin@landstack.demo');
   const [password, setPassword] = useState('admin123');
@@ -48,6 +49,12 @@ function LoginContent() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
+  // Citizen Registration form state
+  const [regName, setRegName] = useState('');
+  const [regEmail, setRegEmail] = useState('');
+  const [regPassword, setRegPassword] = useState('');
+  const [regPhone, setRegPhone] = useState('');
 
   const memberProfiles = [
     {
@@ -62,7 +69,7 @@ function LoginContent() {
       activeBorder: 'border-purple-500 bg-purple-950/20',
       description: 'Full supervisory authority over cadastral datasets, fraud detection rules, GIS layers, and audit logs.',
       destination: '/admin',
-      privileges: ['System Configuration', 'Boundary Conflict Audits', 'Audit Log Forensics', 'GIS Master Layer Toggles'],
+      privileges: ['System Configuration', 'User & Role Governance', 'Boundary Conflict Audits', 'Audit Log Forensics'],
     },
     {
       role: 'OFFICER' as const,
@@ -75,8 +82,8 @@ function LoginContent() {
       badgeColor: 'bg-amber-500/20 text-amber-400 border-amber-500/30',
       activeBorder: 'border-amber-500 bg-amber-950/20',
       description: 'Adjudication of mutation requests, revenue dispute hearings, field notice generation, and conversion orders.',
-      destination: '/services',
-      privileges: ['Service Request Review', 'Dispute Management', 'Section 95 Notices', 'RTC Data Inspection'],
+      destination: '/officer',
+      privileges: ['Verification Queue', 'Document Scrutiny', 'Dispute Hearings', 'Departmental Inspection'],
     },
     {
       role: 'CITIZEN' as const,
@@ -90,7 +97,7 @@ function LoginContent() {
       activeBorder: 'border-emerald-500 bg-emerald-950/20',
       description: 'Access authenticated land records, apply for mutation / surveys, track requests, and download land cards.',
       destination: '/citizen',
-      privileges: ['Parcel 360 Land View', 'Online Mutation Filing', 'Digital RTC Download', 'Public QR Verification'],
+      privileges: ['Public Parcel Search', 'Online Service Filing', 'Dispute Submission', 'Digital Land Card'],
     },
   ];
 
@@ -113,15 +120,53 @@ function LoginContent() {
       const res = await loginWithCredentials(email, password);
       if (res.success && res.user) {
         setSuccessMessage(`Signed in successfully as ${res.user.name} (${res.user.role})`);
-        const target = redirectUrl || (res.user.role === 'ADMIN' ? '/admin' : res.user.role === 'OFFICER' ? '/services' : '/citizen');
+        const target = redirectUrl || (res.user.role === 'ADMIN' ? '/admin' : res.user.role === 'OFFICER' ? '/officer' : '/citizen');
         setTimeout(() => {
           router.push(target);
-        }, 600);
+        }, 500);
       } else {
         setError(res.error || 'Invalid credentials. Please verify your email and password.');
       }
     } catch (err: any) {
       setError(err.message || 'Login failed. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleRegisterSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError(null);
+    setLoading(true);
+
+    try {
+      const res = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: regName,
+          email: regEmail,
+          password: regPassword,
+          phone: regPhone,
+        }),
+      });
+      const data = await res.json();
+      if (data.success && data.data) {
+        setSuccessMessage('Citizen account registered successfully! Signing you in...');
+        const loginRes = await loginWithCredentials(regEmail, regPassword);
+        if (loginRes.success) {
+          setTimeout(() => {
+            router.push('/citizen');
+          }, 500);
+        } else {
+          setActiveTab('LOGIN');
+          setEmail(regEmail);
+        }
+      } else {
+        setError(data.message || 'Registration failed.');
+      }
+    } catch (err: any) {
+      setError(err.message || 'Network error during registration.');
     } finally {
       setLoading(false);
     }
@@ -134,10 +179,10 @@ function LoginContent() {
       const res = await loginAsRole(role);
       if (res.success && res.user) {
         setSuccessMessage(`Authenticated as ${res.user.name}`);
-        const target = redirectUrl || (role === 'ADMIN' ? '/admin' : role === 'OFFICER' ? '/services' : '/citizen');
+        const target = redirectUrl || (role === 'ADMIN' ? '/admin' : role === 'OFFICER' ? '/officer' : '/citizen');
         setTimeout(() => {
           router.push(target);
-        }, 600);
+        }, 500);
       } else {
         setError(res.error || 'Failed to authenticate preset persona');
       }
@@ -274,14 +319,58 @@ function LoginContent() {
           </div>
         </div>
 
-        {/* Credentials Form Box */}
+        {/* Credentials / Registration Box */}
         <div className="max-w-lg mx-auto w-full bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 shadow-2xl space-y-6">
-          <div className="flex items-center justify-between pb-4 border-b border-slate-800">
+          {/* Tab Switcher */}
+          <div className="flex border-b border-slate-800 pb-3 gap-3">
+            <button
+              type="button"
+              onClick={() => {
+                setActiveTab('LOGIN');
+                setError(null);
+                setSuccessMessage(null);
+              }}
+              className={`flex-1 py-2 text-center text-xs font-bold rounded-xl transition-all ${
+                activeTab === 'LOGIN'
+                  ? 'bg-blue-600 text-white shadow-md'
+                  : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
+              }`}
+            >
+              Member Sign In
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setActiveTab('REGISTER');
+                setError(null);
+                setSuccessMessage(null);
+              }}
+              className={`flex-1 py-2 text-center text-xs font-bold rounded-xl transition-all ${
+                activeTab === 'REGISTER'
+                  ? 'bg-emerald-600 text-white shadow-md'
+                  : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
+              }`}
+            >
+              Public Citizen Registration
+            </button>
+          </div>
+
+          <div className="flex items-center justify-between pb-2">
             <div>
-              <h2 className="text-lg font-bold text-white">Manual Member Sign In</h2>
-              <p className="text-xs text-slate-400">Authenticating with Bcrypt & JWT Session</p>
+              <h2 className="text-lg font-bold text-white">
+                {activeTab === 'LOGIN' ? 'Member Portal Sign In' : 'Create Citizen Account'}
+              </h2>
+              <p className="text-xs text-slate-400">
+                {activeTab === 'LOGIN'
+                  ? 'Authenticating with Bcrypt & Signed JWT Session'
+                  : 'Default role: CITIZEN with access to Public Land Registry'}
+              </p>
             </div>
-            <KeyRound className="w-6 h-6 text-blue-500" />
+            {activeTab === 'LOGIN' ? (
+              <KeyRound className="w-6 h-6 text-blue-500" />
+            ) : (
+              <UserCheck className="w-6 h-6 text-emerald-500" />
+            )}
           </div>
 
           {error && (
@@ -298,67 +387,148 @@ function LoginContent() {
             </div>
           )}
 
-          <form onSubmit={handleManualSubmit} className="space-y-4">
-            <div className="space-y-1.5">
-              <label className="text-xs font-bold text-slate-300 flex items-center gap-1.5">
-                <Mail className="w-3.5 h-3.5 text-slate-400" />
-                <span>Member Email Address</span>
-              </label>
-              <input
-                type="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="name@landstack.demo"
-                className="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-              />
-            </div>
-
-            <div className="space-y-1.5">
-              <label className="text-xs font-bold text-slate-300 flex items-center justify-between">
-                <span className="flex items-center gap-1.5">
-                  <Lock className="w-3.5 h-3.5 text-slate-400" />
-                  <span>Access Password</span>
-                </span>
-                <span className="text-[10px] text-slate-400">Default: {password}</span>
-              </label>
-              <div className="relative">
+          {activeTab === 'LOGIN' ? (
+            <form onSubmit={handleManualSubmit} className="space-y-4">
+              <div className="space-y-1.5">
+                <label className="text-xs font-bold text-slate-300 flex items-center gap-1.5">
+                  <Mail className="w-3.5 h-3.5 text-slate-400" />
+                  <span>Member Email Address</span>
+                </label>
                 <input
-                  type={showPassword ? 'text' : 'password'}
+                  type="email"
                   required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="••••••••"
-                  className="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 pr-10 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all font-mono"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="name@landstack.demo"
+                  className="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                 />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white"
-                >
-                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                </button>
               </div>
-            </div>
 
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full py-3 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white rounded-xl font-bold text-sm shadow-lg transition-all flex items-center justify-center gap-2 mt-4"
-            >
-              {loading ? (
-                <>
-                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                  <span>Verifying Credentials...</span>
-                </>
-              ) : (
-                <>
-                  <span>Sign In as {selectedRole}</span>
-                  <ArrowRight className="w-4 h-4" />
-                </>
-              )}
-            </button>
-          </form>
+              <div className="space-y-1.5">
+                <label className="text-xs font-bold text-slate-300 flex items-center justify-between">
+                  <span className="flex items-center gap-1.5">
+                    <Lock className="w-3.5 h-3.5 text-slate-400" />
+                    <span>Access Password</span>
+                  </span>
+                  <span className="text-[10px] text-slate-400">Default: {password}</span>
+                </label>
+                <div className="relative">
+                  <input
+                    type={showPassword ? 'text' : 'password'}
+                    required
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="••••••••"
+                    className="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 pr-10 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all font-mono"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white"
+                  >
+                    {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  </button>
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full py-3 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white rounded-xl font-bold text-sm shadow-lg transition-all flex items-center justify-center gap-2 mt-4"
+              >
+                {loading ? (
+                  <>
+                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    <span>Verifying Credentials...</span>
+                  </>
+                ) : (
+                  <>
+                    <span>Sign In as {selectedRole}</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </>
+                )}
+              </button>
+            </form>
+          ) : (
+            <form onSubmit={handleRegisterSubmit} className="space-y-4">
+              <div className="space-y-1.5">
+                <label className="text-xs font-bold text-slate-300 flex items-center gap-1.5">
+                  <UserCheck className="w-3.5 h-3.5 text-slate-400" />
+                  <span>Full Legal Name</span>
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={regName}
+                  onChange={(e) => setRegName(e.target.value)}
+                  placeholder="e.g. Ramesh Kumar"
+                  className="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+                />
+              </div>
+
+              <div className="space-y-1.5">
+                <label className="text-xs font-bold text-slate-300 flex items-center gap-1.5">
+                  <Mail className="w-3.5 h-3.5 text-slate-400" />
+                  <span>Citizen Email Address</span>
+                </label>
+                <input
+                  type="email"
+                  required
+                  value={regEmail}
+                  onChange={(e) => setRegEmail(e.target.value)}
+                  placeholder="ramesh.kumar@example.com"
+                  className="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+                />
+              </div>
+
+              <div className="space-y-1.5">
+                <label className="text-xs font-bold text-slate-300 flex items-center gap-1.5">
+                  <Lock className="w-3.5 h-3.5 text-slate-400" />
+                  <span>Set Secure Password</span>
+                </label>
+                <input
+                  type="password"
+                  required
+                  value={regPassword}
+                  onChange={(e) => setRegPassword(e.target.value)}
+                  placeholder="Minimum 6 characters"
+                  className="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+                />
+              </div>
+
+              <div className="space-y-1.5">
+                <label className="text-xs font-bold text-slate-300 flex items-center gap-1.5">
+                  <MapPin className="w-3.5 h-3.5 text-slate-400" />
+                  <span>Contact Mobile Number (Optional)</span>
+                </label>
+                <input
+                  type="tel"
+                  value={regPhone}
+                  onChange={(e) => setRegPhone(e.target.value)}
+                  placeholder="+91 98765 43210"
+                  className="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full py-3 bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white rounded-xl font-bold text-sm shadow-lg transition-all flex items-center justify-center gap-2 mt-4"
+              >
+                {loading ? (
+                  <>
+                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    <span>Registering Account...</span>
+                  </>
+                ) : (
+                  <>
+                    <span>Register as Citizen</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </>
+                )}
+              </button>
+            </form>
+          )}
 
           {/* Academic Prototype Notice */}
           <div className="p-3 bg-amber-500/10 border border-amber-500/20 rounded-xl text-center space-y-1">

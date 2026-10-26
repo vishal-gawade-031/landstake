@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, Suspense } from 'react';
+import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import {
   FileText,
@@ -18,13 +19,14 @@ import {
   Download,
 } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
-import { downloadServiceReceiptPdf } from '@/lib/generateDocumentPdfs';
+import { downloadServiceReceiptPdf, downloadApprovalCertificatePdf } from '@/lib/generateDocumentPdfs';
 
 const WORKFLOW_STEPS = [
   'SUBMITTED',
   'UNDER_REVIEW',
   'DOCUMENT_VERIFICATION',
   'OFFICER_REVIEW',
+  'VERIFIED',
   'APPROVED',
   'COMPLETED',
 ];
@@ -55,7 +57,7 @@ export default function ServicesPage() {
 }
 
 function ServicesContent() {
-  const { user } = useAuth();
+  const { user, fetchWithAuth } = useAuth();
   const searchParams = useSearchParams();
   const initialTracking = searchParams.get('tracking') || '';
 
@@ -77,7 +79,7 @@ function ServicesContent() {
 
   const loadRequests = async () => {
     try {
-      const res = await fetch('/api/service-requests');
+      const res = await fetchWithAuth('/api/service-requests');
       const json = await res.json();
       if (json.success) {
         setAllRequests(json.data);
@@ -101,14 +103,14 @@ function ServicesContent() {
     e.preventDefault();
     try {
       setSubmitting(true);
-      const res = await fetch('/api/service-requests', {
+      const res = await fetchWithAuth('/api/service-requests', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           parcelUlpin,
           serviceType,
-          citizenName,
-          citizenEmail,
+          citizenName: user?.name || citizenName,
+          citizenEmail: user?.email || citizenEmail,
           citizenPhone,
           remarks,
         }),
@@ -135,7 +137,7 @@ function ServicesContent() {
 
     try {
       setTrackingLoading(true);
-      const res = await fetch('/api/service-requests');
+      const res = await fetchWithAuth('/api/service-requests');
       const json = await res.json();
       if (json.success) {
         const found = json.data.find(
@@ -157,12 +159,12 @@ function ServicesContent() {
   const handleAdvanceStatus = async (newStatus: string) => {
     if (!trackedRequest) return;
     try {
-      const res = await fetch(`/api/service-requests/${trackedRequest.requestNumber}/status`, {
+      const res = await fetchWithAuth(`/api/service-requests/${trackedRequest.requestNumber}/status`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           status: newStatus,
-          remarks: `Status moved to ${newStatus} during demo review.`,
+          remarks: `Status moved to ${newStatus} during officer review.`,
         }),
       });
       const json = await res.json();
@@ -282,7 +284,7 @@ function ServicesContent() {
             </form>
 
             {submissionSuccess && (
-              <div className="p-3 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-300 dark:border-emerald-800 rounded-xl text-xs text-emerald-900 dark:text-emerald-300 space-y-1">
+              <div className="p-3 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-300 dark:border-emerald-800 rounded-xl text-xs text-emerald-900 dark:text-emerald-300 space-y-2">
                 <p className="font-bold flex items-center gap-1.5">
                   <CheckCircle className="w-4 h-4 text-emerald-600" />
                   Application Generated Successfully!
@@ -291,6 +293,14 @@ function ServicesContent() {
                   {submissionSuccess.requestNumber}
                 </p>
                 <p className="text-[11px]">Workflow tracking activated below.</p>
+                <button
+                  type="button"
+                  onClick={() => downloadServiceReceiptPdf(submissionSuccess)}
+                  className="w-full py-1.5 px-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-bold flex items-center justify-center gap-1.5 shadow-sm transition-colors"
+                >
+                  <Download className="w-3.5 h-3.5" />
+                  <span>Download Acknowledgment Receipt (PDF)</span>
+                </button>
               </div>
             )}
           </div>
@@ -379,7 +389,7 @@ function ServicesContent() {
                     <p><strong>Assigned Officer:</strong> {trackedRequest.assignedOfficer || 'Tahasildar Revenue Cell'}</p>
                     <p><strong>Applicant Name:</strong> {trackedRequest.citizenName}</p>
                     <p><strong>Remarks / Status Note:</strong> {trackedRequest.remarks || 'Application under digital queue verification.'}</p>
-                    <div className="pt-2 flex justify-end">
+                    <div className="pt-2 flex flex-wrap items-center justify-end gap-2">
                       <button
                         type="button"
                         onClick={() => downloadServiceReceiptPdf(trackedRequest)}
@@ -388,64 +398,85 @@ function ServicesContent() {
                         <Download className="w-3.5 h-3.5" />
                         <span>Download Acknowledgment Receipt (PDF)</span>
                       </button>
+                      {(trackedRequest.status === 'VERIFIED' || trackedRequest.status === 'APPROVED' || trackedRequest.status === 'COMPLETED') && (
+                        <button
+                          type="button"
+                          onClick={() => downloadApprovalCertificatePdf(trackedRequest)}
+                          className="px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-bold flex items-center gap-1.5 transition-colors shadow-sm"
+                        >
+                          <CheckCircle className="w-3.5 h-3.5" />
+                          <span>Download Verification Certificate (PDF)</span>
+                        </button>
+                      )}
                     </div>
                   </div>
 
-                  {/* Officer Demonstration Workflow Advance Buttons */}
-                  <div className="pt-2 border-t border-slate-100 dark:border-slate-800 space-y-2">
-                    <p className="text-[11px] text-slate-400 font-semibold">
-                      Demonstration Officer Controls (Advance Workflow):
-                    </p>
-                    <div className="flex flex-wrap gap-1.5">
-                      {WORKFLOW_STEPS.map((st) => (
-                        <button
-                          key={st}
-                          onClick={() => handleAdvanceStatus(st)}
-                          className={`px-2.5 py-1 rounded text-[10px] font-bold transition-colors ${
-                            trackedRequest.status === st
-                              ? 'bg-blue-600 text-white'
-                              : 'bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-300'
-                          }`}
-                        >
-                          {st}
-                        </button>
-                      ))}
+                  {/* Officer / Admin Authorized Workflow Controls Only */}
+                  {(user?.role === 'OFFICER' || user?.role === 'ADMIN') && (
+                    <div className="pt-2 border-t border-slate-100 dark:border-slate-800 space-y-2">
+                      <div className="flex items-center justify-between">
+                        <p className="text-[11px] text-amber-500 font-bold uppercase">
+                          Authorized Officer Workflow Endorsement:
+                        </p>
+                        <Link href="/officer" className="text-[11px] text-blue-600 font-bold hover:underline">
+                          Open Full Verification Queue &rarr;
+                        </Link>
+                      </div>
+                      <div className="flex flex-wrap gap-1.5">
+                        {WORKFLOW_STEPS.map((st) => (
+                          <button
+                            key={st}
+                            onClick={() => handleAdvanceStatus(st)}
+                            className={`px-2.5 py-1 rounded text-[10px] font-bold transition-colors ${
+                              trackedRequest.status === st
+                                ? 'bg-blue-600 text-white'
+                                : 'bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-300'
+                            }`}
+                          >
+                            {st}
+                          </button>
+                        ))}
+                      </div>
                     </div>
-                  </div>
+                  )}
                 </div>
               ) : (
                 <div className="p-8 text-center text-xs text-slate-500">
-                  Select a request from below or submit an application above to inspect workflow.
+                  Select an application below or submit a new request above to inspect lifecycle.
                 </div>
               )}
             </div>
 
-            {/* Recent Requests Table */}
+            {/* Applications List */}
             <div className="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-3">
               <h3 className="font-bold text-slate-900 dark:text-white text-xs uppercase tracking-wider">
-                Recent Public Applications
+                {user?.role === 'CITIZEN' ? 'My Submitted Applications' : 'Authorized Application Docket'}
               </h3>
               <div className="space-y-2">
-                {allRequests.slice(0, 5).map((req) => (
-                  <div
-                    key={req.id}
-                    onClick={() => {
-                      setTrackedRequest(req);
-                      setTrackingNumber(req.requestNumber);
-                    }}
-                    className="p-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/40 hover:bg-blue-50 dark:hover:bg-blue-950/30 cursor-pointer flex items-center justify-between text-xs transition-colors"
-                  >
-                    <div>
-                      <span className="font-mono font-bold text-blue-600 dark:text-blue-400">
-                        {req.requestNumber}
+                {allRequests.length === 0 ? (
+                  <p className="text-xs text-slate-400 py-2">No applications found.</p>
+                ) : (
+                  allRequests.slice(0, 5).map((req) => (
+                    <div
+                      key={req.id}
+                      onClick={() => {
+                        setTrackedRequest(req);
+                        setTrackingNumber(req.requestNumber);
+                      }}
+                      className="p-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/40 hover:bg-blue-50 dark:hover:bg-blue-950/30 cursor-pointer flex items-center justify-between text-xs transition-colors"
+                    >
+                      <div>
+                        <span className="font-mono font-bold text-blue-600 dark:text-blue-400">
+                          {req.requestNumber}
+                        </span>
+                        <p className="font-semibold text-slate-800 dark:text-slate-200">{req.serviceType}</p>
+                      </div>
+                      <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
+                        {req.status}
                       </span>
-                      <p className="font-semibold text-slate-800 dark:text-slate-200">{req.serviceType}</p>
                     </div>
-                    <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
-                      {req.status}
-                    </span>
-                  </div>
-                ))}
+                  ))
+                )}
               </div>
             </div>
           </div>
@@ -454,3 +485,4 @@ function ServicesContent() {
     </div>
   );
 }
+

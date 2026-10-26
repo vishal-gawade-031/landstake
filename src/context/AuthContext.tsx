@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 
 export interface User {
   id: string;
@@ -16,11 +16,10 @@ interface AuthContextType {
   token: string | null;
   isLoading: boolean;
   isAuthenticated: boolean;
-  login: (email: string, role?: 'CITIZEN' | 'OFFICER' | 'ADMIN') => void;
   loginWithCredentials: (email: string, password: string) => Promise<{ success: boolean; error?: string; user?: User }>;
   loginAsRole: (role: 'CITIZEN' | 'OFFICER' | 'ADMIN') => Promise<{ success: boolean; error?: string; user?: User }>;
   logout: () => void;
-  switchRole: (role: 'CITIZEN' | 'OFFICER' | 'ADMIN') => void;
+  fetchWithAuth: (url: string, options?: RequestInit) => Promise<Response>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -30,34 +29,49 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [token, setToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
+  const logout = useCallback(() => {
+    setUser(null);
+    setToken(null);
     try {
-      const savedUser = localStorage.getItem('landstack_user');
-      const savedToken = localStorage.getItem('landstack_token');
-      if (savedUser && savedToken) {
-        setUser(JSON.parse(savedUser));
-        setToken(savedToken);
-      } else {
-        // Default to Admin demo user for convenience during fresh evaluation
-        const defaultAdmin: User = {
-          id: 'demo-admin-id',
-          email: 'admin@landstack.demo',
-          name: 'Dr. Ramesh Narayan (IAS)',
-          role: 'ADMIN',
-          department: 'Revenue & Land Records Secretariat, Govt. of Karnataka',
-          phone: '+91 98450 00101',
-        };
-        setUser(defaultAdmin);
-        setToken('demo-jwt-token');
-        localStorage.setItem('landstack_user', JSON.stringify(defaultAdmin));
-        localStorage.setItem('landstack_token', 'demo-jwt-token');
-      }
+      localStorage.removeItem('landstack_user');
+      localStorage.removeItem('landstack_token');
+      document.cookie = 'landstack_token=; path=/; max-age=0; SameSite=Lax';
     } catch (e) {
-      console.error('Failed to parse saved user', e);
-    } finally {
-      setIsLoading(false);
+      console.error('Error during logout', e);
     }
   }, []);
+
+  // Validate session on mount with server-side /api/auth/me
+  useEffect(() => {
+    async function validateSession() {
+      try {
+        const savedToken = localStorage.getItem('landstack_token');
+        if (savedToken) {
+          const res = await fetch('/api/auth/me', {
+            headers: { Authorization: `Bearer ${savedToken}` },
+          });
+          const data = await res.json();
+          if (data.success && data.data) {
+            setUser(data.data);
+            setToken(savedToken);
+            document.cookie = `landstack_token=${savedToken}; path=/; max-age=604800; SameSite=Lax`;
+          } else {
+            // Token expired or invalid
+            logout();
+          }
+        } else {
+          setUser(null);
+          setToken(null);
+        }
+      } catch (e) {
+        console.error('Failed to validate session', e);
+        logout();
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    validateSession();
+  }, [logout]);
 
   const loginWithCredentials = async (email: string, password: string): Promise<{ success: boolean; error?: string; user?: User }> => {
     try {
@@ -74,6 +88,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setToken(jwtToken);
         localStorage.setItem('landstack_user', JSON.stringify(loggedUser));
         localStorage.setItem('landstack_token', jwtToken);
+        document.cookie = `landstack_token=${jwtToken}; path=/; max-age=604800; SameSite=Lax`;
         return { success: true, user: loggedUser };
       } else {
         return { success: false, error: data.message || 'Authentication failed' };
@@ -90,53 +105,21 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       CITIZEN: { email: 'citizen@landstack.demo', pass: 'citizen123' },
     }[role];
 
-    const result = await loginWithCredentials(credentials.email, credentials.pass);
-    if (!result.success) {
-      // Fallback client-side mock if backend is somehow unreachable
-      login(credentials.email, role);
-      return { success: true, user: user || undefined };
-    }
-    return result;
+    return await loginWithCredentials(credentials.email, credentials.pass);
   };
 
-  const login = (email: string, role: 'CITIZEN' | 'OFFICER' | 'ADMIN' = 'ADMIN') => {
-    let name = 'Dr. Ramesh Narayan (IAS)';
-    let dept = 'Revenue & Land Records Secretariat';
-
-    if (role === 'OFFICER') {
-      name = 'Shri Anand Kulkarni (KAS)';
-      dept = 'Taluk Revenue & Cadastral Cell';
-    } else if (role === 'CITIZEN') {
-      name = 'Priyanka Patil';
-      dept = 'Public Citizen Portal';
-    }
-
-    const newUser: User = {
-      id: `usr-${role.toLowerCase()}`,
-      email,
-      name,
-      role,
-      department: dept,
-      phone: '+91 98450 00101',
-    };
-
-    setUser(newUser);
-    const demoToken = `token-${role}-${Date.now()}`;
-    setToken(demoToken);
-    localStorage.setItem('landstack_user', JSON.stringify(newUser));
-    localStorage.setItem('landstack_token', demoToken);
-  };
-
-  const switchRole = (newRole: 'CITIZEN' | 'OFFICER' | 'ADMIN') => {
-    loginAsRole(newRole);
-  };
-
-  const logout = () => {
-    setUser(null);
-    setToken(null);
-    localStorage.removeItem('landstack_user');
-    localStorage.removeItem('landstack_token');
-  };
+  // Authenticated fetch wrapper that automatically attaches the Bearer token
+  const fetchWithAuth = useCallback(
+    async (url: string, options: RequestInit = {}): Promise<Response> => {
+      const currentToken = token || (typeof window !== 'undefined' ? localStorage.getItem('landstack_token') : null);
+      const headers = new Headers(options.headers || {});
+      if (currentToken && !headers.has('Authorization')) {
+        headers.set('Authorization', `Bearer ${currentToken}`);
+      }
+      return fetch(url, { ...options, headers });
+    },
+    [token]
+  );
 
   return (
     <AuthContext.Provider
@@ -145,11 +128,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         token,
         isLoading,
         isAuthenticated: !!user,
-        login,
         loginWithCredentials,
         loginAsRole,
         logout,
-        switchRole,
+        fetchWithAuth,
       }}
     >
       {children}
@@ -164,3 +146,4 @@ export function useAuth() {
   }
   return context;
 }
+

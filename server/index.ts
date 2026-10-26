@@ -31,6 +31,36 @@ const sendResponse = (res: Response, success: boolean, data: any, message: strin
   });
 };
 
+export interface AuthRequest extends Request {
+  user?: {
+    userId: string;
+    email: string;
+    name: string;
+    role: string;
+    department?: string | null;
+  };
+}
+
+const requireAuth = (allowedRoles?: string[]) => {
+  return (req: Request, res: Response, next: express.NextFunction) => {
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return sendResponse(res, false, null, 'Authentication required: Missing Bearer token', 401);
+    }
+    const token = authHeader.split(' ')[1];
+    try {
+      const decoded = jwt.verify(token, JWT_SECRET) as any;
+      (req as AuthRequest).user = decoded;
+      if (allowedRoles && allowedRoles.length > 0 && !allowedRoles.includes(decoded.role)) {
+        return sendResponse(res, false, null, `Forbidden: Access restricted to roles [${allowedRoles.join(', ')}]`, 403);
+      }
+      next();
+    } catch {
+      return sendResponse(res, false, null, 'Invalid or expired authentication token', 401);
+    }
+  };
+};
+
 // Root Health & Metadata
 app.get('/api', (req: Request, res: Response) => {
   sendResponse(res, true, {
@@ -186,25 +216,38 @@ app.get('/api/parcels/:ulpin/utilities', async (req: Request, res: Response) => 
 });
 
 // Service Requests
-app.get('/api/service-requests', async (req: Request, res: Response) => {
+app.get('/api/service-requests', requireAuth(), async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
+  const where: any = {};
+  if (authReq.user?.role === 'CITIZEN') {
+    where.OR = [
+      { citizenEmail: authReq.user.email },
+      { citizenId: authReq.user.userId },
+    ];
+  }
   const requests = await prisma.serviceRequest.findMany({
+    where,
     orderBy: { createdAt: 'desc' },
     include: { parcel: true },
   });
   sendResponse(res, true, requests, 'Service requests retrieved');
 });
 
-app.post('/api/service-requests', async (req: Request, res: Response) => {
+app.post('/api/service-requests', requireAuth(), async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
   const { parcelUlpin, serviceType, citizenName, citizenEmail, citizenPhone, remarks } = req.body;
   const count = await prisma.serviceRequest.count();
   const requestNumber = `REQ-2026-${(count + 1).toString().padStart(6, '0')}`;
+
+  const finalEmail = authReq.user?.role === 'CITIZEN' ? authReq.user.email : (citizenEmail || authReq.user?.email || 'citizen@landstack.demo');
 
   const created = await prisma.serviceRequest.create({
     data: {
       requestNumber,
       parcelUlpin,
-      citizenName,
-      citizenEmail: citizenEmail || 'citizen@landstack.demo',
+      citizenId: authReq.user?.userId,
+      citizenName: citizenName || authReq.user?.name || 'Citizen Applicant',
+      citizenEmail: finalEmail,
       citizenPhone: citizenPhone || '+91 98450 00000',
       serviceType,
       status: 'SUBMITTED',
@@ -214,7 +257,7 @@ app.post('/api/service-requests', async (req: Request, res: Response) => {
   sendResponse(res, true, created, 'Service request registered', 201);
 });
 
-app.patch('/api/service-requests/:id/status', async (req: Request, res: Response) => {
+app.patch('/api/service-requests/:id/status', requireAuth(['ADMIN', 'OFFICER']), async (req: Request, res: Response) => {
   const { status, remarks } = req.body;
   const updated = await prisma.serviceRequest.update({
     where: { requestNumber: req.params.id },
@@ -224,12 +267,21 @@ app.patch('/api/service-requests/:id/status', async (req: Request, res: Response
 });
 
 // Disputes
-app.get('/api/disputes', async (req: Request, res: Response) => {
-  const disputes = await prisma.dispute.findMany({ orderBy: { createdAt: 'desc' }, include: { parcel: true } });
+app.get('/api/disputes', requireAuth(), async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
+  const where: any = {};
+  if (authReq.user?.role === 'CITIZEN') {
+    where.OR = [
+      { citizenName: authReq.user.name },
+      { citizenName: authReq.user.email },
+    ];
+  }
+  const disputes = await prisma.dispute.findMany({ where, orderBy: { createdAt: 'desc' }, include: { parcel: true } });
   sendResponse(res, true, disputes, 'Disputes retrieved');
 });
 
-app.post('/api/disputes', async (req: Request, res: Response) => {
+app.post('/api/disputes', requireAuth(), async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
   const { parcelUlpin, disputeType, description, citizenName } = req.body;
   const count = await prisma.dispute.count();
   const disputeNumber = `DIS-2026-${(1001 + count).toString()}`;
@@ -239,7 +291,7 @@ app.post('/api/disputes', async (req: Request, res: Response) => {
       disputeNumber,
       parcelUlpin,
       surveyNumber: '101/A',
-      citizenName: citizenName || 'Citizen Applicant',
+      citizenName: authReq.user?.role === 'CITIZEN' ? authReq.user.name : (citizenName || authReq.user?.name || 'Citizen Applicant'),
       disputeType,
       description,
       status: 'OPEN',
@@ -248,13 +300,13 @@ app.post('/api/disputes', async (req: Request, res: Response) => {
   sendResponse(res, true, created, 'Dispute filed successfully', 201);
 });
 
-// Fraud Alerts
-app.get('/api/fraud-alerts', async (req: Request, res: Response) => {
+// Fraud Alerts - Restricted to ADMIN and OFFICER
+app.get('/api/fraud-alerts', requireAuth(['ADMIN', 'OFFICER']), async (req: Request, res: Response) => {
   const alerts = await prisma.fraudAlert.findMany({ orderBy: { createdAt: 'desc' }, include: { parcel: true } });
   sendResponse(res, true, alerts, 'Potential conflicts retrieved');
 });
 
-app.patch('/api/fraud-alerts/:id', async (req: Request, res: Response) => {
+app.patch('/api/fraud-alerts/:id', requireAuth(['ADMIN', 'OFFICER']), async (req: Request, res: Response) => {
   const { status, remarks } = req.body;
   const updated = await prisma.fraudAlert.update({
     where: { alertNumber: req.params.id },
@@ -263,8 +315,8 @@ app.patch('/api/fraud-alerts/:id', async (req: Request, res: Response) => {
   sendResponse(res, true, updated, `Conflict alert updated to ${status}`);
 });
 
-// Statistics
-app.get('/api/dashboard/statistics', async (req: Request, res: Response) => {
+// Statistics - Restricted to ADMIN and OFFICER
+app.get('/api/dashboard/statistics', requireAuth(['ADMIN', 'OFFICER']), async (req: Request, res: Response) => {
   const [totalParcels, verifiedParcels, pendingParcels, disputedParcels, potentialConflicts, serviceRequestsCount] =
     await Promise.all([
       prisma.parcel.count(),
@@ -295,8 +347,8 @@ app.get('/api/geojson', (req: Request, res: Response) => {
   res.send(raw);
 });
 
-// Audit Logs
-app.get('/api/audit-logs', async (req: Request, res: Response) => {
+// Audit Logs - Restricted exclusively to ADMIN
+app.get('/api/audit-logs', requireAuth(['ADMIN']), async (req: Request, res: Response) => {
   const logs = await prisma.auditLog.findMany({ orderBy: { timestamp: 'desc' }, take: 50 });
   sendResponse(res, true, logs, 'Audit logs retrieved');
 });
