@@ -260,11 +260,10 @@ function LoginContent() {
                 <div
                   key={profile.role}
                   onClick={() => handleSelectRole(profile.role)}
-                  className={`cursor-pointer rounded-2xl p-5 border transition-all relative flex flex-col justify-between ${
-                    isSelected
+                  className={`cursor-pointer rounded-2xl p-5 border transition-all relative flex flex-col justify-between ${isSelected
                       ? `${profile.activeBorder} shadow-lg ring-2 ring-blue-500/50`
                       : 'border-slate-800 bg-slate-900/60 hover:border-slate-700 hover:bg-slate-900'
-                  }`}
+                    }`}
                 >
                   <div className="space-y-3">
                     <div className="flex items-center justify-between">
@@ -330,11 +329,10 @@ function LoginContent() {
                 setError(null);
                 setSuccessMessage(null);
               }}
-              className={`flex-1 py-2 text-center text-xs font-bold rounded-xl transition-all ${
-                activeTab === 'LOGIN'
+              className={`flex-1 py-2 text-center text-xs font-bold rounded-xl transition-all ${activeTab === 'LOGIN'
                   ? 'bg-blue-600 text-white shadow-md'
                   : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
-              }`}
+                }`}
             >
               Member Sign In
             </button>
@@ -345,11 +343,10 @@ function LoginContent() {
                 setError(null);
                 setSuccessMessage(null);
               }}
-              className={`flex-1 py-2 text-center text-xs font-bold rounded-xl transition-all ${
-                activeTab === 'REGISTER'
+              className={`flex-1 py-2 text-center text-xs font-bold rounded-xl transition-all ${activeTab === 'REGISTER'
                   ? 'bg-emerald-600 text-white shadow-md'
                   : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
-              }`}
+                }`}
             >
               Public Citizen Registration
             </button>
